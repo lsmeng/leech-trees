@@ -1,0 +1,4 @@
+.venv/
+__pycache__/
+data/trees_18.jsonl
+data/trees_16.jsonl

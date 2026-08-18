@@ -1,0 +1,8 @@
+{"_comment": "The five Leech trees from Leech (1975); reproduced independently by brute force (n<=6) on 2026-08-18. Vertices 0-based; edges [u,v,w].",
+ "trees": [
+  {"name": "L2",      "n": 2, "edges": [[0,1,1]]},
+  {"name": "L3",      "n": 3, "edges": [[0,1,1],[1,2,2]]},
+  {"name": "L4_star", "n": 4, "edges": [[0,1,1],[0,2,2],[0,3,4]]},
+  {"name": "L4_path", "n": 4, "edges": [[0,1,1],[1,2,3],[2,3,2]]},
+  {"name": "L6",      "n": 6, "edges": [[0,1,1],[0,2,2],[0,3,5],[3,4,4],[3,5,8]]}
+ ]}
