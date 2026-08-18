@@ -71,6 +71,11 @@ struct BS {
   void orw(const BS& o) { for (int i = 0; i < NW; i++) w[i] |= o.w[i]; }
   void andw(const BS& o) { for (int i = 0; i < NW; i++) w[i] &= o.w[i]; }
   void andnot(const BS& o) { for (int i = 0; i < NW; i++) w[i] &= ~o.w[i]; }
+  u64 win(int off) const {  // bits [off, off+63] as a word (off may be negative or beyond the end)
+    if (off >= 64 * NW) return 0;
+    if (off < 0) { return off <= -64 ? 0 : (w[0] << (-off)); }
+    int q = off >> 6, b = off & 63; u64 v = w[q] >> b; if (b && q + 1 < NW) v |= w[q + 1] << (64 - b); return v;
+  }
   int lowest() const { for (int i = 0; i < NW; i++) if (w[i]) return i * 64 + __builtin_ctzll(w[i]); return -1; }
   int highest() const { for (int i = NW - 1; i >= 0; i--) if (w[i]) return i * 64 + 63 - __builtin_clzll(w[i]); return -1; }
 };
@@ -80,7 +85,7 @@ struct Opts {
   int order = 0;         // edge mode: 0 dyn, 1 bfs(center-first), 2 rev(leaf-first)
   bool useSum = true, useHall = true, useFC = true, useParity = true, useSym = true, useGrp = true, useCover = false, useMatch = false, useTop = true, useGrp2 = true;
   long long nodeLimit = -1; double timeLimit = -1;
-  bool legacy = false; int wcover = 0; bool verbose = false; bool countAll = false; int dumpDepth = -1; long long dumpK = 0;
+  bool legacy = false; int wcover = 50; bool look = true; int hallW = 40; bool verbose = false; bool countAll = false; int dumpDepth = -1; long long dumpK = 0;
 };
 
 struct Solver {
@@ -92,6 +97,7 @@ struct Solver {
   // cmask[id] = its vertex mask, aliveC = live ids; G[a][b] (a<b) = bitset of partial sums of pairs (x in a, y in b).
   // All pairs of one group have the same unassigned-edge set (the path between the components in the quotient tree).
   int comp[MAXV]; u32 cmask[MAXV], aliveC; BS G[MAXV][MAXV];
+  struct GI { int mn, mx, cnt; }; GI GIi[MAXV][MAXV]; GI saveGI[MAXE][MAXP];   // min/max/count of each group, kept incrementally
   BS saveG[MAXE][MAXP]; int saveIdx[MAXE][MAXP], saveCnt[MAXE]; int mergeA[MAXE], mergeB[MAXE];
   bool useFast; int wmax; bool tAllowed[MAXE];
   int pu[MAXP], pv[MAXP]; u32 pmask[MAXP]; int plen[MAXP];
@@ -244,7 +250,7 @@ struct Solver {
     R.clear(); Asum = 0; nAssigned = 0; nodes = 0; nsol = 0; aborted = false; t0 = chrono::steady_clock::now(); wmax = 0;
     for (int x = 0; x < n; x++) { comp[x] = x; cmask[x] = 1u << x; }
     aliveC = (1u << n) - 1;
-    for (int a = 0; a < n; a++) for (int b = a + 1; b < n; b++) { G[a][b].clear(); G[a][b].set(0); }
+    for (int a = 0; a < n; a++) for (int b = a + 1; b < n; b++) { G[a][b].clear(); G[a][b].set(0); GIi[a][b] = {0, 0, 1}; }
     for (int d = 0; d <= E; d++) { wcSolNode[d] = -1; nodeIdAt[d] = -2; }
     memset(depthHist, 0, sizeof depthHist); memset(tHist, 0, sizeof tHist); memset(pruneCnt, 0, sizeof pruneCnt); memset(secT, 0, sizeof secT);
   }
@@ -270,16 +276,17 @@ struct Solver {
       mergeA[d] = a; mergeB[d] = b; int ns = 0; bool dead = false;
       for (u32 ta = sideA; ta; ta &= ta - 1) { int c = __builtin_ctz(ta);
         for (u32 tb = sideB; tb; tb &= tb - 1) { int c2 = __builtin_ctz(tb); if (c == a && c2 == b) continue;
-          BS& g = gref(c, c2); saveIdx[d][ns] = c * MAXV + c2; saveG[d][ns++] = g; g = g.shl(wt); } }
+          BS& g = gref(c, c2); GI& gi = giref(c, c2); saveIdx[d][ns] = c * MAXV + c2; saveG[d][ns] = g; saveGI[d][ns++] = gi; g = g.shl(wt); gi.mn += wt; gi.mx += wt; } }
       for (u32 t2 = aliveC & ~(1u << a) & ~(1u << b); t2 && !dead; t2 &= t2 - 1) {
         int c = __builtin_ctz(t2);
         BS& ga = gref(a, c); const BS& gb = gref(b, c);
         for (int i2 = 0; i2 < NW; i2++) if (ga.w[i2] & gb.w[i2]) { dead = true; break; }
         if (dead) break;
-        saveIdx[d][ns] = a * MAXV + c; saveG[d][ns++] = ga; ga.orw(gb);
+        GI& gia = giref(a, c); const GI& gib = giref(b, c);
+        saveIdx[d][ns] = a * MAXV + c; saveG[d][ns] = ga; saveGI[d][ns++] = gia; ga.orw(gb); gia.mn = min(gia.mn, gib.mn); gia.mx = max(gia.mx, gib.mx); gia.cnt += gib.cnt;
       }
       saveCnt[d] = ns;
-      if (dead) { for (int j = ns - 1; j >= 0; j--) gref(saveIdx[d][j] / MAXV, saveIdx[d][j] % MAXV) = saveG[d][j]; rollback(e, cnt - 1, false); return false; }
+      if (dead) { for (int j = ns - 1; j >= 0; j--) { gref(saveIdx[d][j] / MAXV, saveIdx[d][j] % MAXV) = saveG[d][j]; giref(saveIdx[d][j] / MAXV, saveIdx[d][j] % MAXV) = saveGI[d][j]; } rollback(e, cnt - 1, false); return false; }
       for (u32 t2 = cmask[b]; t2; t2 &= t2 - 1) comp[__builtin_ctz(t2)] = a;
       cmask[a] |= cmask[b]; aliveC &= ~(1u << b);
     }
@@ -287,6 +294,7 @@ struct Solver {
     return true;
   }
   BS& gref(int a, int b) { return a < b ? G[a][b] : G[b][a]; }
+  GI& giref(int a, int b) { return a < b ? GIi[a][b] : GIi[b][a]; }
   void rollback(int e, int upto, bool lastFailed) {
     const int* pl = plist.data() + poff[e]; int wt = w[e];
     for (int i = upto; i >= 0; i--) {
@@ -301,7 +309,7 @@ struct Solver {
     int d = nAssigned - 1; int a = mergeA[d], b = mergeB[d];
     aliveC |= 1u << b; cmask[a] &= ~cmask[b];
     for (u32 t2 = cmask[b]; t2; t2 &= t2 - 1) comp[__builtin_ctz(t2)] = b;
-    for (int j = saveCnt[d] - 1; j >= 0; j--) gref(saveIdx[d][j] / MAXV, saveIdx[d][j] % MAXV) = saveG[d][j];
+    for (int j = saveCnt[d] - 1; j >= 0; j--) { gref(saveIdx[d][j] / MAXV, saveIdx[d][j] % MAXV) = saveG[d][j]; giref(saveIdx[d][j] / MAXV, saveIdx[d][j] % MAXV) = saveGI[d][j]; }
     rollback(e, poff[e + 1] - poff[e] - 1, false);
     if (w[e] == 0) { int m = 0; for (int f = 0; f < E; f++) if (w[f] > m) m = w[f]; wmax = m; }
   }
@@ -488,7 +496,7 @@ struct Solver {
   //   have identical unassigned sets apart from e, so w_e != s_far - s_near  (general one-edge-difference rule =
   //   grp/grp2 of the legacy path).  Same-set duplicates are caught at merge time in assign().
   // Hall: pairs of one group share the unassigned set U, so lb = s + max(pms[|U|], sum lo_e adjusted for distinctness).
-  const BS* nearPE[MAXE][MAXV]; const BS* farPE[MAXE][MAXV]; int nAE[MAXE];
+  const BS* nearPE[MAXE][MAXV]; const BS* farPE[MAXE][MAXV]; const GI* nearGI[MAXE][MAXV]; const GI* farGI[MAXE][MAXV]; int nAE[MAXE];
   BS reflectN(const BS& a) const {   // bit i -> bit N - i (only bits <= N are set in group bitsets)
     BS r; for (int i = 0; i < NW; i++) r.w[NW - 1 - i] = __builtin_bitreverse64(a.w[i]);   // bit i -> bit 64*NW-1-i
     return r.shr(64 * NW - 1 - N);
@@ -511,7 +519,7 @@ struct Solver {
   // w_e must not be forbidden.  Small DFS on the lowest uncovered value; budget-limited (give up = alive).
   // 64-bit window version: everything is taken relative to t (bit i <-> value t+i); translates and clashes above t+63
   // are ignored (sound: fewer conflicts detected).  SeW[e] = partial sums s <= 63 of S_e, domW[e] = dom[e] window.
-  int wcBudget; u64 wcW; int wcT; u64 SeW[MAXE], domW[MAXE];
+  int wcBudget; u64 wcW; int wcT; u64 SeW[MAXE], domW[MAXE], MwT;
   int wcStE[MAXE], wcStW[MAXE], wcSp;                       // current DFS assignment stack
   int wcSolE[MAXE + 1][MAXE], wcSolW[MAXE + 1][MAXE], wcSolN[MAXE + 1], wcSolT[MAXE + 1], lastEdge[MAXE + 1]; long long wcSolNode[MAXE + 1], nodeIdAt[MAXE + 1];
   bool wcover(u64 covered, u32 used) {
@@ -533,7 +541,6 @@ struct Solver {
   // returns false if the window cannot be covered (node dead).  Warm-starts from the parent's cover when consistent.
   bool windowCover(int t, int V) {
     BS Mw = fullM; Mw.andnot(R); Mw.clearAbove(V); Mw = Mw.shr(t); wcW = Mw.w[0]; wcT = t;
-    for (int i = 0; i < k; i++) { int e = uedges[i]; SeW[e] = gref(comp[eu[e]], comp[ev[e]]).w[0]; domW[e] = dom[e].shr(t).w[0]; }
     int d = nAssigned; u64 cov = 0; u32 used = 0; wcSp = 0;
     if (d >= 1 && wcSolNode[d - 1] == nodeIdAt[d - 1]) {
       // use the parent's cover only if it contains the edge/weight assigned since (else it is not an extension)
@@ -559,81 +566,101 @@ struct Solver {
     int ms[MAXE]; { BS tt = M; for (int i = 0; i < k; i++) { int b = tt.lowest(); if (b < 0) return false; ms[i] = b; tt.reset(b); } }
     int pms[MAXE + 1]; pms[0] = 0; for (int i = 0; i < k; i++) pms[i + 1] = pms[i] + ms[i];
     int cap = min(m1Bound, N - max(wmax, k >= 2 ? t : 0));   // any two edges lie on a common path: w_i + w_j <= N
+    MwT = M.shr(t).w[0];
     if (o.verbose) { T1 = tick(); secT[0] += T1 - T0; T0 = T1; }
     shCur++;
+    // Everything below works in the 64-value window [t, t+63] (bit i <-> value t+i); the full range is used only as a
+    // fallback when the window is empty (rare).  Only lo_e, membership of t and the window domain are needed.
     for (int i = 0; i < k; i++) {
       int e = uedges[i]; int x = eu[e], y = ev[e]; int B = comp[x], C = comp[y];
       const BS& Se = gref(B, C);
       int hi = min(cap, pairUB[epair[e]]);
-      BS d = M; if (hi < N) d.clearAbove(hi); if (t > 1) d.clearBelow(t);
+      u64 dW = MwT; if (hi - t < 63) dW &= (hi < t) ? 0 : ((2ULL << (hi - t)) - 1);
       // singleton pairs: w + s in M for all s in S_e  (bit 0 of S_e is the edge itself)
-      for (int wi = 0; wi < NW && d.any(); wi++) { u64 x2 = Se.w[wi]; while (x2) { int a = wi * 64 + __builtin_ctzll(x2); x2 &= x2 - 1; if (a == 0) continue;
-          if (shStamp[a] != shCur) { shStamp[a] = shCur; shM[a] = M.shr(a); } d.andw(shM[a]); if (!d.any()) break; } }
-      if (!d.any()) { pruneCnt[2]++; return false; }
+      for (int wi = 0; wi < NW && dW; wi++) { u64 x2 = Se.w[wi]; while (x2) { int a = wi * 64 + __builtin_ctzll(x2); x2 &= x2 - 1; if (a == 0) continue;
+          dW &= M.win(t + a); if (!dW) break; } }
       if (o.verbose) { T1 = tick(); secT[1] += T1 - T0; T0 = T1; }
-      // one-edge-difference forbids from every other component A: p in far group (unassigned set U+e), q in near
-      // group (set U) => w_e != s_q - s_p.  Evaluated lazily: v is forbidden iff (far << v) & near != 0.
-      // Only lo_e, hi_e and membership of t are needed, so scan d from both ends until an allowed value is found.
-      int lo = -1, hi2 = -1;
+      int nA = 0;
       if (o.useGrp) {
         u32 others = aliveC & ~(1u << B) & ~(1u << C);
-        int nA = 0; const BS** nearP = nearPE[e]; const BS** farP = farPE[e];
+        const BS** nearP = nearPE[e]; const BS** farP = farPE[e]; const GI** nearI = nearGI[e]; const GI** farI = farGI[e];
         for (u32 t2 = others; t2; t2 &= t2 - 1) {
           int A = __builtin_ctz(t2);
           bool onV = (cmask[A] & sideV[e]) != 0;   // A on y's side -> (A,C) near, (A,B) far
-          nearP[nA] = onV ? &gref(A, C) : &gref(A, B); farP[nA] = onV ? &gref(A, B) : &gref(A, C); nA++;
+          nearP[nA] = onV ? &gref(A, C) : &gref(A, B); farP[nA] = onV ? &gref(A, B) : &gref(A, C);
+          nearI[nA] = onV ? &giref(A, C) : &giref(A, B); farI[nA] = onV ? &giref(A, B) : &giref(A, C); nA++;
         }
         nAE[e] = nA;
-        // materialize the forbidden set F_e = union_A (near_A - far_A) restricted to [dlo, dhi]; iterate the smaller side
-        int dlo = d.lowest(), dhi = d.highest();
-        BS F; F.clear();
-        for (int j = 0; j < nA; j++) { const BS& ne = *nearP[j]; const BS& fa = *farP[j];
-          int nlo = ne.lowest(), nhi = ne.highest(), flo = fa.lowest(), fhi = fa.highest();
-          // v = b - f in [dlo, dhi]  =>  f in [nlo - dhi, nhi - dlo],  b in [flo + dlo, fhi + dhi]
-          int fa_lo = max(flo, nlo - dhi), fa_hi = min(fhi, nhi - dlo); if (fa_lo > fa_hi) continue;
-          int ne_lo = max(nlo, flo + dlo), ne_hi = min(nhi, fhi + dhi); if (ne_lo > ne_hi) continue;
-          int cf = 0, cn = 0;
-          for (int wi = 0; wi < NW; wi++) { cf += __builtin_popcountll(fa.w[wi]); cn += __builtin_popcountll(ne.w[wi]); }
-          if (cf <= cn) {
-            for (int wi = fa_lo >> 6; wi < NW; wi++) { u64 x2 = fa.w[wi]; if (wi == (fa_lo >> 6)) x2 &= ~0ULL << (fa_lo & 63);
-              while (x2) { int f = wi * 64 + __builtin_ctzll(x2); x2 &= x2 - 1; if (f > fa_hi) { wi = NW; break; } F.orw(ne.shr(f)); } }
-          } else {
-            // iterate b in near: {b - f : f in far} = reflect(far) >> (N - b), reflect maps f -> N - f
-            BS rf = reflectN(fa);
-            for (int wi = ne_lo >> 6; wi < NW; wi++) { u64 x2 = ne.w[wi]; if (wi == (ne_lo >> 6)) x2 &= ~0ULL << (ne_lo & 63);
-              while (x2) { int b = wi * 64 + __builtin_ctzll(x2); x2 &= x2 - 1; if (b > ne_hi) { wi = NW; break; } F.orw(rf.shr(N - b)); } }
+        if (dW) {
+          // forbidden window F = union_A {b - f : b in near_A, f in far_A} restricted to [t, t+63]; iterate the smaller side
+          int dlo = t + __builtin_ctzll(dW), dhi = t + 63 - __builtin_clzll(dW);
+          u64 F = 0;
+          for (int j = 0; j < nA && (dW & ~F); j++) { const BS& ne = *nearP[j]; const BS& fa = *farP[j]; const GI& ni = *nearI[j]; const GI& fi = *farI[j];
+            int nlo = ni.mn, nhi = ni.mx, flo = fi.mn, fhi = fi.mx;
+            int fa_lo = max(flo, nlo - dhi), fa_hi = min(fhi, nhi - dlo); if (fa_lo > fa_hi) continue;
+            int ne_lo = max(nlo, flo + dlo), ne_hi = min(nhi, fhi + dhi); if (ne_lo > ne_hi) continue;
+            if (fi.cnt <= ni.cnt) {
+              for (int wi = fa_lo >> 6; wi < NW; wi++) { u64 x2 = fa.w[wi]; if (wi == (fa_lo >> 6)) x2 &= ~0ULL << (fa_lo & 63);
+                while (x2) { int f = wi * 64 + __builtin_ctzll(x2); x2 &= x2 - 1; if (f > fa_hi) { wi = NW; break; } F |= ne.win(f + t); } }
+            } else {
+              BS rf = reflectN(fa);   // bit N - f
+              for (int wi = ne_lo >> 6; wi < NW; wi++) { u64 x2 = ne.w[wi]; if (wi == (ne_lo >> 6)) x2 &= ~0ULL << (ne_lo & 63);
+                while (x2) { int b = wi * 64 + __builtin_ctzll(x2); x2 &= x2 - 1; if (b > ne_hi) { wi = NW; break; } F |= rf.win(N - b + t); } }
+            }
           }
+          dW &= ~F;
         }
-        d.andnot(F);
+      } else nAE[e] = 0;
+      int lo;
+      if (dW) lo = t + __builtin_ctzll(dW);
+      else {
+        // fallback: full-range domain (values above t+63)
+        BS d = M; if (hi < N) d.clearAbove(hi); d.clearBelow(t + 64);
+        for (int wi = 0; wi < NW && d.any(); wi++) { u64 x2 = Se.w[wi]; while (x2) { int a = wi * 64 + __builtin_ctzll(x2); x2 &= x2 - 1; if (a == 0) continue;
+            if (shStamp[a] != shCur) { shStamp[a] = shCur; shM[a] = M.shr(a); } d.andw(shM[a]); if (!d.any()) break; } }
+        if (o.useGrp && d.any()) {   // exact forbidden test per candidate value
+          const BS** nearP = nearPE[e]; const BS** farP = farPE[e];
+          while (d.any()) { int v = d.lowest(); bool forb = false;
+            for (int j = 0; j < nA && !forb; j++) { const BS& fa = *farP[j]; const BS& ne = *nearP[j]; int q = v >> 6, b = v & 63;
+              for (int i2 = q; i2 < NW; i2++) { u64 x2 = fa.w[i2 - q] << b; if (b && i2 - q - 1 >= 0) x2 |= fa.w[i2 - q - 1] >> (64 - b); if (x2 & ne.w[i2]) { forb = true; break; } } }
+            if (!forb) break; d.reset(v); }
+        }
         if (!d.any()) { pruneCnt[2]++; return false; }
-        lo = d.lowest(); hi2 = d.highest(); tAllowed[e] = (t == lo);
-      } else { nAE[e] = 0; lo = d.lowest(); hi2 = d.highest(); tAllowed[e] = d.test(t); }
-      lo_e[e] = lo; hi_e[e] = hi2; ub[e] = hi2; dom[e] = d;
+        lo = d.lowest();
+      }
+      tAllowed[e] = (lo == t);
+      lo_e[e] = lo; hi_e[e] = hi; ub[e] = hi; SeW[e] = Se.w[0]; domW[e] = dW;
       if (o.verbose) { T1 = tick(); secT[2] += T1 - T0; T0 = T1; }
     }
 
     if (o.useHall) {
-      static int cntLB[MAXN + 2];
-      memset(cntLB, 0, sizeof(int) * (N + 2)); lb2min = N + 1;
+      // Hall lower-bound counting restricted to the window [t, t+HW] (kills beyond it are rare, see docs/engine-optimization.md)
+      const int HW = o.hallW; int vmax = min(N, t + HW);
+      int cntLB[80]; memset(cntLB, 0, sizeof(int) * (HW + 2)); lb2min = N + 1;
       for (u32 ta = aliveC; ta; ta &= ta - 1) { int A = __builtin_ctz(ta);
         for (u32 tb = ta & (ta - 1); tb; tb &= tb - 1) { int Bc = __builtin_ctz(tb);
           int rx = __builtin_ctz(cmask[A]), ry = __builtin_ctz(cmask[Bc]);
           u32 um = pmask[pid[rx][ry]] & ~amask; int r = __builtin_popcount(um);
-          // distinctness-adjusted sum of the lower bounds
-          int los[MAXE], nl = 0; long long sumHi = 0;
-          for (u32 t2 = um; t2; t2 &= t2 - 1) { int e = __builtin_ctz(t2); los[nl++] = lo_e[e]; sumHi += hi_e[e]; }
-          for (int i = 1; i < nl; i++) { int v = los[i], j = i; while (j > 0 && los[j - 1] > v) { los[j] = los[j - 1]; j--; } los[j] = v; }
-          int base = 0, prev = -1; for (int i = 0; i < nl; i++) { int v = los[i] > prev ? los[i] : prev + 1; base += v; prev = v; }
-          if (pms[r] > base) base = pms[r];
-          if (base > sumHi) { pruneCnt[3]++; return false; }
-          const BS& g = G[A][Bc]; int ghi = g.highest();
-          if (r >= 2) { int l2 = g.lowest() + base; if (l2 < lb2min) lb2min = l2; }
-          if (ghi + base > N) { pruneCnt[3]++; return false; }
-          for (int wi = 0; wi < NW; wi++) { u64 x2 = g.w[wi]; while (x2) { int sv = wi * 64 + __builtin_ctzll(x2); x2 &= x2 - 1; cntLB[sv + base]++; } }
+          const GI& gi = GIi[A][Bc];
+          int base;
+          if (r == 1) base = lo_e[__builtin_ctz(um)];
+          else {
+            // distinctness-adjusted sum of the lower bounds
+            int los[MAXE], nl = 0;
+            for (u32 t2 = um; t2; t2 &= t2 - 1) { int e = __builtin_ctz(t2); los[nl++] = lo_e[e]; }
+            for (int i = 1; i < nl; i++) { int v = los[i], j = i; while (j > 0 && los[j - 1] > v) { los[j] = los[j - 1]; j--; } los[j] = v; }
+            int prev = -1; base = 0; for (int i = 0; i < nl; i++) { int v = los[i] > prev ? los[i] : prev + 1; base += v; prev = v; }
+            if (pms[r] > base) base = pms[r];
+            int l2 = gi.mn + base; if (l2 < lb2min) lb2min = l2;
+          }
+          if (gi.mx + base > N) { pruneCnt[3]++; return false; }
+          if (gi.mn + base > vmax) continue;
+          const BS& g = G[A][Bc];
+          for (int wi = 0; wi < NW; wi++) { u64 x2 = g.w[wi]; while (x2) { int sv = wi * 64 + __builtin_ctzll(x2) + base; x2 &= x2 - 1; if (sv > vmax) { wi = NW; break; } cntLB[sv - t]++; } }
         }
       }
       int cumM = 0, cumL = 0;
-      for (int v = 1; v <= N; v++) { if (M.test(v)) cumM++; cumL += cntLB[v]; if (cumL < cumM) { pruneCnt[4]++; return false; } }
+      for (int v = t; v <= vmax; v++) { if (M.test(v)) cumM++; cumL += cntLB[v - t]; if (cumL < cumM) { pruneCnt[4]++; return false; } }
       if (o.wcover > 0 && k >= 2) {
         int V = min(N, lb2min - 1);
         if (V >= t && !windowCover(t, V)) { pruneCnt[7]++; return false; }
@@ -674,6 +701,19 @@ struct Solver {
     if (nAssigned == o.dumpDepth && o.dumpK > 0) { o.dumpK--; fprintf(stderr, "t=%d w:", t); for (int e = 0; e < E; e++) fprintf(stderr, " %d-%d:%d", eu[e], ev[e], w[e]); fprintf(stderr, " | R:"); for (int v = 1; v <= N; v++) if (R.test(v)) fprintf(stderr, " %d", v); fprintf(stderr, "\n"); }
     u32 allowed = 0;  // capture before recursion (dom/ub are per-node scratch overwritten by deeper calls)
     for (int e = 0; e < E; e++) if (!(amask >> e & 1) && (useFast ? tAllowed[e] : o.useFC ? dom[e].test(t) : ub[e] >= t)) allowed |= 1u << e;
+    if (useFast && o.look) {
+      // one-level lookahead: after (e,t) the next missing value t' must be placeable on some other edge f:
+      // t' in dom_f (R part) and the translates S_f + t', S_e + t disjoint.  The child's allowed set is a subset of this.
+      u64 SeWc[MAXE], dWc[MAXE]; for (int i = 0; i < k; i++) { int f = uedges[i]; SeWc[f] = SeW[f]; dWc[f] = domW[f]; }
+      u64 Mw = MwT;
+      for (int e = 0; e < E; e++) if (allowed >> e & 1) {
+        u64 rest = Mw & ~SeWc[e]; if (!rest) continue; int dt = __builtin_ctzll(rest);   // t' - t
+        bool ok = false;
+        for (int i = 0; i < k && !ok; i++) { int f = uedges[i]; if (f == e) continue;
+          if ((dWc[f] >> dt & 1) && !((SeWc[f] << dt) & SeWc[e])) ok = true; }
+        if (!ok) { allowed &= ~(1u << e); pruneCnt[7]++; }
+      }
+    }
     for (int e = 0; e < E; e++) {
       if (!(allowed >> e & 1)) continue;
       if (o.useSym && !symOK(e)) continue;
@@ -822,6 +862,8 @@ int main(int argc, char** argv) {
     else if (a == "--cover") o.useCover = true;
     else if (a == "--legacy") o.legacy = true;
     else if (a == "--wcover") o.wcover = atoi(argv[++i]);
+    else if (a == "--no-look") o.look = false;
+    else if (a == "--hallw") o.hallW = min(78, atoi(argv[++i]));
     else if (a == "--match") o.useMatch = true;
     else if (a == "--no-top") o.useTop = false;
     else if (a == "--no-grp2") o.useGrp2 = false;

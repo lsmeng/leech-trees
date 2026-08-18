@@ -6,8 +6,8 @@ import json, os, random, subprocess, sys, itertools
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 import checker_a, checker_b
 ROOT = os.path.join(os.path.dirname(__file__), "..")
-BIN = os.path.join(ROOT, "bin", "leech_search")
-BIN8 = os.path.join(ROOT, "bin", "leech_search_nw8")
+BIN = os.environ.get("LEECH_BIN", os.path.join(ROOT, "bin", "leech_search"))          # e.g. LEECH_BIN=bin/leech_search_v2
+BIN8 = os.environ.get("LEECH_BIN8", os.path.join(ROOT, "bin", "leech_search_nw8"))   # -DNW=8 build of the same source
 
 def run(binary, recs, flags=()):
     inp = "".join(json.dumps(r) + "\n" for r in recs)
@@ -49,7 +49,9 @@ def test_planted_prune_consistency():
     base = [r["nsol"] for r in run(BIN8, recs, ["--count", "--no-sym"])]
     assert all(c >= 1 for c in base)
     for flags in (["--no-fc"], ["--no-hall"], ["--no-grp"], ["--no-sum"], ["--no-parity"], ["--no-top"], ["--no-grp2"], ["--cover"],
-                  ["--no-fc", "--no-hall", "--no-grp", "--no-sum", "--no-parity", "--no-top"], ["--mode", "edge"], ["--mode", "ff"]):
+                  ["--no-fc", "--no-hall", "--no-grp", "--no-sum", "--no-parity", "--no-top"], ["--mode", "edge"], ["--mode", "ff"],
+                  ["--legacy"], ["--legacy", "--no-fc"], ["--wcover", "0"], ["--wcover", "5"], ["--wcover", "100000"], ["--no-look"],
+                  ["--no-look", "--wcover", "0"], ["--hallw", "8"], ["--hallw", "78"]):
         assert [r["nsol"] for r in run(BIN8, recs, ["--count", "--no-sym", *flags])] == base, flags
     import networkx as nx
     from networkx.algorithms.isomorphism import GraphMatcher
