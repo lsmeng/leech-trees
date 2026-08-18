@@ -306,28 +306,61 @@ def filter_golomb(T):
 
 
 # ---- Filter F2: Sidon degree bound --------------------------------------------------------------
+# STAR_MIN[d] = minimum possible a_{d-1}+a_d over sets {a_1<...<a_d} of positive integers whose C(d,2)
+# pairwise sums are distinct and avoid the set ("star-Sidon", the exact structure of the incident weights at
+# a vertex).  Values d<=9 re-derived by star_min_bruteforce in test_sidon; d=10..12 from the referee's
+# exact search (also reproduced by the same routine, slower).  NOTE: NOT the Golomb/OGR bound (a weak
+# Sidon set may contain 3-term APs, e.g. {1,2,4,8,14,19,24}).
+STAR_MIN = {2: 3, 3: 6, 4: 11, 5: 19, 6: 31, 7: 43, 8: 63, 9: 80, 10: 110, 11: 138, 12: 169}
+
+
+def star_min_bruteforce(d):
+    """Exact minimum of a_{d-1}+a_d over star-Sidon sets of size d (branch and bound)."""
+    best = [10 ** 9]
+
+    def dfs(A, sums):
+        k = len(A)
+        if k == d:
+            best[0] = min(best[0], A[-1] + A[-2]); return
+        a = A[-1] + 1 if A else 1
+        while True:
+            if k <= d - 2 and 2 * a + 2 * d - 3 - 2 * k >= best[0]:
+                break
+            if k == d - 1 and a + A[-1] >= best[0]:
+                break
+            ns = [a + b for b in A]
+            ok = len(set(ns)) == len(ns) and not (set(ns) & sums)
+            ok = ok and not (set(ns) & set(A)) and a not in sums
+            if ok:
+                dfs(A + [a], sums | set(ns))
+            a += 1
+    dfs([], set())
+    return best[0]
+
+
 def max_degree_bound(N):
-    """Lemma 5(b): a vertex of degree d has incident weights a_1<...<a_d forming a Sidon set whose
-    pairwise sums are distances <= N; hence OGR(d)+OGR(d-1)+2 <= a_{d-1}+a_d <= N.  Largest d passing."""
+    """Lemma 5(b): a vertex of degree d has incident weights forming a star-Sidon set whose top-two sum is
+    a distance <= N, so STAR_MIN[d] <= N.  Largest d passing (d beyond the table: unbounded/unknown)."""
     d = 2
-    while (d + 1) in OGR and OGR[d + 1] + OGR[d] + 2 <= N:
+    while (d + 1) in STAR_MIN and STAR_MIN[d + 1] <= N:
         d += 1
-    return d
+    return d if d < max(STAR_MIN) else 10 ** 9
 
 
 def filter_degree(T):
     """Lemma 5(b) with the containment refinement: at a vertex v of degree d with branch sizes b_i,
-    OGR(d)+OGR(d-1)+2 <= N+1-b_(1)*b_(2) (two smallest branch sizes)."""
+    STAR_MIN[d] <= N+1-b_(1)*b_(2) (two smallest branch sizes)."""
     n, N = T.n, T.N
     for v in range(n):
         d = T.deg[v]
         if d < 3:
             continue
+        d = min(d, max(STAR_MIN))   # S(d) is non-decreasing (drop the largest element), so S(d) >= S(12) for d > 12
         sizes = []
         for x, e in T.adj[v]:
             sizes.append(T.sub[x] if T.parent[x] == v else n - T.sub[v])
         sizes.sort()
-        if OGR[d] + OGR[d - 1] + 2 > N + 1 - sizes[0] * sizes[1]:
+        if STAR_MIN[d] > N + 1 - sizes[0] * sizes[1]:
             return False
     return True
 
@@ -667,13 +700,19 @@ def test_sidon(found, rng):
             if T.deg[v] >= 2:
                 a = sorted(w[e] for _, e in T.adj[v])
                 assert sidon_ok(a) and a[-1] + a[-2] <= max(D.values())
-                assert a[-1] - a[0] >= OGR[len(a)] and (len(a) < 3 or a[-2] - a[0] >= OGR[len(a) - 1])
+                assert not (set(a) & set(x + y for x, y in itertools.combinations(a, 2)))
+                assert len(a) not in STAR_MIN or a[-1] + a[-2] >= STAR_MIN[len(a)]
     for (n, tid), (T, sols) in found.items():
         for w in sols:
             check(T, w)
     for _ in range(300):
         T, w = random_weighted_tree(rng.randint(3, 10), rng, distinct_dists=True)
         check(T, w)
+    for d_ in range(2, 9):
+        assert star_min_bruteforce(d_) == STAR_MIN[d_], d_
+    # the referee's counterexample to the (withdrawn) OGR form: weak Sidon, contains a 3-term AP
+    assert sidon_ok([1, 2, 4, 8, 14, 19, 24]) and 19 + 24 < OGR[7] + OGR[6] + 2
+    print("PASS star-Sidon minima re-derived for d=2..8:", {d_: STAR_MIN[d_] for d_ in range(2, 9)})
     print("PASS Lemma 5 (branch Sidon): per-vertex cross-branch representatives Sidon & sum-free; deg <= maxSidon(N)")
 
 

@@ -70,21 +70,26 @@ random distinct-distance trees; on Leech trees rank = value).
 Use: per-pair upper bounds in the relaxation (F4) and in the searches (edge domains w_e <= N+1−c_e; e.g. an
 edge with c_e = 81 has w_e <= 73).
 
-## Lemma 5 (Sidon at a vertex; degree bound). PROVEN, CHECKED
+## Lemma 5 (Sidon at a vertex; degree bound). PROVEN, CHECKED — corrected after referee report
 Let v have degree d, neighbours u_1..u_d, incident weights a_1 < … < a_d, branch sizes b_1..b_d.
-(a) For any choice of one vertex per branch, the distances from v to the chosen vertices form a Sidon set
-(all pairwise sums distinct) whose pairwise sums avoid the set; the same holds for the pendant weights at v.
-(b) A = {a_1..a_d} is Sidon and a_{d−1} + a_d = d(u_{d−1},u_d) is a distance, hence
-    **OGR(d) + OGR(d−1) + 2 <= a_{d−1} + a_d <= N + 1 − b_(1) b_(2)**,
-where b_(1) <= b_(2) are the two smallest branch sizes. For n = 18: OGR(12)+OGR(11)+2 = 159 > 153, so
-**max degree <= 11** (the naive Sidon-in-[1,N] bound only gives <= 15).
-Proof. (a) Cross-branch distances are d(v,x)+d(v,y), and they are distances of distinct pairs, distinct also
-from d(v,x). (b) A Sidon set of size m has max−min >= OGR(m) (it is a Golomb ruler with m marks), so
-a_d >= 1 + OGR(d) and, applying this to A \ {a_d}, a_{d−1} >= 1 + OGR(d−1); the sum is the distance
-d(u_{d−1},u_d) whose containment bound (Lemma 4c) is N + 1 − b_i b_j <= N + 1 − b_(1) b_(2).
-Checked: `test_sidon` (Leech weightings n<=7 and 300 random distinct-distance trees: Sidon-ness, top-two
-sum, the OGR gaps). Filter F2 (topology). Small n: kills the star K_{1,4} at n=5 and 2 of 6 at n=6 (the
-known L6 survives).
+(a) For any choice of one vertex per branch, the distances from v to the chosen vertices form a *weak
+Sidon* set (all C(d,2) sums of two distinct elements are distinct) whose pairwise sums avoid the set; the same
+holds for the pendant weights at v. (Weak Sidon is NOT the Golomb-ruler property: differences a_i−a_k and
+a_k−a_j sharing an element may coincide, i.e. 3-term APs are allowed; e.g. {1,2,4,8,14,19,24} has all
+pairwise sums distinct — the referee's counterexample to the earlier OGR-based statement, now withdrawn.)
+(b) Call a set of d positive integers *star-Sidon* if its pairwise sums are distinct and avoid the set, and let
+S(d) = min a_{d−1}+a_d over star-Sidon sets of size d. Then a_{d−1}+a_d = d(u_{d−1},u_d) is a distance, so
+    **S(d) <= a_{d−1} + a_d <= N + 1 − b_(1) b_(2)**,
+where b_(1) <= b_(2) are the two smallest branch sizes. Exact values (branch and bound, `star_min_bruteforce`;
+d<=8 re-derived in `test_sidon` on every run, d=9,10 re-derived offline by the same routine, d=11,12 from the referee's exact search). S is non-decreasing in d (drop the largest element), so S(d) >= S(12) for all d >= 12:
+S(2..12) = 3, 6, 11, 19, 31, 43, 63, 80, 110, 138, 169. For n = 18: S(12) = 169 > 153, so
+**max degree <= 11** still holds; a degree-11 vertex needs b_(1) b_(2) <= 16.
+Proof. (a) Cross-branch distances are d(v,x)+d(v,y), distances of distinct pairs, distinct also from the
+d(v,x). (b) The incident weights are the distances to the neighbours, hence star-Sidon by (a); minimality of
+S(d) gives the left inequality; the containment bound (Lemma 4c) on the pair (u_{d−1},u_d) gives the right.
+Checked: `test_sidon` (Leech weightings n<=7 and 300 random distinct-distance trees: weak-Sidon-ness,
+sum-avoidance, top-two sum >= S(d) and <= max distance; S(d) for d<=8 recomputed by brute force each run).
+Filter F2 (topology). Small n: kills the star K_{1,4} at n=5 and 2 of 6 at n=6 (the known L6 survives).
 
 ## Lemma 6 (residues mod 4; Taylor parity as corollary). PROVEN, CHECKED — weight-level only
 Root T anywhere, phi(x) = d(root,x) mod 4, eps(x) = phi(x) mod 2. Then
@@ -139,7 +144,7 @@ reduction must come from weight-level search with Lemmas 3–6, 8 as pruning.
 | filter | lemma | individual survivors | cumulative |
 |---|---|---|---|
 | F1 hop-diameter <= 14 (OGR(D+1) <= N) | 3 | 123,796 | 123,796 |
-| F2 degree: OGR(d)+OGR(d−1)+2 <= N+1−b_(1)b_(2) (=> max deg <= 11) | 5 | 123,789 | 123,718 |
+| F2 degree: S(d) <= N+1−b_(1)b_(2), S = star-Sidon minima (=> max deg <= 11) | 5 | 123,789 | 123,718 |
 | F5 low-degree pair count | 4c | 123,867 | 123,718 |
 | F3 projection bound M1^2/‖P_A 1‖^2 <= M2 | 7 | 123,573 | 123,490 |
 | F4 majorization + Golomb + containment relaxation (QP, LP-verified kills) | 3,4,7 | – | 122,347 |
