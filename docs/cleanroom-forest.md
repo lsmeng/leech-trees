@@ -46,7 +46,8 @@ on this Mac, so the implementation is C (clang -O3), single file, no dependencie
 * n=4: 2 solutions (`0-1:1 0-2:2 0-3:4` star, `0-1:1 2-3:2 0-2:3` path); n=6: 1 (double star, = L6 of
   `data/known_leech_trees.json` up to relabeling); n=5,7,8,…,16: 0. All witnesses pass checker_a and checker_b.
 * Isomorph rejection / exactly-once: `oracle_brute.py` per-level counts == engine (`--no-sumrule`) for
-  n=4..11 at every level (n=11: 1,1,2,8,41,229,1383,8645,43855,69144). n=12 oracle: see below.
+  n=4..12 at every level (n=11: 1,1,2,8,41,229,1383,8645,43855,69144; n=12 without sum rule:
+  …,278539,356480 / 704,495 nodes; oracle with `--sumrule`: 356,479 / 704,494 — both variants agree with the engine).
 * Sharding identities (`check_sharding.py`): 11 cases n∈{6,10,11,12}, (K,L)∈{(3,2),(4,3),(3,6),(7,5),
   (13,8),(5,4),(4,9),(1000,7),(13,8),(7,5),(3,9)}: for d ≤ L each shard equals the full run, for d > L
   the shard entries sum to the full run, Σnsol = nsol, Σnodes = K·prefix + rest, and each shard sees
@@ -71,4 +72,19 @@ on this Mac, so the implementation is C (clang -O3), single file, no dependencie
 ## n=18 full run
 `cleanroom/run_shards.sh 18 100 8 5` (K=100 shards, L=8, 5 workers, nice 15) → `results/cleanroom_forest_18_shard{0..4}.jsonl`.
 Aggregation / verdict: `python3 cleanroom/verify_18.py`.
-RESULT: (filled in below when complete)
+Status at commit time: 100 shards launched 2026-08-18 (~6 min CPU per shard, ~2 h wall with 5 workers), 57/100 done, all
+`nsol 0`, prefix histogram identical in every shard.  Partial results are in the shard files (resumable: re-running
+`run_shards.sh 18 100 8 5` skips DONE shards).
+
+How to verify once all 100 shards are DONE:
+```
+cd ~/Documents/claude/projects/leech-trees && python3 cleanroom/verify_18.py 18
+```
+`verify_18.py` (a) parses every JSON record in `results/cleanroom_forest_18_shard*.jsonl` (and prints any `SOL:` witness
+line), (b) asserts all records are `DONE` with the same `[K,L]` and that every shard's levels 0..8 equal the prefix
+1,1,2,8,41,229,1384,8899,62843, (c) sums levels 9..17 over shards, and — when all K=100 are present — prints
+`per-level counts`, `nodes total (unique)` = Σnodes − (K−1)·73,408, `nsol`, and the two verdict lines
+`REFERENCE PER-LEVEL MATCH: True/False` (levels 0–17 vs README/referee: …,480085,3984162,35540837,332597341,
+2896330052,17017193146,37669242243,1824413062,0) and `unique nodes == 59,779,854,336: True/False`.
+Expected if the clean-room engine agrees with the reference: both True and nsol = 0.
+For n=17 the same script (`verify_18.py 17`) compares levels 0–12 against the referee prefix.
