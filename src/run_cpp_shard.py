@@ -8,7 +8,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BIN = os.path.join(ROOT, "bin", "leech_search")
 ap = argparse.ArgumentParser(); ap.add_argument("n", type=int); ap.add_argument("shard", type=int); ap.add_argument("nshards", type=int)
 ap.add_argument("--time", type=float, default=600); ap.add_argument("--ids", default=None); ap.add_argument("--order", default="leaves")
-ap.add_argument("--extra", default=""); ap.add_argument("--redo-unknown", action="store_true"); ap.add_argument("--bin", default=None); ap.add_argument("--merge-from", default=None, help="glob of prior result files to treat as done/unknown source"); ap.add_argument("--min-time", type=float, default=0,
+ap.add_argument("--extra", default=""); ap.add_argument("--redo-unknown", action="store_true"); ap.add_argument("--bin", default=None); ap.add_argument("--out-prefix", default="results/cpp_order"); ap.add_argument("--merge-from", default=None, help="glob of prior result files to treat as done/unknown source"); ap.add_argument("--min-time", type=float, default=0,
     help="only (re)run records whose previous time limit was < this (use with --redo-unknown)")
 A = ap.parse_args(); n = A.n
 if A.bin: BIN = os.path.join(ROOT, A.bin)
@@ -23,7 +23,7 @@ def leaves(r):
 if A.order == "leaves":  # many leaves = easy first
     recs.sort(key=lambda r: (-leaves(r), r["id"]))
 mine = [r for i, r in enumerate(recs) if i % A.nshards == A.shard - 1]
-out = os.path.join(ROOT, f"results/cpp_order_{n}_shard{A.shard}.jsonl")
+out = os.path.join(ROOT, f"{A.out_prefix}_{n}_shard{A.shard}.jsonl")
 done = {}
 import glob as _g
 srcs = ([out] if os.path.exists(out) else []) + (sorted(_g.glob(os.path.join(ROOT, A.merge_from))) if A.merge_from else [])
