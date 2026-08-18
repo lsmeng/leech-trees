@@ -268,7 +268,15 @@ struct Solver {
   // ---------------- pruning ----------------
   // m1 = smallest missing value.  Fills ub[], domsz[].  Returns false if node is dead.
   int uedges[MAXE], k;
-  static inline unsigned long long tick() { unsigned long long v; __asm__ volatile("mrs %0, cntvct_el0" : "=r"(v)); return v; }
+  static inline unsigned long long tick() {
+#if defined(__aarch64__)
+    unsigned long long v; __asm__ volatile("mrs %0, cntvct_el0" : "=r"(v)); return v;
+#elif defined(__x86_64__)
+    unsigned int lo, hi; __asm__ volatile("rdtsc" : "=a"(lo), "=d"(hi)); return ((unsigned long long)hi << 32) | lo;
+#else
+    return 0;
+#endif
+  }
   bool prunes(int m1) {
     unsigned long long T0 = o.verbose ? tick() : 0, T1;
     BS M = fullM; M.andnot(R);
