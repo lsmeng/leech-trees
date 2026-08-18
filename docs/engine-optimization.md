@@ -106,7 +106,8 @@ Node counts (single core, `-q`):
 | 14 | 25 486 327 | 6.4 s | 0 | L10 3.25M, L11 13.0M, L12 8.66M |
 | 15 | 162 497 458 | 44 s | 0 | L11 26.2M, L12 93.5M, L13 38.4M |
 | 16 | 1 096 039 152 | 321 s | **0** (Calhoun 2007 reproduced) | L12 220M, L13 684M, L14 155M |
-Growth ~6.5x per n; per node 0.25-0.3 us.
+| 17 | 7 877 582 541 (32 shards, incl. 32x the level<=8 prefix) | 6006 s (nice 15, load ~100) | **0** (Calhoun 2007 reproduced) | |
+Growth ~6.5-7x per n; per node 0.25-0.3 us unloaded (0.76 us at load ~100).
 Level counts converge to universal values as n grows (L6=1384, L7=8899, L8=62.8k, L9~=4.7e5, L10~=3.3e6, ratio ~7.5x
 per level); the last three levels dominate.
 Measured on the first 44 of 512 n=18 shards: 117 M nodes and 79 s per shard (nice 15 on the loaded machine) =>

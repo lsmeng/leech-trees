@@ -29,7 +29,7 @@ Started 2026-08-18 from Codex Phase-1 handoff `~/Documents/Codex-Handoffs/mathem
 - OBSERVED 2026-08-18 (FOREST ENGINE, src/forest_search.cpp): Calhoun's forest DFS (forced weights, edge added by join /
   attach / new) with complete isomorph rejection (parent = remove max edge; Aut = endpoint swaps of single-edge
   components) and bitset distance sets: n=4 -> 2 trees, n=6 -> 1, n=5,7..16 -> 0; **n=16: 1.10e9 nodes, 321 CPU-s**
-  (vs ~500-700 CPU-h for the per-topology run) reproducing Calhoun 2007; agrees with the per-topology engine summed
+  (vs ~500-700 CPU-h for the per-topology run) and **n=17: 7.9e9 nodes, 1.7 CPU-h, 0 trees**, both reproducing Calhoun 2007; agrees with the per-topology engine summed
   over all topologies on planted targets (tests/test_forest_search.py).  Growth ~6.5x per n => n=18 ~ 5e10 nodes,
   ~5-10 CPU-hours: launched locally (results/forest_order_17.jsonl, forest_order_18.jsonl; src/run_forest.py).
 - LITERATURE (unverified copies): 9,11 ruled out computationally by Székely–Wang–Zhang 2005; all perfect-distance trees n<18 determined by Calhoun et al. 2007 (so 16 done); diameter-3 excluded n>=7 and finitely many diameter-4 (Luo–Yu 2024).
