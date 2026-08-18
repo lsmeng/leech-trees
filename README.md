@@ -81,3 +81,11 @@ Details, benchmarks and the v2 per-topology results: docs/engine-optimization.md
 - Hoffman2 (SLURM job 83703, 30 tasks × 7 procs, gcc 11.5 x86_64) forest engine `bin/forest_search 18 --shard i 210 --shard-level 8`: **210/210 shards DONE, 5.98e10 nodes, nsol = 0, depth-17 count = 0** — i.e. no 18-vertex Leech tree found by the forest engine. Raw shard outputs archived in results/hoffman2/. Wall ~1.5 min per task.
 - Status label: COMPUTATIONAL EVIDENCE. Becomes a claim only after (a) docs/referee-forest.md verdict on isomorph rejection/sharding/forcing completeness, (b) independent local re-run (clang, arm64, 512 shards; results/forest_order_18.jsonl in progress), (c) cross-check with the per-topology engine leech18 on Hoffman2 (independent method; UNKNOWNs to be rerun with v2 + larger caps).
 - n=16 per-topology run on Hoffman2 finished: 19,308 UNSAT + 12 UNKNOWN (cap 1800 s) → rerun UNKNOWNs; forest engine already reproduces Calhoun's n=16 result.
+
+## 2026-08-18 ~18:00 — n=18 forest-engine verdict replicated three ways (OBSERVED)
+| run | machine/compiler | shards (K,L) | Σnodes | unique nodes (Σ − (K−1)·prefix) | levels 9–16 sums | level 17 | nsol |
+|---|---|---|---|---|---|---|---|
+| Hoffman2 job 83703 | x86_64 gcc 11.5 | 210, 8 | 59,795,196,608 | 59,779,854,336 | == oracle (9–12), 2.896e9/1.702e10/3.767e10/1.824e9 (13–16) | 0 | 0 |
+| Hoffman2 job 83752 | x86_64 gcc 11.5 | 175, 9 | 59,876,162,118 | 59,779,854,336 | identical | 0 | 0 |
+| local | arm64 clang | 512, 8 | 59,817,365,824 | 59,779,854,336 | (stderr not kept) | — | 0 |
+Verdict script: src/verify_forest_run.py. Referee: docs/referee-forest.md (no BUG; isomorph rejection, forcing completeness, prefilters, sharding all VERIFIED). Remaining for a paper-grade claim: independent-method cross-check (per-topology engine on Hoffman2: first pass at ~73k/122k, UNKNOWNs rerun with v2 queued) and ideally a second implementation of the forest search from the algorithm description reproducing the per-level counts.
