@@ -45,6 +45,8 @@ OBSERVED: the theory-branch weight bounds (containment/Golomb/top/degree) change
 (the search dies at small values long before large values are reached); the useful ones are the small-value structure prunes.
 Node rate ~0.7-1.5 M nodes/s single core; prunes() is 90% of the time.
 
+- OBSERVED 2026-08-18: SAT route (src/sat_encode.py order-encoding + cadical + drat-trim): n=4 both SAT, n=6 exactly the known tree SAT, n=9 all 47 UNSAT and n=11 all 235 UNSAT with drat-trim-VERIFIED DRAT proofs (results/sat_order_{n}.jsonl); n=16 random 30: 0/30 within 600 s. Certificates up to n=11 only; not a route to n=18 by itself. docs/sat-route.md
+
 ## Layout
 src/checker_a.py, checker_b.py   independent witness checkers
 src/enumerate_trees.py           two-route topology enumeration + AHU certificate cross-check

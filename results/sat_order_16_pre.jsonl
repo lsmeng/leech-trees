@@ -1,0 +1,2 @@
+{"id": 4943, "n": 16, "solver": "cadical", "variant": "order", "dirs": 3, "nv": 48128, "ncl": 4583987, "root": 0, "nrel": 105, "sym": 3, "encode_time": 19.304, "cnf_bytes": 90210548, "solve_time": 900.08, "proof_bytes": 176235131, "status": "TIMEOUT"}
+{"id": 10611, "n": 16, "solver": "cadical", "variant": "order", "dirs": 3, "nv": 48128, "ncl": 4732597, "root": 0, "nrel": 105, "sym": 3, "encode_time": 20.049, "cnf_bytes": 92957389, "solve_time": 900.299, "proof_bytes": 207694178, "status": "TIMEOUT"}
