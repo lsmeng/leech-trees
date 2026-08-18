@@ -10,6 +10,18 @@ Started 2026-08-18 from Codex Phase-1 handoff `~/Documents/Codex-Handoffs/mathem
 - OBSERVED: unlabeled tree counts by two generators (networkx WROM vs nauty gentreeg) agree: n=5:3, 9:47, 11:235, 16:19320, 18:123867. data/trees_18.jsonl frozen.
 - OBSERVED: CP-SAT (v1/v2/v3) proves n=5, n=9 infeasible for all topologies (results/order_5,9.jsonl); n=6 finds the known tree; n=11 partial (v2 solves the slow ones in 10-60 s).
 - OBSERVED: generic CP-SAT does NOT scale: random n=16 topologies UNKNOWN after 240 s x 10 workers. => n=18 needs a purpose-built search (this is the actual research core, not done).
+- OBSERVED 2026-08-18 (C++ engine, bin/leech_search): n=4 both known trees SAT (witnesses pass checker_a+b), n=6 exactly the known
+  double-star SAT + 5 UNSAT, n=5 (3), n=9 (47), n=11 (235) all UNSAT (n=9 agrees id-by-id with CP-SAT results/order_9.jsonl);
+  n=11 total 3.2M nodes / ~5 s single core (CP-SAT needed 10-60 s per slow topology).
+- OBSERVED 2026-08-18: n=16 random 200-topology sample (results/cpp_bench16_sample.jsonl, 200 s cap, loaded machine ~0.3 M nodes/s):
+  time quantiles 10/25/50/75/90% = 0.6/2.5/19/100/>200 s; 30/200 hit the 200 s cap; nodes median 6M, mean 18M (capped);
+  hardness is set by leaf count / diameter: >=9 leaves ~1 s, 7 leaves ~75 s, <=6 leaves & diameter >=10 typically 150-900 s
+  (Golomb-ruler-like spines). Full n=16 run launched: `nohup python src/run_cpp.py 16 --procs 10 --time 3600` ->
+  results/cpp_order_16.jsonl (+ .log); projected 2-3 days on this Mac; re-run UNKNOWNs with --redo-unknown --time larger.
+- OBSERVED 2026-08-18: n=18 spot checks (survivor topologies): 12 leaves ~0.2-1 s, 10 leaves 17-61 s, 9 leaves 126 s / >240 s,
+  i.e. ~30-60x harder than the same leaf class at n=16.  Extrapolation for all 122k n=18 topologies: mean ~1-3 h/topology
+  => ~10^4-10^5 CPU-hours (Hoffman2-scale, not a laptop job).  Bottleneck: path-like / few-leaf topologies where the small
+  weights form long Golomb-ruler segments; the bottom-up forcing search has ~10^8-10^9 nodes there.
 - LITERATURE (unverified copies): 9,11 ruled out computationally by Székely–Wang–Zhang 2005; all perfect-distance trees n<18 determined by Calhoun et al. 2007 (so 16 done); diameter-3 excluded n>=7 and finitely many diameter-4 (Luo–Yu 2024).
 - LITERATURE LEDGER 2026-08-18: docs/literature-ledger.md (SWZ05 preprint + code recovered via Wayback, Calhoun07 OCR, EJGTA20, Integers16 read; Luo-Yu24 abstract only). Verified topology filters in src/filters.py kill only 152/123867 topologies at n=18 (diameter<=14 via Golomb rulers, max degree<=11 via exhaustive star-Sidon search, diameter>=4, no path/broom): 123,715 survive. Real pruning is weight-side: forcing lemma (k-th smallest weight = least missing distance), Taylor 11/7 parity, m1<=105, m2<=76.
 - CORRECTION: Taylor's parity condition constrains the parity pattern of *weights* (count of odd-depth vertices must be 7 or 11 at n=18); it is NOT a topology filter (bipartition of the unweighted tree is irrelevant). Implemented as a redundant constraint in solve_v2.
