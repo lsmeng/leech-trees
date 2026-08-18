@@ -76,3 +76,8 @@ Details, benchmarks and the v2 per-topology results: docs/engine-optimization.md
 1. DONE (docs/literature-ledger.md): literature gives ~no topology pruning; build the search around the weight-forcing lemma.
 2. Purpose-built search: branch on values (small-first or diameter-first) with bitset incremental distinctness; C/Rust; benchmark on n=16 (known UNSAT) as calibration.
 3. Only then n=18 on Hoffman2; certificates: enumeration logs + per-topology proof (DRAT/VeriPB via SAT encoding) for the final claim.
+
+## 2026-08-18 evening — first complete n=18 verdict (OBSERVED, pending referee)
+- Hoffman2 (SLURM job 83703, 30 tasks × 7 procs, gcc 11.5 x86_64) forest engine `bin/forest_search 18 --shard i 210 --shard-level 8`: **210/210 shards DONE, 5.98e10 nodes, nsol = 0, depth-17 count = 0** — i.e. no 18-vertex Leech tree found by the forest engine. Raw shard outputs archived in results/hoffman2/. Wall ~1.5 min per task.
+- Status label: COMPUTATIONAL EVIDENCE. Becomes a claim only after (a) docs/referee-forest.md verdict on isomorph rejection/sharding/forcing completeness, (b) independent local re-run (clang, arm64, 512 shards; results/forest_order_18.jsonl in progress), (c) cross-check with the per-topology engine leech18 on Hoffman2 (independent method; UNKNOWNs to be rerun with v2 + larger caps).
+- n=16 per-topology run on Hoffman2 finished: 19,308 UNSAT + 12 UNKNOWN (cap 1800 s) → rerun UNKNOWNs; forest engine already reproduces Calhoun's n=16 result.
