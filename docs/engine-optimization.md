@@ -109,8 +109,8 @@ Node counts (single core, `-q`):
 Growth ~6.5x per n; per node 0.25-0.3 us.
 Level counts converge to universal values as n grows (L6=1384, L7=8899, L8=62.8k, L9~=4.7e5, L10~=3.3e6, ratio ~7.5x
 per level); the last three levels dominate.
-Projection: n=17 ~ 7e9 nodes (~40 CPU-min), n=18 ~ 5e10 nodes at 0.3-0.5 us/node = **~5-10 CPU-hours total**
-(single machine, hours), trivially parallel (`src/run_forest.py 18 --shards 512 --procs P`, or the SGE array
+Measured on the first 44 of 512 n=18 shards: 117 M nodes and 79 s per shard (nice 15 on the loaded machine) =>
+n=18 ~ 6e10 nodes, **~11 CPU-hours total** (~5-6 h unloaded; wall ~2.5 h with 5 processes), trivially parallel (`src/run_forest.py 18 --shards 512 --procs P`, or the SGE array
 `scripts/hoffman2_forest_array.sh`), versus 1e4-1e5 CPU-hours projected for the per-topology engine (v2 halves that).
 For n=16 the forest engine needed 321 CPU-s against ~500-700 CPU-hours for the per-topology run: ~5000x.
 Runs launched 2026-08-18: `results/forest_order_17.jsonl` (32 shards) and `results/forest_order_18.jsonl` (512 shards),
