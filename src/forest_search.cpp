@@ -45,12 +45,11 @@ static void tryAdd(int x, int y, int t, bool ynew) {
   u32 mx = cm[comp[x]], my = ynew ? (1u << y) : cm[comp[y]];
   int ncx = __builtin_popcount(mx), ncy = __builtin_popcount(my);
   BS Dy; int hy; if (ynew) { Dy.clear(); Dy.set(0); hy = 0; } else { Dy = D0[y]; hy = hiD[y]; }
-  BS U; U.clear();
-  if (ncx <= ncy) { for (u32 m = mx; m; m &= m - 1) { int xi = __builtin_ctz(m); int sh = dist_[xi][x] + t; if (sh + hy > N) return; U.orw(Dy.shl(sh)); } }
-  else { const BS& Dx = D0[x]; int hx = hiD[x]; for (u32 m = my; m; m &= m - 1) { int yj = __builtin_ctz(m); int sh = (ynew ? 0 : dist_[yj][y]) + t; if (sh + hx > N) return; U.orw(Dx.shl(sh)); } }
-  if (U.count() != ncx * ncy) return;                       // a new distance obtained twice
-  if (U.inter(R)) return;                                   // a new distance already realised
-  for (int i = 0; i < NW; i++) if (U.w[i] & ~FULL.w[i]) return;   // outside the target set
+  BS U; U.clear(); BS RnotF; for (int i = 0; i < NW; i++) RnotF.w[i] = R.w[i] | ~FULL.w[i];   // values a new distance may not take
+  // new distances = union of translates; each translate must avoid R (realised), FULL^c (not a target value) and the
+  // translates already accumulated (a distance obtained twice) -> early exit per translate
+  if (ncx <= ncy) { for (u32 m = mx; m; m &= m - 1) { int xi = __builtin_ctz(m); int sh = dist_[xi][x] + t; if (sh + hy > N) return; BS T = Dy.shl(sh); if (T.inter(RnotF) || T.inter(U)) return; U.orw(T); } }
+  else { const BS& Dx = D0[x]; int hx = hiD[x]; for (u32 m = my; m; m &= m - 1) { int yj = __builtin_ctz(m); int sh = (ynew ? 0 : dist_[yj][y]) + t; if (sh + hx > N) return; BS T = Dx.shl(sh); if (T.inter(RnotF) || T.inter(U)) return; U.orw(T); } }
   int lv = ne; saveV[lv] = V; int cxid = comp[x], cyid = ynew ? y : comp[y];
   saveCm[lv][0] = cm[cxid]; if (!ynew) saveCm[lv][1] = cm[cyid];
   for (u32 m = mx; m; m &= m - 1) { int xi = __builtin_ctz(m); saveD[lv][xi] = D0[xi]; saveHi[lv][xi] = hiD[xi]; }
@@ -75,12 +74,15 @@ static void rec() {
   nodes++; depthHist[ne]++;
   if (nodeLimit > 0 && nodes >= nodeLimit) { aborted = true; return; }
   if (ne == shardLevel && shardK > 1) { if ((shardCnt++) % shardK != shardI) return; }
+  BS RnotF; for (int i = 0; i < NW; i++) RnotF.w[i] = R.w[i] | ~FULL.w[i];
   int t = R.lowestMissingIn(FULL, 1, N);
   if (t > N) { if (ne == E && V == n) { nsol++; if (printSol) { printf("SOL:"); for (int i = 0; i < ne; i++) printf(" %d-%d:%d", eu[i], ev[i], ew[i]); printf("\n"); fflush(stdout); } } return; }
   if (ne >= E) return;
   if (ne > 0 && t + ew[ne - 1] > N) return;                     // any two edges lie on a common path: w_i + w_j <= N
   int ncomp = V - ne; if (E - ne < ncomp - 1 + (n - V)) return;   // each remaining edge fixes at most one unit of deficit
-  u32 elig = 0; for (int i = 0; i < V; i++) { u32 c = cm[comp[i]]; if (__builtin_popcount(c) == 2 && (int)__builtin_ctz(c) != i) continue; elig |= 1u << i; }
+  u32 elig = 0; for (int i = 0; i < V; i++) { u32 c = cm[comp[i]]; if (__builtin_popcount(c) == 2 && (int)__builtin_ctz(c) != i) continue;
+    if (hiD[i] + t > N) continue; BS T = D0[i].shl(t); if (T.inter(RnotF)) continue;   // x itself must be a valid attachment point at weight t
+    elig |= 1u << i; }
   for (u32 m = elig; m; m &= m - 1) { int x = __builtin_ctz(m); u32 rest = elig & ~cm[comp[x]] & ~((2u << x) - 1); for (u32 m2 = rest; m2; m2 &= m2 - 1) tryAdd(x, __builtin_ctz(m2), t, false); }
   if (V < n) for (u32 m = elig; m; m &= m - 1) tryAdd(__builtin_ctz(m), V, t, true);
   if (V + 2 <= n && FULL.test(t)) { int x = V, y = V + 1; int lv = ne; saveV[lv] = V; V += 2; comp[x] = x; comp[y] = x; cm[x] = (1u << x) | (1u << y); dist_[x][y] = dist_[y][x] = t;
