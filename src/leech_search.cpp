@@ -80,13 +80,20 @@ struct Opts {
   int order = 0;         // edge mode: 0 dyn, 1 bfs(center-first), 2 rev(leaf-first)
   bool useSum = true, useHall = true, useFC = true, useParity = true, useSym = true, useGrp = true, useCover = false, useMatch = false, useTop = true, useGrp2 = true;
   long long nodeLimit = -1; double timeLimit = -1;
-  bool verbose = false; bool countAll = false; int dumpDepth = -1; long long dumpK = 0;
+  bool legacy = false; int wcover = 0; bool verbose = false; bool countAll = false; int dumpDepth = -1; long long dumpK = 0;
 };
 
 struct Solver {
   Opts o;
   int n, E, N, P; long long S;
-  int eu[MAXE], ev[MAXE], cc[MAXE];
+  int eu[MAXE], ev[MAXE], cc[MAXE]; u32 sideV[MAXE];   // sideV[e]: vertex mask of ev[e]'s side of e
+  int pid[MAXV][MAXV];                                  // pair index of (x,y)
+  // component-group state (fast path): comp[x] = id of the assigned-forest component containing x (id = a vertex),
+  // cmask[id] = its vertex mask, aliveC = live ids; G[a][b] (a<b) = bitset of partial sums of pairs (x in a, y in b).
+  // All pairs of one group have the same unassigned-edge set (the path between the components in the quotient tree).
+  int comp[MAXV]; u32 cmask[MAXV], aliveC; BS G[MAXV][MAXV];
+  BS saveG[MAXE][MAXP]; int saveIdx[MAXE][MAXP], saveCnt[MAXE]; int mergeA[MAXE], mergeB[MAXE];
+  bool useFast; int wmax; bool tAllowed[MAXE];
   int pu[MAXP], pv[MAXP]; u32 pmask[MAXP]; int plen[MAXP];
   int pairLB[MAXP], pairUB[MAXP];    // static: OGR(hop+1) <= d(p) <= (s_x s_y)-th largest target value (containment)
   int topv[3]; int valPair[MAXN + 2]; // top-3 target values; which pair realized each value (-1)
@@ -131,12 +138,15 @@ struct Solver {
     vector<int> sz(n, 1);
     for (int i = n - 1; i > 0; i--) { int v = order[i]; sz[par[v]] += sz[v]; }
     for (int e = 0; e < E; e++) { int child = (par[ev[e]] == eu[e]) ? ev[e] : eu[e]; cc[e] = sz[child] * (n - sz[child]); }
+    { // sideV[e] = vertices on ev[e]'s side: subtree of child (if child == ev) else complement
+      vector<u32> sub(n, 0); for (int i = n - 1; i >= 0; i--) { int v = order[i]; sub[v] |= 1u << v; if (par[v] >= 0) sub[par[v]] |= sub[v]; }
+      for (int e = 0; e < E; e++) { int child = (par[ev[e]] == eu[e]) ? ev[e] : eu[e]; u32 m = sub[child]; sideV[e] = (child == ev[e]) ? m : (((1u << n) - 1) & ~m); } }
     // pairs
     int p = 0;
     for (int u = 0; u < n; u++) for (int v = u + 1; v < n; v++) {
       u32 m = 0; int a = u, b = v, len = 0;
       while (a != b) { if (dep[a] >= dep[b]) { m |= 1u << eid[a][par[a]]; a = par[a]; } else { m |= 1u << eid[b][par[b]]; b = par[b]; } len++; }
-      pu[p] = u; pv[p] = v; pmask[p] = m; plen[p] = len; if (len == 1) epair[eid[u][v]] = p; p++;
+      pu[p] = u; pv[p] = v; pmask[p] = m; plen[p] = len; if (len == 1) epair[eid[u][v]] = p; pid[u][v] = pid[v][u] = p; p++;
     }
     // static per-pair windows (Lemma 3 Golomb, Lemma 4c containment)
     static const int OGR[18] = {0, 0, 1, 3, 6, 11, 17, 25, 34, 44, 55, 72, 85, 106, 127, 151, 177, 199};
@@ -231,10 +241,17 @@ struct Solver {
   void resetState() {
     for (int e = 0; e < E; e++) w[e] = 0; amask = 0; for (int p = 0; p < P; p++) { s[p] = 0; rem[p] = plen[p]; }
     memset(shStamp, 0, sizeof shStamp); shCur = 0;
-    R.clear(); Asum = 0; nAssigned = 0; nodes = 0; nsol = 0; aborted = false; t0 = chrono::steady_clock::now();
+    R.clear(); Asum = 0; nAssigned = 0; nodes = 0; nsol = 0; aborted = false; t0 = chrono::steady_clock::now(); wmax = 0;
+    for (int x = 0; x < n; x++) { comp[x] = x; cmask[x] = 1u << x; }
+    aliveC = (1u << n) - 1;
+    for (int a = 0; a < n; a++) for (int b = a + 1; b < n; b++) { G[a][b].clear(); G[a][b].set(0); }
+    for (int d = 0; d <= E; d++) { wcSolNode[d] = -1; nodeIdAt[d] = -2; }
     memset(depthHist, 0, sizeof depthHist); memset(tHist, 0, sizeof tHist); memset(pruneCnt, 0, sizeof pruneCnt); memset(secT, 0, sizeof secT);
   }
   bool assign(int e, int wt) {
+    if (!o.verbose) return assign2(e, wt);
+    unsigned long long T0 = tick(); bool r = assign2(e, wt); secT[5] += tick() - T0; return r; }
+  bool assign2(int e, int wt) {
     w[e] = wt; amask |= 1u << e; Asum += (long long)wt * cc[e]; nAssigned++;
     const int* pl = plist.data() + poff[e]; int cnt = poff[e + 1] - poff[e];
     for (int i = 0; i < cnt; i++) {
@@ -243,10 +260,33 @@ struct Solver {
         if (v > N || !fullM.test(v) || R.test(v) || v < pairLB[p] || v > pairUB[p]) { rollback(e, i, true); return false; }
         R.set(v); valPair[v] = p;
         if (v >= topv[2] && o.useTop && !topOK(v, p)) { rollback(e, i, false); return false; }
-      }
+      } else if (s[p] > N) { rollback(e, i, false); return false; }
     }
+    // merge the components of the endpoints.  In the quotient tree (components = nodes, unassigned edges = edges)
+    // e joins a and b; every group whose quotient path uses e (c on a's side, c' on b's side) shifts by wt, then the
+    // groups (a,c) and (b,c) merge (their partial sums must stay distinct: same unassigned set afterwards).
+    { int d = nAssigned - 1; int a = comp[eu[e]], b = comp[ev[e]]; u32 sideA = aliveC & ~sideV[e], sideB = aliveC & sideV[e];
+      // component ids are vertices, so a component lies on a's side iff its id vertex does
+      mergeA[d] = a; mergeB[d] = b; int ns = 0; bool dead = false;
+      for (u32 ta = sideA; ta; ta &= ta - 1) { int c = __builtin_ctz(ta);
+        for (u32 tb = sideB; tb; tb &= tb - 1) { int c2 = __builtin_ctz(tb); if (c == a && c2 == b) continue;
+          BS& g = gref(c, c2); saveIdx[d][ns] = c * MAXV + c2; saveG[d][ns++] = g; g = g.shl(wt); } }
+      for (u32 t2 = aliveC & ~(1u << a) & ~(1u << b); t2 && !dead; t2 &= t2 - 1) {
+        int c = __builtin_ctz(t2);
+        BS& ga = gref(a, c); const BS& gb = gref(b, c);
+        for (int i2 = 0; i2 < NW; i2++) if (ga.w[i2] & gb.w[i2]) { dead = true; break; }
+        if (dead) break;
+        saveIdx[d][ns] = a * MAXV + c; saveG[d][ns++] = ga; ga.orw(gb);
+      }
+      saveCnt[d] = ns;
+      if (dead) { for (int j = ns - 1; j >= 0; j--) gref(saveIdx[d][j] / MAXV, saveIdx[d][j] % MAXV) = saveG[d][j]; rollback(e, cnt - 1, false); return false; }
+      for (u32 t2 = cmask[b]; t2; t2 &= t2 - 1) comp[__builtin_ctz(t2)] = a;
+      cmask[a] |= cmask[b]; aliveC &= ~(1u << b);
+    }
+    if (wt > wmax) wmax = wt;
     return true;
   }
+  BS& gref(int a, int b) { return a < b ? G[a][b] : G[b][a]; }
   void rollback(int e, int upto, bool lastFailed) {
     const int* pl = plist.data() + poff[e]; int wt = w[e];
     for (int i = upto; i >= 0; i--) {
@@ -256,7 +296,15 @@ struct Solver {
     }
     w[e] = 0; amask &= ~(1u << e); Asum -= (long long)wt * cc[e]; nAssigned--;
   }
-  void unassign(int e) { rollback(e, poff[e + 1] - poff[e] - 1, false); }
+  void unassign(int e) { if (!o.verbose) { unassign2(e); return; } unsigned long long T0 = tick(); unassign2(e); secT[6] += tick() - T0; }
+  void unassign2(int e) {
+    int d = nAssigned - 1; int a = mergeA[d], b = mergeB[d];
+    aliveC |= 1u << b; cmask[a] &= ~cmask[b];
+    for (u32 t2 = cmask[b]; t2; t2 &= t2 - 1) comp[__builtin_ctz(t2)] = b;
+    for (int j = saveCnt[d] - 1; j >= 0; j--) gref(saveIdx[d][j] / MAXV, saveIdx[d][j] % MAXV) = saveG[d][j];
+    rollback(e, poff[e + 1] - poff[e] - 1, false);
+    if (w[e] == 0) { int m = 0; for (int f = 0; f < E; f++) if (w[f] > m) m = w[f]; wmax = m; }
+  }
   // Lemma 4a: pairs realizing the 2nd/3rd largest values share an endpoint with the pair realizing the largest.
   bool topOK(int v, int p) const {
     auto meet = [&](int a, int b) { return pu[a] == pu[b] || pu[a] == pv[b] || pv[a] == pu[b] || pv[a] == pv[b]; };
@@ -432,6 +480,181 @@ struct Solver {
     if (o.verbose) { T1 = tick(); secT[5] += T1 - T0; T0 = T1; }
     return true;
   }
+
+  // ---------------- fast pruning (value mode) ----------------
+  // Uses the component groups: for an unassigned edge e = (x,y) with components B = comp[x], C = comp[y]:
+  //   S_e = G[B][C] = partial sums of the pairs completed by e  (domain: w + S_e subset of M);
+  //   for every other live component A (say on B's side): pairs (A,B) [near, do not use e] and (A,C) [far, use e]
+  //   have identical unassigned sets apart from e, so w_e != s_far - s_near  (general one-edge-difference rule =
+  //   grp/grp2 of the legacy path).  Same-set duplicates are caught at merge time in assign().
+  // Hall: pairs of one group share the unassigned set U, so lb = s + max(pms[|U|], sum lo_e adjusted for distinctness).
+  const BS* nearPE[MAXE][MAXV]; const BS* farPE[MAXE][MAXV]; int nAE[MAXE];
+  BS reflectN(const BS& a) const {   // bit i -> bit N - i (only bits <= N are set in group bitsets)
+    BS r; for (int i = 0; i < NW; i++) r.w[NW - 1 - i] = __builtin_bitreverse64(a.w[i]);   // bit i -> bit 64*NW-1-i
+    return r.shr(64 * NW - 1 - N);
+  }
+  BS fbKnown[MAXE], fbVal[MAXE];   // per-node memo of forbiddenE
+  bool forbiddenM(int e, int v) {
+    if (fbKnown[e].test(v)) return fbVal[e].test(v);
+    bool r = forbiddenE(e, v); fbKnown[e].set(v); if (r) fbVal[e].set(v); return r;
+  }
+  bool forbiddenE(int e, int v) const {
+    int nA = nAE[e]; const BS* const* farP = farPE[e]; const BS* const* nearP = nearPE[e];
+    for (int j = 0; j < nA; j++) { const BS& fa = *farP[j]; const BS& ne = *nearP[j];
+      int q = v >> 6, b = v & 63;
+      for (int i2 = q; i2 < NW; i2++) { u64 x2 = fa.w[i2 - q] << b; if (b && i2 - q - 1 >= 0) x2 |= fa.w[i2 - q - 1] >> (64 - b); if (x2 & ne.w[i2]) return true; }
+    }
+    return false;
+  }
+  // window cover: every missing value below the smallest lower bound of a multi-edge pair must be an edge weight or a
+  // singleton-pair value w_e + s (s in S_e); the translates S_e + w_e of distinct edges must be disjoint, inside M, and
+  // w_e must not be forbidden.  Small DFS on the lowest uncovered value; budget-limited (give up = alive).
+  // 64-bit window version: everything is taken relative to t (bit i <-> value t+i); translates and clashes above t+63
+  // are ignored (sound: fewer conflicts detected).  SeW[e] = partial sums s <= 63 of S_e, domW[e] = dom[e] window.
+  int wcBudget; u64 wcW; int wcT; u64 SeW[MAXE], domW[MAXE];
+  int wcStE[MAXE], wcStW[MAXE], wcSp;                       // current DFS assignment stack
+  int wcSolE[MAXE + 1][MAXE], wcSolW[MAXE + 1][MAXE], wcSolN[MAXE + 1], wcSolT[MAXE + 1], lastEdge[MAXE + 1]; long long wcSolNode[MAXE + 1], nodeIdAt[MAXE + 1];
+  bool wcover(u64 covered, u32 used) {
+    u64 rest = wcW & ~covered; if (!rest) return true; int v = __builtin_ctzll(rest);   // relative value
+    if (--wcBudget < 0) return true;
+    for (int i = 0; i < k; i++) { int e = uedges[i]; if (used >> e & 1) continue;
+      u64 x2 = SeW[e] & ((v >= 63) ? ~0ULL : ((2ULL << v) - 1));   // s <= v  (w = t + v - s >= t)
+      const u64 dw = domW[e];
+      while (x2) { int a = __builtin_ctzll(x2); x2 &= x2 - 1; int wv = v - a;   // relative weight
+        if (!(dw >> wv & 1)) continue;
+        u64 tr = SeW[e] << wv; if (tr & covered) continue;
+        wcStE[wcSp] = e; wcStW[wcSp] = wv; wcSp++;
+        if (wcover(covered | tr, used | (1u << e))) return true;
+        wcSp--;
+        if (wcBudget < 0) return true; }
+    }
+    return false;
+  }
+  // returns false if the window cannot be covered (node dead).  Warm-starts from the parent's cover when consistent.
+  bool windowCover(int t, int V) {
+    BS Mw = fullM; Mw.andnot(R); Mw.clearAbove(V); Mw = Mw.shr(t); wcW = Mw.w[0]; wcT = t;
+    for (int i = 0; i < k; i++) { int e = uedges[i]; SeW[e] = gref(comp[eu[e]], comp[ev[e]]).w[0]; domW[e] = dom[e].shr(t).w[0]; }
+    int d = nAssigned; u64 cov = 0; u32 used = 0; wcSp = 0;
+    if (d >= 1 && wcSolNode[d - 1] == nodeIdAt[d - 1]) {
+      // use the parent's cover only if it contains the edge/weight assigned since (else it is not an extension)
+      bool consistent = false; int eLast = lastEdge[d - 1]; int dt = t - wcSolT[d - 1];
+      for (int j = 0; j < wcSolN[d - 1]; j++) if (wcSolE[d - 1][j] == eLast && wcSolW[d - 1][j] + wcSolT[d - 1] == w[eLast]) consistent = true;
+      if (consistent) for (int j = 0; j < wcSolN[d - 1]; j++) { int e = wcSolE[d - 1][j], wv = wcSolW[d - 1][j] - dt;
+        if ((amask >> e & 1) || wv < 0 || wv > 63) continue;
+        if (!(domW[e] >> wv & 1)) continue;
+        u64 tr = SeW[e] << wv; if (tr & cov) continue;
+        cov |= tr; used |= 1u << e; wcStE[wcSp] = e; wcStW[wcSp] = wv; wcSp++; }
+    }
+    wcBudget = o.wcover;
+    bool ok = wcover(cov, used);
+    if (!ok && used) { wcSp = 0; wcBudget = o.wcover; ok = wcover(0, 0); }
+    if (ok) { wcSolNode[d] = nodeIdAt[d]; wcSolT[d] = t; wcSolN[d] = wcSp; for (int j = 0; j < wcSp; j++) { wcSolE[d][j] = wcStE[j]; wcSolW[d][j] = wcStW[j]; } }
+    return ok;
+  }
+  bool prunesFast(int t) {
+    unsigned long long T0 = o.verbose ? tick() : 0, T1;
+    BS M = fullM; M.andnot(R);
+    k = 0; for (int e = 0; e < E; e++) if (!(amask >> e & 1)) uedges[k++] = e;
+    if (k == 0) return true;
+    int ms[MAXE]; { BS tt = M; for (int i = 0; i < k; i++) { int b = tt.lowest(); if (b < 0) return false; ms[i] = b; tt.reset(b); } }
+    int pms[MAXE + 1]; pms[0] = 0; for (int i = 0; i < k; i++) pms[i + 1] = pms[i] + ms[i];
+    int cap = min(m1Bound, N - max(wmax, k >= 2 ? t : 0));   // any two edges lie on a common path: w_i + w_j <= N
+    if (o.verbose) { T1 = tick(); secT[0] += T1 - T0; T0 = T1; }
+    shCur++;
+    for (int i = 0; i < k; i++) {
+      int e = uedges[i]; int x = eu[e], y = ev[e]; int B = comp[x], C = comp[y];
+      const BS& Se = gref(B, C);
+      int hi = min(cap, pairUB[epair[e]]);
+      BS d = M; if (hi < N) d.clearAbove(hi); if (t > 1) d.clearBelow(t);
+      // singleton pairs: w + s in M for all s in S_e  (bit 0 of S_e is the edge itself)
+      for (int wi = 0; wi < NW && d.any(); wi++) { u64 x2 = Se.w[wi]; while (x2) { int a = wi * 64 + __builtin_ctzll(x2); x2 &= x2 - 1; if (a == 0) continue;
+          if (shStamp[a] != shCur) { shStamp[a] = shCur; shM[a] = M.shr(a); } d.andw(shM[a]); if (!d.any()) break; } }
+      if (!d.any()) { pruneCnt[2]++; return false; }
+      if (o.verbose) { T1 = tick(); secT[1] += T1 - T0; T0 = T1; }
+      // one-edge-difference forbids from every other component A: p in far group (unassigned set U+e), q in near
+      // group (set U) => w_e != s_q - s_p.  Evaluated lazily: v is forbidden iff (far << v) & near != 0.
+      // Only lo_e, hi_e and membership of t are needed, so scan d from both ends until an allowed value is found.
+      int lo = -1, hi2 = -1;
+      if (o.useGrp) {
+        u32 others = aliveC & ~(1u << B) & ~(1u << C);
+        int nA = 0; const BS** nearP = nearPE[e]; const BS** farP = farPE[e];
+        for (u32 t2 = others; t2; t2 &= t2 - 1) {
+          int A = __builtin_ctz(t2);
+          bool onV = (cmask[A] & sideV[e]) != 0;   // A on y's side -> (A,C) near, (A,B) far
+          nearP[nA] = onV ? &gref(A, C) : &gref(A, B); farP[nA] = onV ? &gref(A, B) : &gref(A, C); nA++;
+        }
+        nAE[e] = nA;
+        // materialize the forbidden set F_e = union_A (near_A - far_A) restricted to [dlo, dhi]; iterate the smaller side
+        int dlo = d.lowest(), dhi = d.highest();
+        BS F; F.clear();
+        for (int j = 0; j < nA; j++) { const BS& ne = *nearP[j]; const BS& fa = *farP[j];
+          int nlo = ne.lowest(), nhi = ne.highest(), flo = fa.lowest(), fhi = fa.highest();
+          // v = b - f in [dlo, dhi]  =>  f in [nlo - dhi, nhi - dlo],  b in [flo + dlo, fhi + dhi]
+          int fa_lo = max(flo, nlo - dhi), fa_hi = min(fhi, nhi - dlo); if (fa_lo > fa_hi) continue;
+          int ne_lo = max(nlo, flo + dlo), ne_hi = min(nhi, fhi + dhi); if (ne_lo > ne_hi) continue;
+          int cf = 0, cn = 0;
+          for (int wi = 0; wi < NW; wi++) { cf += __builtin_popcountll(fa.w[wi]); cn += __builtin_popcountll(ne.w[wi]); }
+          if (cf <= cn) {
+            for (int wi = fa_lo >> 6; wi < NW; wi++) { u64 x2 = fa.w[wi]; if (wi == (fa_lo >> 6)) x2 &= ~0ULL << (fa_lo & 63);
+              while (x2) { int f = wi * 64 + __builtin_ctzll(x2); x2 &= x2 - 1; if (f > fa_hi) { wi = NW; break; } F.orw(ne.shr(f)); } }
+          } else {
+            // iterate b in near: {b - f : f in far} = reflect(far) >> (N - b), reflect maps f -> N - f
+            BS rf = reflectN(fa);
+            for (int wi = ne_lo >> 6; wi < NW; wi++) { u64 x2 = ne.w[wi]; if (wi == (ne_lo >> 6)) x2 &= ~0ULL << (ne_lo & 63);
+              while (x2) { int b = wi * 64 + __builtin_ctzll(x2); x2 &= x2 - 1; if (b > ne_hi) { wi = NW; break; } F.orw(rf.shr(N - b)); } }
+          }
+        }
+        d.andnot(F);
+        if (!d.any()) { pruneCnt[2]++; return false; }
+        lo = d.lowest(); hi2 = d.highest(); tAllowed[e] = (t == lo);
+      } else { nAE[e] = 0; lo = d.lowest(); hi2 = d.highest(); tAllowed[e] = d.test(t); }
+      lo_e[e] = lo; hi_e[e] = hi2; ub[e] = hi2; dom[e] = d;
+      if (o.verbose) { T1 = tick(); secT[2] += T1 - T0; T0 = T1; }
+    }
+
+    if (o.useHall) {
+      static int cntLB[MAXN + 2];
+      memset(cntLB, 0, sizeof(int) * (N + 2)); lb2min = N + 1;
+      for (u32 ta = aliveC; ta; ta &= ta - 1) { int A = __builtin_ctz(ta);
+        for (u32 tb = ta & (ta - 1); tb; tb &= tb - 1) { int Bc = __builtin_ctz(tb);
+          int rx = __builtin_ctz(cmask[A]), ry = __builtin_ctz(cmask[Bc]);
+          u32 um = pmask[pid[rx][ry]] & ~amask; int r = __builtin_popcount(um);
+          // distinctness-adjusted sum of the lower bounds
+          int los[MAXE], nl = 0; long long sumHi = 0;
+          for (u32 t2 = um; t2; t2 &= t2 - 1) { int e = __builtin_ctz(t2); los[nl++] = lo_e[e]; sumHi += hi_e[e]; }
+          for (int i = 1; i < nl; i++) { int v = los[i], j = i; while (j > 0 && los[j - 1] > v) { los[j] = los[j - 1]; j--; } los[j] = v; }
+          int base = 0, prev = -1; for (int i = 0; i < nl; i++) { int v = los[i] > prev ? los[i] : prev + 1; base += v; prev = v; }
+          if (pms[r] > base) base = pms[r];
+          if (base > sumHi) { pruneCnt[3]++; return false; }
+          const BS& g = G[A][Bc]; int ghi = g.highest();
+          if (r >= 2) { int l2 = g.lowest() + base; if (l2 < lb2min) lb2min = l2; }
+          if (ghi + base > N) { pruneCnt[3]++; return false; }
+          for (int wi = 0; wi < NW; wi++) { u64 x2 = g.w[wi]; while (x2) { int sv = wi * 64 + __builtin_ctzll(x2); x2 &= x2 - 1; cntLB[sv + base]++; } }
+        }
+      }
+      int cumM = 0, cumL = 0;
+      for (int v = 1; v <= N; v++) { if (M.test(v)) cumM++; cumL += cntLB[v]; if (cumL < cumM) { pruneCnt[4]++; return false; } }
+      if (o.wcover > 0 && k >= 2) {
+        int V = min(N, lb2min - 1);
+        if (V >= t && !windowCover(t, V)) { pruneCnt[7]++; return false; }
+      }
+    }
+    if (o.verbose) { T1 = tick(); secT[3] += T1 - T0; T0 = T1; }
+    if (o.useParity && par_a >= 0) {
+      // components of the assigned forest with depth parity (via comp[] : DFS inside each component)
+      int parv[MAXV]; u32 reach = 1;
+      for (u32 ta = aliveC; ta; ta &= ta - 1) { int A = __builtin_ctz(ta); u32 cm = cmask[A]; int m = __builtin_popcount(cm);
+        if (m == 1) { reach = (reach << 1) | reach; continue; }
+        int root = __builtin_ctz(cm); int odd = 0; int stack[MAXV], sp = 0; u32 seen = 1u << root; stack[sp++] = root; parv[root] = 0;
+        while (sp) { int x = stack[--sp]; odd += parv[x];
+          for (int j = 0; j < vdeg[x]; j++) { int e = vedge[x][j]; if ((amask >> e & 1)) { int y = vnbr[x][j]; if (!(seen >> y & 1)) { seen |= 1u << y; parv[y] = parv[x] ^ (w[e] & 1); stack[sp++] = y; } } } }
+        reach = (reach << odd) | (reach << (m - odd));
+      }
+      if (!((reach >> par_a & 1) || (reach >> (n - par_a) & 1))) { pruneCnt[6]++; return false; }
+    }
+    if (o.verbose) { T1 = tick(); secT[4] += T1 - T0; }
+    return true;
+  }
   bool symOK(int e) const { for (u32 m : preq[e]) if (!(amask & m)) return false; return true; }
   bool checkLimits() {
     if ((nodes & 4095) == 0) {
@@ -445,15 +668,16 @@ struct Solver {
   bool recV(int t) {
     while (t <= N && (R.test(t) || !fullM.test(t))) t++;
     if (t > N) { nsol++; return !o.countAll; }
-    nodes++; if (o.verbose) { depthHist[nAssigned]++; tHist[t]++; } if (!checkLimits()) return false;
+    nodes++; nodeIdAt[nAssigned] = nodes; if (o.verbose) { depthHist[nAssigned]++; tHist[t]++; } if (!checkLimits()) return false;
     if (nAssigned == E) return false;
-    if (!prunes(t)) return false;
+    if (useFast ? !prunesFast(t) : !prunes(t)) return false;
     if (nAssigned == o.dumpDepth && o.dumpK > 0) { o.dumpK--; fprintf(stderr, "t=%d w:", t); for (int e = 0; e < E; e++) fprintf(stderr, " %d-%d:%d", eu[e], ev[e], w[e]); fprintf(stderr, " | R:"); for (int v = 1; v <= N; v++) if (R.test(v)) fprintf(stderr, " %d", v); fprintf(stderr, "\n"); }
     u32 allowed = 0;  // capture before recursion (dom/ub are per-node scratch overwritten by deeper calls)
-    for (int e = 0; e < E; e++) if (!(amask >> e & 1) && (o.useFC ? dom[e].test(t) : ub[e] >= t)) allowed |= 1u << e;
+    for (int e = 0; e < E; e++) if (!(amask >> e & 1) && (useFast ? tAllowed[e] : o.useFC ? dom[e].test(t) : ub[e] >= t)) allowed |= 1u << e;
     for (int e = 0; e < E; e++) {
       if (!(allowed >> e & 1)) continue;
       if (o.useSym && !symOK(e)) continue;
+      lastEdge[nAssigned] = e;
       if (!assign(e, t)) continue;
       if (recV(t + 1)) return true;
       if (aborted) { unassign(e); return false; }
@@ -547,7 +771,7 @@ struct Solver {
   }
 
   bool solve() {
-    resetState();
+    resetState(); useFast = (o.mode == 0 && !o.legacy);
     if (o.useParity && par_a < 0) { nodes = 1; return false; }
     if (o.useTop && rootDead) { nodes = 1; return false; }
     for (int v = 0; v <= N + 1; v++) valPair[v] = -1;  // Taylor: no admissible bipartition size
@@ -596,6 +820,8 @@ int main(int argc, char** argv) {
     else if (a == "--no-sym") o.useSym = false;
     else if (a == "--no-grp") o.useGrp = false;
     else if (a == "--cover") o.useCover = true;
+    else if (a == "--legacy") o.legacy = true;
+    else if (a == "--wcover") o.wcover = atoi(argv[++i]);
     else if (a == "--match") o.useMatch = true;
     else if (a == "--no-top") o.useTop = false;
     else if (a == "--no-grp2") o.useGrp2 = false;
@@ -620,7 +846,8 @@ int main(int argc, char** argv) {
     if (o.countAll && S.nsol > 0) sat = true;
     const char* st = sat ? "SAT" : (S.aborted ? "UNKNOWN" : "UNSAT");
     if (o.verbose) { fprintf(stderr, "depth:"); for (int d = 0; d <= S.E; d++) fprintf(stderr, " %d:%lld", d, S.depthHist[d]); fprintf(stderr, "\nt:"); for (int t = 1; t <= S.N; t++) if (S.tHist[t]) fprintf(stderr, " %d:%lld", t, S.tHist[t]); fprintf(stderr, "\nprunes grp:%lld sum:%lld fc:%lld lbub:%lld hallL:%lld hallU:%lld par:%lld cover:%lld\n", S.pruneCnt[0], S.pruneCnt[1], S.pruneCnt[2], S.pruneCnt[3], S.pruneCnt[4], S.pruneCnt[5], S.pruneCnt[6], S.pruneCnt[7]);
-      fprintf(stderr, "ticks(prune sections, 24MHz): setup:%lld grp:%lld sum:%lld fc:%lld hall:%lld par:%lld | fc-group:%lld fc-forb:%lld\n", S.secT[0], S.secT[1], S.secT[2], S.secT[3], S.secT[4], S.secT[5], S.secT[6], S.secT[7]); }
+      if (S.useFast) fprintf(stderr, "ticks(fast sections): setup:%lld dom:%lld forb:%lld hall:%lld par:%lld assign:%lld unassign:%lld\n", S.secT[0], S.secT[1], S.secT[2], S.secT[3], S.secT[4], S.secT[5], S.secT[6]);
+      else fprintf(stderr, "ticks(prune sections): setup:%lld grp:%lld sum:%lld fc:%lld hall:%lld par:%lld | fc-group:%lld fc-forb:%lld\n", S.secT[0], S.secT[1], S.secT[2], S.secT[3], S.secT[4], S.secT[5], S.secT[6], S.secT[7]); }
     printf("{\"id\": %lld, \"n\": %d, \"status\": \"%s\", \"nsol\": %lld, \"nodes\": %lld, \"time\": %.4f, \"mode\": \"%s\", \"witness\": %s}\n",
            id, n, st, S.nsol, S.nodes, dt, modeName, sat ? jsonWitness(S).c_str() : "null");
     fflush(stdout);
