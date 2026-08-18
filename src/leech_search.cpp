@@ -44,6 +44,16 @@ typedef uint64_t u64; typedef uint32_t u32;
 #endif
 static const int MAXE = 17, MAXV = 18, MAXP = 153, MAXN = 64 * NW - 2;
 
+static inline unsigned long long bitrev64(unsigned long long x) {
+#if defined(__clang__)
+  return __builtin_bitreverse64(x);
+#else
+  x = ((x >> 1) & 0x5555555555555555ULL) | ((x & 0x5555555555555555ULL) << 1);
+  x = ((x >> 2) & 0x3333333333333333ULL) | ((x & 0x3333333333333333ULL) << 2);
+  x = ((x >> 4) & 0x0F0F0F0F0F0F0F0FULL) | ((x & 0x0F0F0F0F0F0F0F0FULL) << 4);
+  return __builtin_bswap64(x);
+#endif
+}
 struct BS {
   u64 w[NW];
   void clear() { for (int i = 0; i < NW; i++) w[i] = 0; }
@@ -498,7 +508,7 @@ struct Solver {
   // Hall: pairs of one group share the unassigned set U, so lb = s + max(pms[|U|], sum lo_e adjusted for distinctness).
   const BS* nearPE[MAXE][MAXV]; const BS* farPE[MAXE][MAXV]; const GI* nearGI[MAXE][MAXV]; const GI* farGI[MAXE][MAXV]; int nAE[MAXE];
   BS reflectN(const BS& a) const {   // bit i -> bit N - i (only bits <= N are set in group bitsets)
-    BS r; for (int i = 0; i < NW; i++) r.w[NW - 1 - i] = __builtin_bitreverse64(a.w[i]);   // bit i -> bit 64*NW-1-i
+    BS r; for (int i = 0; i < NW; i++) r.w[NW - 1 - i] = bitrev64(a.w[i]);   // bit i -> bit 64*NW-1-i
     return r.shr(64 * NW - 1 - N);
   }
   BS fbKnown[MAXE], fbVal[MAXE];   // per-node memo of forbiddenE
