@@ -13,6 +13,6 @@ IDSARG=""; [ -n "$IDS" ] && IDSARG="--ids $IDS"
 for ((p=1; p<=P; p++)); do
   SHARD=$(( (SLURM_ARRAY_TASK_ID-1)*P + p ))
   ./env/bin/python src/run_cpp_shard.py $N $SHARD $NSHARDS --time $TL $IDSARG --bin bin/leech_search_v2 --redo-unknown \
-     --merge-from "results/cpp_order_${N}_shard*.jsonl" --out-prefix results/redo/cpp_redo --extra "--wcover 50 --look" > logs/redo_${N}_${SHARD}.log 2>&1 &
+     --merge-from "results/cpp_order_${N}_shard*.jsonl" --out-prefix results/redo/cpp_redo > logs/redo_${N}_${SHARD}.log 2>&1 &
 done
 wait
