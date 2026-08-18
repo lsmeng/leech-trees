@@ -8,3 +8,5 @@ mkdir -p bin
 clang++ -O3 -march=native -std=c++17 -Wall -Wextra -o bin/$NAME src/leech_search.cpp
 clang++ -O3 -march=native -std=c++17 -DNW=8 -o bin/${NAME}_nw8 src/leech_search.cpp
 echo "built bin/$NAME bin/${NAME}_nw8"
+clang++ -O3 -march=native -std=c++17 -Wall -Wextra -o bin/forest_search src/forest_search.cpp
+echo "built bin/forest_search"
