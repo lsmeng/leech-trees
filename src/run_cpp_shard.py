@@ -8,9 +8,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BIN = os.path.join(ROOT, "bin", "leech_search")
 ap = argparse.ArgumentParser(); ap.add_argument("n", type=int); ap.add_argument("shard", type=int); ap.add_argument("nshards", type=int)
 ap.add_argument("--time", type=float, default=600); ap.add_argument("--ids", default=None); ap.add_argument("--order", default="leaves")
-ap.add_argument("--extra", default=""); ap.add_argument("--redo-unknown", action="store_true"); ap.add_argument("--min-time", type=float, default=0,
+ap.add_argument("--extra", default=""); ap.add_argument("--redo-unknown", action="store_true"); ap.add_argument("--bin", default=None); ap.add_argument("--merge-from", default=None, help="glob of prior result files to treat as done/unknown source"); ap.add_argument("--min-time", type=float, default=0,
     help="only (re)run records whose previous time limit was < this (use with --redo-unknown)")
 A = ap.parse_args(); n = A.n
+if A.bin: BIN = os.path.join(ROOT, A.bin)
 recs = [json.loads(l) for l in open(os.path.join(ROOT, f"data/trees_{n}.jsonl"))]
 if A.ids:
     keep = {int(x) for x in open(os.path.join(ROOT, A.ids)).read().split()}
@@ -24,10 +25,13 @@ if A.order == "leaves":  # many leaves = easy first
 mine = [r for i, r in enumerate(recs) if i % A.nshards == A.shard - 1]
 out = os.path.join(ROOT, f"results/cpp_order_{n}_shard{A.shard}.jsonl")
 done = {}
-if os.path.exists(out):
-    for l in open(out):
+import glob as _g
+srcs = ([out] if os.path.exists(out) else []) + (sorted(_g.glob(os.path.join(ROOT, A.merge_from))) if A.merge_from else [])
+for fn in srcs:
+    for l in open(fn):
         if l.strip():
-            r = json.loads(l); done[r["id"]] = r
+            r = json.loads(l)
+            if r["id"] not in done or r["status"] != "UNKNOWN": done[r["id"]] = r
 todo = []
 for r in mine:
     d = done.get(r["id"])
