@@ -11,16 +11,39 @@ Started 2026-08-18 from Codex Phase-1 handoff `~/Documents/Codex-Handoffs/mathem
 - OBSERVED: CP-SAT (v1/v2/v3) proves n=5, n=9 infeasible for all topologies (results/order_5,9.jsonl); n=6 finds the known tree; n=11 partial (v2 solves the slow ones in 10-60 s).
 - OBSERVED: generic CP-SAT does NOT scale: random n=16 topologies UNKNOWN after 240 s x 10 workers. => n=18 needs a purpose-built search (this is the actual research core, not done).
 - LITERATURE (unverified copies): 9,11 ruled out computationally by Székely–Wang–Zhang 2005; all perfect-distance trees n<18 determined by Calhoun et al. 2007 (so 16 done); diameter-3 excluded n>=7 and finitely many diameter-4 (Luo–Yu 2024).
+- LITERATURE LEDGER 2026-08-18: docs/literature-ledger.md (SWZ05 preprint + code recovered via Wayback, Calhoun07 OCR, EJGTA20, Integers16 read; Luo-Yu24 abstract only). Verified topology filters in src/filters.py kill only 152/123867 topologies at n=18 (diameter<=14 via Golomb rulers, max degree<=11 via exhaustive star-Sidon search, diameter>=4, no path/broom): 123,715 survive. Real pruning is weight-side: forcing lemma (k-th smallest weight = least missing distance), Taylor 11/7 parity, m1<=105, m2<=76.
 - CORRECTION: Taylor's parity condition constrains the parity pattern of *weights* (count of odd-depth vertices must be 7 or 11 at n=18); it is NOT a topology filter (bipartition of the unweighted tree is irrelevant). Implemented as a redundant constraint in solve_v2.
+
+## C++ exact engine (src/leech_search.cpp, 2026-08-18)
+Build: `scripts/build.sh` -> `bin/leech_search` (clang++ -O3, no deps).  Driver: `python src/run_cpp.py n [--procs P] [--time T]
+[--sample K --seed S] [--redo-unknown]` -> `results/cpp_order_{n}.jsonl` (resumable; every SAT witness re-checked by checker_a+b).
+Primary branching = FORCING LEMMA (Calhoun Lemma 2.6 / SWZ "Find-Next-Weight"): at level t all values < t are realized, so t is either
+already realized (skip) or must be the weight of an unassigned edge -> branch over <= n-1-k edges.  Alternatives kept as options:
+`--mode edge` (edge-driven, dynamic min-domain / bfs / leaf-first order) and `--mode ff` (fail-first value choice); both lose to
+value mode (edge mode ~20x more nodes at n=9, ff ~2x at n=11).
+Pruning (all switchable, all verified sound on planted instances, see tests/test_cpp_search.py): bitset distinctness; grp
+(pairs with identical unassigned-edge set need distinct partial sums; the biggest single win, 2x nodes) and its 2-crossing
+domain-forbid form; sum identity Σ c_e w_e = N(N+1)/2 (min/max + per-edge UB); forward check of per-edge domains via shift-AND;
+Hall prefix/suffix counting on pair windows [LB,UB] (LB = partial + smallest missing / Golomb OGR(hop+1); UB = containment
+N+1-s_x s_y, Calhoun m1 <= (4n-1)^2/48, w_i+w_j <= N); Taylor parity DP over forest components; top-value structure (N-1,N-2
+pairs meet the N pair); root filters (Golomb/containment windows, degree bound OGR(d)+OGR(d-1)+2 <= N+1-b1 b2); complete
+symmetry breaking (iso sibling subtrees + bicentral swap; verified count = total/|Aut|).  Optional: `--grp2` (general
+superset-forbid; -35% nodes, ~neutral in time), `--cover`, `--match` (exact interval matching; no gain).
+OBSERVED: the theory-branch weight bounds (containment/Golomb/top/degree) change node counts by <1% in this bottom-up search
+(the search dies at small values long before large values are reached); the useful ones are the small-value structure prunes.
+Node rate ~0.7-1.5 M nodes/s single core; prunes() is 90% of the time.
 
 ## Layout
 src/checker_a.py, checker_b.py   independent witness checkers
 src/enumerate_trees.py           two-route topology enumeration + AHU certificate cross-check
 src/solve_topology.py (v1), solve_v2.py (bounds+Taylor+symbreak+strategy), solve_v3.py (dual channel; slower)
 src/run_order.py                 parallel resumable driver -> results/order_{n}.jsonl
+src/leech_search.cpp, scripts/build.sh, src/run_cpp.py   C++ exact engine + driver -> results/cpp_order_{n}.jsonl
+tests/test_cpp_search.py         engine regression (known trees, UNSAT orders, planted-instance prune consistency, symmetry completeness)
+src/filters.py                   one function per proven lemma (topology filters) + self-tests; docs/literature-ledger.md, docs/sources/
 data/trees_{n}.jsonl             frozen topologies; results/                per-topology outcomes
 
 ## Next (research core)
-1. Read SWZ 2005 / Calhoun 2007 for their pruning (max degree, no long path, leaf-edge structure) and re-prove what we use.
+1. DONE (docs/literature-ledger.md): literature gives ~no topology pruning; build the search around the weight-forcing lemma.
 2. Purpose-built search: branch on values (small-first or diameter-first) with bitset incremental distinctness; C/Rust; benchmark on n=16 (known UNSAT) as calibration.
 3. Only then n=18 on Hoffman2; certificates: enumeration logs + per-topology proof (DRAT/VeriPB via SAT encoding) for the final claim.
