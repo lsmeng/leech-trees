@@ -22,6 +22,16 @@ Started 2026-08-18 from Codex Phase-1 handoff `~/Documents/Codex-Handoffs/mathem
   i.e. ~30-60x harder than the same leaf class at n=16.  Extrapolation for all 122k n=18 topologies: mean ~1-3 h/topology
   => ~10^4-10^5 CPU-hours (Hoffman2-scale, not a laptop job).  Bottleneck: path-like / few-leaf topologies where the small
   weights form long Golomb-ruler segments; the bottom-up forcing search has ~10^8-10^9 nodes there.
+- OBSERVED 2026-08-18 (engine v2, docs/engine-optimization.md): rewrite of the per-topology engine around incremental
+  component groups + 64-bit windows + window-cover lookahead: exact (identical solution counts on planted sets in every
+  flag combination, ladder unchanged), 2.26x fewer nodes and 2.2x faster on 20 hard n=16 topologies, ~2x on 5 n=18
+  survivors.  Binary bin/leech_search_v2 (bin/leech_search = old build kept for the running n=16 job; `--legacy` = old prunes).
+- OBSERVED 2026-08-18 (FOREST ENGINE, src/forest_search.cpp): Calhoun's forest DFS (forced weights, edge added by join /
+  attach / new) with complete isomorph rejection (parent = remove max edge; Aut = endpoint swaps of single-edge
+  components) and bitset distance sets: n=4 -> 2 trees, n=6 -> 1, n=5,7..16 -> 0; **n=16: 1.10e9 nodes, 321 CPU-s**
+  (vs ~500-700 CPU-h for the per-topology run) reproducing Calhoun 2007; agrees with the per-topology engine summed
+  over all topologies on planted targets (tests/test_forest_search.py).  Growth ~6.5x per n => n=18 ~ 5e10 nodes,
+  ~5-10 CPU-hours: launched locally (results/forest_order_17.jsonl, forest_order_18.jsonl; src/run_forest.py).
 - LITERATURE (unverified copies): 9,11 ruled out computationally by Székely–Wang–Zhang 2005; all perfect-distance trees n<18 determined by Calhoun et al. 2007 (so 16 done); diameter-3 excluded n>=7 and finitely many diameter-4 (Luo–Yu 2024).
 - LITERATURE LEDGER 2026-08-18: docs/literature-ledger.md (SWZ05 preprint + code recovered via Wayback, Calhoun07 OCR, EJGTA20, Integers16 read; Luo-Yu24 abstract only). Verified topology filters in src/filters.py kill only 152/123867 topologies at n=18 (diameter<=14 via Golomb rulers, max degree<=11 via exhaustive star-Sidon search, diameter>=4, no path/broom): 123,715 survive. Real pruning is weight-side: forcing lemma (k-th smallest weight = least missing distance), Taylor 11/7 parity, m1<=105, m2<=76.
 - CORRECTION: Taylor's parity condition constrains the parity pattern of *weights* (count of odd-depth vertices must be 7 or 11 at n=18); it is NOT a topology filter (bipartition of the unweighted tree is irrelevant). Implemented as a redundant constraint in solve_v2.
@@ -56,6 +66,11 @@ src/leech_search.cpp, scripts/build.sh, src/run_cpp.py   C++ exact engine + driv
 tests/test_cpp_search.py         engine regression (known trees, UNSAT orders, planted-instance prune consistency, symmetry completeness)
 src/filters.py                   one function per proven lemma (topology filters) + self-tests; docs/literature-ledger.md, docs/sources/
 data/trees_{n}.jsonl             frozen topologies; results/                per-topology outcomes
+
+## Forest engine (src/forest_search.cpp, 2026-08-18) -- recommended route to n=18
+`bin/forest_search n [--target ...] [--shard i K] [--shard-level L] [-q]`; sharded resumable driver `python src/run_forest.py n
+--shards K --procs P` (witnesses re-checked by both checkers); cluster array `scripts/hoffman2_forest_array.sh`.
+Details, benchmarks and the v2 per-topology results: docs/engine-optimization.md.
 
 ## Next (research core)
 1. DONE (docs/literature-ledger.md): literature gives ~no topology pruning; build the search around the weight-forcing lemma.
