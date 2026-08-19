@@ -1,0 +1,12 @@
+n=4 id=0 brute=12 engine=12 orbits=2.0 OK
+n=4 id=1 brute=12 engine=12 orbits=2.0 OK
+n=5 id=0 brute=20 engine=20 orbits=2.0 OK
+n=5 id=1 brute=20 engine=20 orbits=2.0 OK
+n=5 id=2 brute=0 engine=0 orbits=0.0 OK
+n=6 id=0 brute=0 engine=0 orbits=0.0 OK
+n=6 id=1 brute=144 engine=144 orbits=18.0 OK
+n=6 id=2 brute=128 engine=128 orbits=16.0 OK
+n=6 id=3 brute=0 engine=0 orbits=0.0 OK
+n=6 id=4 brute=0 engine=0 orbits=0.0 OK
+n=6 id=5 brute=0 engine=0 orbits=0.0 OK
+all SOL lines pass check_modular; brute force agrees for n=4,5,6
