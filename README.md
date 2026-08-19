@@ -89,3 +89,8 @@ Details, benchmarks and the v2 per-topology results: docs/engine-optimization.md
 | Hoffman2 job 83752 | x86_64 gcc 11.5 | 175, 9 | 59,876,162,118 | 59,779,854,336 | identical | 0 | 0 |
 | local | arm64 clang | 512, 8 | 59,817,365,824 | 59,779,854,336 | (stderr not kept) | — | 0 |
 Verdict script: src/verify_forest_run.py. Referee: docs/referee-forest.md (no BUG; isomorph rejection, forcing completeness, prefilters, sharding all VERIFIED). Remaining for a paper-grade claim: independent-method cross-check (per-topology engine on Hoffman2: first pass at ~73k/122k, UNKNOWNs rerun with v2 queued) and ideally a second implementation of the forest search from the algorithm description reproducing the per-level counts.
+
+## 2026-08-18 ~20:20 — fourth replication: CLEAN-ROOM implementation (OBSERVED)
+`cleanroom/cr_forest.c` (written by an agent that never opened forest_search.cpp; own labeling/canonical scheme; C/clang, arm64, K=100, L=8, 34,207 CPU-s):
+all 18 per-level forced-forest counts identical to the reference engine (1,1,2,8,41,229,1384,8899,62843,480085,3984162,35540837,332597341,2896330052,17017193146,37669242243,1824413062,0), unique nodes 59,779,854,336, nsol = 0. `python3 cleanroom/verify_18.py 18` → REFERENCE PER-LEVEL MATCH: True. Details docs/cleanroom-forest.md.
+Status: the per-level count sequence — a mathematical invariant of the forced-forest tree — is now reproduced by two independent implementations on two architectures/compilers. The remaining independent-METHOD check is the per-topology engine (Hoffman2 leech18, ~88k/122k first pass).
