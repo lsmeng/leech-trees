@@ -55,9 +55,28 @@ same tree.
 `0-1:1 0-2:2 3-4:4 5-6:5 5-7:6 3-8:8 3-5:9 3-9:16 2-7:26 7-10:27` (missing 7,10,21,36,54) and
 `0-1:1 0-2:2 3-4:4 5-6:5 5-7:6 3-8:8 3-5:9 3-9:16 7-10:26 0-7:27` (missing 7,10,21,36,56); both pass checker_distinct.
 Distribution of the 55 trees with max <= 65 by max distance: 60:2, 61:0, 62:6, 63:3, 64:12, 65:32.
-(cross-check per-topology engine: pending, see below)
+Independent-method cross-check (OBSERVED): `mdd_topo` per-topology DFS over all 235 topologies of order 11 —
+D=59: 0 labelings, 1.2620879225e10 nodes; D=60: 18 raw labelings, 1.5106490676e10 nodes; run twice, locally
+(arm64/clang) and on Hoffman2 (x86_64/gcc), with identical node counts and identical SOL lists.  The 18 raw labelings are
+exactly the two trees above times their automorphisms (topology id 94: 6 labelings = 3! permutations of the pendant
+weights 4,8,16 at one vertex; id 96: 12 = 3! x 2).  Cross-check n=10 the same way: D=49 0 / D=50 6 raw labelings
+(1 tree x |Aut|=6), 7.5e8 / 9.1e8 nodes.
 
-n = 12: TBD
+**n = 12** (OBSERVED, Hoffman2): D=69,70,71,72,73,74,75,76 all UNSAT with 3.7e8, 1.5e9, 5.2e9, 1.6e10, 4.2e10, 1.0e11,
+2.4e11, 5.1e11 nodes (35-70 shards each, sum CPU 82 s ... 9.1e4 s); witness hunt (`--edge-first --maxsol 1`): D=78 SAT
+`0-1:1 0-2:2 3-4:4 5-6:5 0-3:6 5-7:13 8-9:14 4-8:15 6-9:16 8-10:17 9-11:37` (missing 9,20,22,23,24,28,38,46,59,64,69,72;
+checker OK; 3.1e10 nodes, 4601 s), also D=79,80,81,82 witnesses; the D=77 hunt had not found a tree after ~5e10 nodes when
+the session closed.  => **77 <= M(12) <= 78** (Calhoun: 69..94).  Exhaustive D=77,78,79 runs (K=70 shards each, jobs 84758-84760)
+are queued on Hoffman2 (`$SCRATCH/leech-trees/variants/results/mdd_12_77_shard*.jsonl`; aggregate with
+`python3 agg_mdd.py results 12 77`); expected cost ~1e12-3e12 nodes each (~1-3 h wall on 70 cores).
+
+**n = 13**: not attempted exhaustively (M(13) >= 80 from Calhoun; extrapolated cost > 1e15 nodes at D ~ 90).  Upper bound
+by leaf extension of the n=12 witnesses: **M(13) <= 105** (Calhoun 119): `... 4-12:62` appended to the D=79 tree
+(checker OK, see agg script in this file's history).  Similarly M(12) <= 82 was first obtained by extending the n=11
+trees with max <= 65 (`runs/agg_11_65.json`).
+
+**Node/CPU cost summary (mdd_forest, Hoffman2 ~5e6 nodes/s/core):** growth ~x2.5-3.3 per unit of D and ~x10-30 per n at
+fixed gap count; the search is dominated by the last two edge levels (r <= 2), where forests with small weights survive.
 
 ## B. Modular Leech trees (Leach & Walsh, JCMCC 78 (2011) 15-22 [not accessible]; Leach, Int. J. Combin. 2014, 218086)
 
@@ -93,8 +112,8 @@ lines list all orbit representatives).  Validation (OBSERVED): brute force over 
 | 7 | 22 | 11 | 0 | 461,340 / 30,853 | agrees with Leach Thm 2 |
 | 8 | 29 | 23 | 1 / 2 | 755,515 / 239,450 | = Leach 2014 |
 | 9 | 37 | 47 | **0** | 1.81e7 / 6.5e6 | NEW: no modular Leech tree of order 9 |
-| 10 | 46 | 106 | **0** | 1.42e10 (v1, Hoffman2, 14 procs, ~13 min) | consistent with Leach Thm 2 (10 = 2 mod 4, not m^2+2) |
-| 11 | 56 | 235 | pending (v2 on Hoffman2) | | 11 = 3^2+2 is allowed by Thm 2 |
+| 10 | 46 | 106 | **0** | 1.42e10 (v1) / 3.6e8 (v2), Hoffman2 | consistent with Leach Thm 2 (10 = 2 mod 4, not m^2+2) |
+| 11 | 56 | 235 | **0** | 1.28e10 (v2, Hoffman2, 42 procs) | NEW: no modular Leech tree of order 11 (11 = 3^2+2 is allowed by Thm 2) |
 | 12 | 67 | 551 | not attempted (k prime, no unit symmetry gain; est. > 1e15 nodes) | | |
 
 ## C. Leaf-Leech trees (Ozen, Wang, Yalman, Integers 16 (2016) #A21)
@@ -121,8 +140,27 @@ isomorphism of the expanded unweighted tree.
 | 4 | 2 | 2 (= expansions of L4_star, L4_path) | 0 |
 | 5 | 3 | 0 (Taylor) | - |
 | 6 | 7 | **6** = expansion of L6 + 5 new | **5** |
-| 9 | 73 | pending | |
-| 11 | 488 | pending | |
-**Question 3.1 of OWY is answered YES already at L = 6**: e.g. `1-0:1 1-2:6 1-5:4 0-6:1 0-9:1 2-3:6 2-4:2 6-7:3 6-8:1`
+| 9 | 73 | INCONCLUSIVE: star (N=10) INFEASIBLE in 41 s; the N=11 topologies hit UNKNOWN at 3600 s (1 worker, enumerate-all); Hoffman2 jobs (7200 s) still running | |
+| 11 | 488 | INCONCLUSIVE (same) | |
+CP-SAT is not the right tool for L >= 9 (like the Leech case, README); a forcing/forest-style engine over leaf distances would be
+needed — left open.  **Question 3.1 of OWY is answered YES already at L = 6**: e.g. `1-0:1 1-2:6 1-5:4 0-6:1 0-9:1 2-3:6 2-4:2 6-7:3 6-8:1`
 (26 vertices after subdivision, leaves 3,4,5,7,8,9; vertices 1 and 2 have degree 3 and no leaf neighbour); leaf distances
 {3..17}: checked.  The five new trees are listed by `summarize_leaf.py 6`.
+
+## Summary table of new values (all OBSERVED; confidence label = how cross-checked)
+| quantity | literature | new value | confidence |
+|---|---|---|---|
+| M(11) | 59..77 (Calhoun 2007) | **60**, exactly 2 minimal trees | forest engine (2 machines/compilers, sharded) + independent per-topology DFS over all 235 topologies (2 machines, identical node counts); witnesses by independent checker |
+| M(12) | 69..94 | **77 <= M(12) <= 78** | UNSAT D<=76 by forest engine on Hoffman2 (all shards DONE); D=78 witness verified by checker; D=77 exhaustive queued |
+| M(13) | 80..119 | 80 <= M(13) <= 105 | upper bound = verified witness; lower bound literature |
+| modular Leech, order 5 | "none" (Leach-Walsh 2011 as quoted by Leach 2014) | **exist**: 2 topologies (P5; spider) / 4 U(11)-orbits | v1 + v2 + brute force over all labelings + checker |
+| modular Leech, order 9 | open | **none** (47 topologies) | v1 and v2 (different symmetry breaking / pruning) agree, 1.8e7 / 6.5e6 nodes |
+| modular Leech, order 10 | excluded by Leach Thm 2 | none (106 topologies) | v1 and v2 agree, Hoffman2 |
+| modular Leech, order 11 | open (allowed by Thm 2) | **none** (235 topologies) | v2 only (1.28e10 nodes, Hoffman2); v1 too slow — single-implementation result |
+| leaf-Leech, 6 leaves | only the expansion of L6 known; OWY Q3.1 open | **6 trees, 5 with irreducible vertices** (Q3.1: YES) | CP-SAT enumerate-all over all 7 series-reduced topologies + independent checker |
+| leaf-Leech, 9 and 11 leaves | open | INCONCLUSIVE (CP-SAT UNKNOWN) | — |
+
+Files: engines `mdd_forest.cpp`, `mdd_topo.c`, `mod_leech.c`, `mod_leech2.c`, `leaf_leech_cpsat.py`, `mdd_cpsat.py`, `mod_cpsat.py`
+(the two CP-SAT cross-checks were too slow to be useful); checker `checker_distinct.py`; tests `test_mdd_forest.py`,
+`test_mod_leech.py`; drivers `hoffman2_*_slurm.sh`, `agg_mdd.py`, `summarize_leaf.py`, `gen_leaf_topos.py`; raw outputs
+`runs/` (local) and `results_h2/` (Hoffman2 mirror: mdd_11/12 shards, mddtopo, mod2, mddub), `results/leaf_L*.jsonl`.
