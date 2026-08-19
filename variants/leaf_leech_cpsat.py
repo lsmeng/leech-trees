@@ -45,10 +45,15 @@ def solve(T, L, workers, tlimit, want_all=True):
     return s.StatusName(st), sols, s.WallTime()
 
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser(); ap.add_argument("L", type=int); ap.add_argument("--workers", type=int, default=1); ap.add_argument("--time", type=float, default=600); ap.add_argument("--all", action="store_true"); a = ap.parse_args()
-    os.makedirs("results", exist_ok=True); out = open(f"results/leaf_L{a.L}.jsonl", "a")
+    ap = argparse.ArgumentParser(); ap.add_argument("L", type=int); ap.add_argument("--workers", type=int, default=1); ap.add_argument("--time", type=float, default=600); ap.add_argument("--all", action="store_true"); ap.add_argument("--topos", help="jsonl of precomputed topologies (id, edges)"); ap.add_argument("--part", help="i/K: only topologies with index %% K == i"); a = ap.parse_args()
+    here = os.path.dirname(os.path.abspath(__file__)); os.makedirs(os.path.join(here, "results"), exist_ok=True)
+    pi, pk = (int(x) for x in a.part.split("/")) if a.part else (0, 1)
+    out = open(os.path.join(here, "results", f"leaf_L{a.L}" + (f"_part{pi}" if a.part else "") + ".jsonl"), "a")
     ntop = 0; nsol = 0; t0 = time.time(); statuses = {}
-    for i, T in enumerate(series_reduced_trees(a.L)):
+    if a.topos: gen = (nx.Graph([tuple(e) for e in json.loads(l)["edges"]]) for l in open(a.topos))
+    else: gen = series_reduced_trees(a.L)
+    for i, T in enumerate(gen):
+        if i % pk != pi: continue
         ntop += 1
         st, sols, wt = solve(T, a.L, a.workers, a.time, want_all=a.all)
         statuses[st] = statuses.get(st, 0) + 1

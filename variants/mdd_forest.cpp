@@ -35,6 +35,7 @@ struct BS { u64 w[NW];
 static const int MAXV = 20;
 static int n, N, E, G; static long long nodes = 0, nsol = 0, depthHist[40], nodeLimit = -1, maxSol = -1; static bool printSol = true, aborted = false;
 static int shardI = 0, shardK = 1, shardLevel = 8; static long long shardCnt = 0;
+static bool edgeFirst = false, lookahead = false; static int lookR = 2;   // translate look-ahead: -20% nodes but ~3x slower, off by default
 static int dist_[MAXV][MAXV], comp[MAXV], V; static u32 cm[MAXV]; static BS D0[MAXV]; static int hiD[MAXV];   // D0[x] = {0} U {d(x,x') : x' in comp(x)}
 static BS R, FULL; static int eu[MAXV], ev[MAXV], ew[MAXV], ne = 0; static int lvl = 1, gaps = 0;
 static BS saveD[MAXV][MAXV]; static int saveHi[MAXV][MAXV]; static u32 saveCm[MAXV][2]; static int saveV[MAXV];
@@ -83,8 +84,22 @@ static void rec(bool fresh) {
   { int h1 = 0, h2 = 0; for (int i = 0; i < V; i++) if (comp[i] == i) { int h = (hiD[i] + 1) / 2; if (h > h1) { h2 = h1; h1 = h; } else if (h > h2) h2 = h; }
     if (h1 + h2 + t > N) return; }
   BS RnotF; for (int i = 0; i < NW; i++) RnotF.w[i] = R.w[i] | ~FULL.w[i];
-  // (a) gap branch: t is never a distance
-  if (gaps < G) { int savL = lvl; gaps++; lvl = t + 1; rec(false); lvl = savL; gaps--; if (aborted) return; }
+  if (lookahead && ne < E && E - ne <= lookR) {
+    // Translate look-ahead.  For every component X of F and every vertex v outside X in the completed tree, the distances
+    // {d(u,v) : u in X} form a translate D0[x] + s (x = exit vertex of X towards v, s = d(x,v) >= t), pairwise distinct
+    // over v, disjoint from R, all <= N.  Hence (i) X needs at least n-|X| distinct fitting pairs (x,s); (ii) every future
+    // distance with at least one endpoint in an existing component lies in the union U of fitting translates, so the values
+    // of [t,N] \ R outside U are gaps except for at most C(n-V,2) new-new pairs: gaps + |([t,N]\R) \ U| - C(n-V,2) <= G.
+    BS U; U.clear(); int q = n - V; int newnew = q * (q - 1) / 2;
+    for (int c = 0; c < V; c++) if (comp[c] == c) { u32 cmk = cm[c]; int sz = __builtin_popcount(cmk); int need = n - sz; int cnt = 0;
+      for (u32 m = cmk; m; m &= m - 1) { int x = __builtin_ctz(m); int hx = hiD[x];
+        for (int s = t; s + hx <= N; s++) { BS T = D0[x].shl(s); if (T.inter(RnotF)) continue; cnt++; U.orw(T); } }
+      if (cnt < need) return; }
+    int unreal = 0; for (int i = 0; i < NW; i++) { u64 cand = FULL.w[i] & ~R.w[i] & ~U.w[i]; if (i == (t >> 6)) cand &= ~((1ULL << (t & 63)) - 1); else if (i < (t >> 6)) cand = 0; unreal += __builtin_popcountll(cand); }
+    if (gaps + unreal - newnew > G) return;
+  }
+  // (a) gap branch: t is never a distance (explored first by default; --edge-first explores it last, better for finding witnesses)
+  if (!edgeFirst && gaps < G) { int savL = lvl; gaps++; lvl = t + 1; rec(false); lvl = savL; gaps--; if (aborted) return; }
   // (b) t is the next edge weight
   u32 elig = 0; for (int i = 0; i < V; i++) { u32 c = cm[comp[i]]; if (__builtin_popcount(c) == 2 && (int)__builtin_ctz(c) != i) continue;
     if (hiD[i] + t > N) continue; BS T = D0[i].shl(t); if (T.inter(RnotF)) continue;
@@ -93,9 +108,10 @@ static void rec(bool fresh) {
   if (V < n) for (u32 m = elig; m; m &= m - 1) tryAdd(__builtin_ctz(m), V, t, true);
   if (V + 2 <= n) { int x = V, y = V + 1; int lv = ne; saveV[lv] = V; V += 2; comp[x] = x; comp[y] = x; cm[x] = (1u << x) | (1u << y); dist_[x][y] = dist_[y][x] = t;
     D0[x].clear(); D0[x].set(0); D0[x].set(t); D0[y] = D0[x]; hiD[x] = hiD[y] = t; R.set(t); eu[ne] = x; ev[ne] = y; ew[ne] = t; ne++; int savL = lvl; lvl = t + 1; rec(); lvl = savL; ne--; R.reset(t); V = saveV[lv]; }
+  if (edgeFirst && gaps < G && !aborted) { int savL = lvl; gaps++; lvl = t + 1; rec(false); lvl = savL; gaps--; }
 }
 int main(int argc, char** argv) {
-  if (argc < 3) { fprintf(stderr, "usage: mdd_forest n D [--shard i K] [--shard-level L] [--nodes L] [--maxsol S] [-q]\n"); return 1; }
+  if (argc < 3) { fprintf(stderr, "usage: mdd_forest n D [--shard i K] [--shard-level L] [--nodes L] [--maxsol S] [-q] [--edge-first] [--look [--look-r R]]\n"); return 1; }
   n = atoi(argv[1]); N = atoi(argv[2]); E = n - 1; V = 0; R.clear(); FULL.clear(); G = N - n * (n - 1) / 2;
   for (int i = 3; i < argc; i++) {
     if (!strcmp(argv[i], "--shard")) { shardI = atoi(argv[++i]); shardK = atoi(argv[++i]); }
@@ -103,6 +119,9 @@ int main(int argc, char** argv) {
     else if (!strcmp(argv[i], "--nodes")) nodeLimit = atoll(argv[++i]);
     else if (!strcmp(argv[i], "--maxsol")) maxSol = atoll(argv[++i]);
     else if (!strcmp(argv[i], "-q")) printSol = false;
+    else if (!strcmp(argv[i], "--edge-first")) edgeFirst = true;
+    else if (!strcmp(argv[i], "--look")) lookahead = true;
+    else if (!strcmp(argv[i], "--look-r")) lookR = atoi(argv[++i]);
   }
   if (G < 0) { printf("{\"n\": %d, \"D\": %d, \"status\": \"DONE\", \"nsol\": 0, \"nodes\": 0, \"time\": 0, \"note\": \"D < C(n,2)\"}\n", n, N); return 0; }
   for (int v = 1; v <= N; v++) FULL.set(v);
