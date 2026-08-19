@@ -97,3 +97,6 @@ Status: the per-level count sequence — a mathematical invariant of the forced-
 
 ## 2026-08-19 00:00 — per-topology engine: n=16 COMPLETE (OBSERVED)
 Hoffman2 per-topology run: 19,308 UNSAT (v1, cap 1800 s) + 12 UNKNOWN rerun with v2 (cap 6 h) → all 12 UNSAT in 673–1317 s ⇒ **19,320/19,320 topologies UNSAT** — independent-method reproduction of Calhoun 2007 (n=16). n=18 first pass at ~111k/122k with ~34% UNKNOWN at the 300 s cap; UNKNOWN rerun with v2 (cap 3600 s) to be queued after the first pass; this cross-check will outlive the 24-h window and is not on the critical path (forest engine ×2 implementations is the primary evidence).
+
+## 2026-08-19 03:30 — per-topology n=18 first pass COMPLETE (OBSERVED)
+Hoffman2 job 83594 (v1 engine, cap 300 s, easy-first): 122,344/122,344 survivor topologies processed: **73,021 UNSAT, 49,323 UNKNOWN, 0 SAT**. UNKNOWN rerun with v2 (cap 3600 s) queued as job `redo18` (60×7 procs, resumable, results/redo/). Independent-method cross-check therefore currently covers 59.7% of survivor topologies (plus the 1,523 non-survivors killed by proven filters); the forest-engine verdict (2 implementations, 4 runs) remains the primary evidence.
