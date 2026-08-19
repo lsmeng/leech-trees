@@ -60,7 +60,69 @@ Distribution of the 55 trees with max <= 65 by max distance: 60:2, 61:0, 62:6, 6
 n = 12: TBD
 
 ## B. Modular Leech trees (Leach & Walsh, JCMCC 78 (2011) 15-22 [not accessible]; Leach, Int. J. Combin. 2014, 218086)
-TBD
+
+**Definition** (Leach 2014, p.1, `variants/sources/Leach2014_IJC_modular_leech.txt`): T on n vertices, k = C(n,2)+1, an
+edge weighting w: E(T) -> Z_k such that the C(n,2) path sums taken mod k are exactly {1,...,k-1} (a bijection paths ->
+Z_k \ {0}).  LITERATURE: modular Leech trees exist for n = 2,3,4,6 (the Leech trees) and n = 8 (unique, over Z_29,
+Fig. 3, labels 25,2,1,12,3,18,22 up to unit multiplication); Leach 2014 Thm 1/2: if n = 2,3 (mod 4) and n != m^2+2 then
+none exist (so none for n = 7, 10, 14, 15, ...); "By Leach and Walsh [6] ... none exist for 5 or 7"; Thm 3: multiplying a
+labeling by a unit of Z_k gives a labeling.  Leach's search: "for n = 8 there are 23 distinct unlabeled trees. By computer
+search, we find that there is one modular Leech tree for n = 8 and the edge-weighting function is unique, up to group and
+graph isomorphism."  Nothing is stated about n >= 9.
+
+**Method.** `variants/mod_leech.c` (v1) and `variants/mod_leech2.c` (v2): per-topology DFS over networkx/nauty topologies
+(`variants/data/trees_n.jsonl`; n=9,11 are the frozen files of the main repo, n=7,8,10,12,13 generated with networkx
+nonisomorphic_trees).  Edges in BFS order from a max-degree root; a new edge attaches vertex c to placed p with label w in
+[1,k-1]; the new residues d(p,u)+w mod k (all placed u) must be nonzero and unused (u128 bitset).  Symmetry: v1 restricts the
+first edge to 1 (orbits with a unit there) or a non-unit, and reports orbits = A + B/phi(k) (the unit action is free
+because the sum 1 is realised); v2 keeps the label vector lexicographically minimal in its U(k)-orbit (a label w on edge i
+is allowed iff u*w >= w for every unit u fixing the earlier labels) and adds forward checking (every pending edge with a
+placed parent must still admit some label).  Both count orbits under U(k) (graph automorphisms are NOT factored out; SOL
+lines list all orbit representatives).  Validation (OBSERVED): brute force over all (k-1)^(n-1) labelings for n = 4,5,6
+(`variants/test_mod_leech.py`) agrees with v1 on every topology; v1 and v2 give identical orbit counts for n = 4..9
+(4, 4, 34, 0, 2, 0); every SOL passes `checker_distinct.py modular`; n = 8 reproduces Leach exactly: the unique topology
+(id 4 of trees_8, the tree of Leach's Fig. 3) with orbit count 2 = one labeling up to the leaf swap, and 3 x our labeling
+{1,4,18,6,10,17,20} = Leach's {3,12,25,18,1,22,2} (mod 29).
+
+**Results (OBSERVED)**
+| n | k | topologies | modular Leech trees (topologies / U(k)-orbits) | nodes (v1 / v2) | note |
+|---|---|---|---|---|---|
+| 4 | 7 | 2 | 2 / 4 | 18 / 16 | Leech's two trees |
+| 5 | 11 | 3 | **2 / 4** | 127 / 58 | P5 with labels 5,1,2,7 (path sums mod 11 = 1..10) and the spider 0-1:1 1-2:5 0-3:3 0-4:7; **contradicts "none exist for 5" as reported in Leach 2014 for [6]** (both witnesses verified by checker_distinct and by brute force) |
+| 6 | 16 | 6 | 2 / 34 | 21,837 / 1,700 | the double star (Leech tree, 16 orbits) and 1-0,1-2,1-3,0-4,4-5 (18 orbits) |
+| 7 | 22 | 11 | 0 | 461,340 / 30,853 | agrees with Leach Thm 2 |
+| 8 | 29 | 23 | 1 / 2 | 755,515 / 239,450 | = Leach 2014 |
+| 9 | 37 | 47 | **0** | 1.81e7 / 6.5e6 | NEW: no modular Leech tree of order 9 |
+| 10 | 46 | 106 | **0** | 1.42e10 (v1, Hoffman2, 14 procs, ~13 min) | consistent with Leach Thm 2 (10 = 2 mod 4, not m^2+2) |
+| 11 | 56 | 235 | pending (v2 on Hoffman2) | | 11 = 3^2+2 is allowed by Thm 2 |
+| 12 | 67 | 551 | not attempted (k prime, no unit symmetry gain; est. > 1e15 nodes) | | |
 
 ## C. Leaf-Leech trees (Ozen, Wang, Yalman, Integers 16 (2016) #A21)
-TBD
+
+**Definition** (Def. 1): an unweighted tree with L leaves whose leaf-leaf distances are exactly {3,...,C(L,2)+2}.
+LITERATURE: Prop. 1 (Taylor analogue) L = m^2 or m^2+2; Thm 1: the expansion T^e of a Leech tree is leaf-Leech (so
+L = 2,3,4,4,6 exist); Thm 2: a leaf-Leech tree without an *irreducible* vertex (degree >= 3 and no leaf neighbour) is the
+expansion of a Leech tree; Prop. 2/3: no starlike / caterpillar leaf-Leech trees with > 4 leaves; **Question 3.1: does a
+leaf-Leech tree with an irreducible vertex exist?** ("we have not been able to find a leaf-Leech tree that is not the
+expansion of a Leech tree").  Largest L with a known leaf-Leech tree: 6.
+
+**Method.** Contracting degree-2 vertices, a leaf-Leech tree = series-reduced tree (internal degrees >= 3) with L leaves and
+positive integer edge weights, weighted leaf-leaf distances = {3..S+2}.  `variants/gen_leaf_topos.py` enumerates all such
+topologies with nauty gentreeg (L+1 <= N <= 2L-2 vertices; cross-checked against networkx for N <= 14): L=9: 73
+topologies, L=11: 488.  `variants/leaf_leech_cpsat.py`: per topology CP-SAT (weights in [1,S+2], AllDifferent over the S
+leaf-pair distance variables in [3,S+2] = bijection), enumerate all solutions; every witness re-checked by
+`checker_distinct.py leaf` (BFS distances; irreducible vertices reported); `variants/summarize_leaf.py` dedups modulo
+isomorphism of the expanded unweighted tree.
+
+**Results (OBSERVED)**
+| L | topologies | leaf-Leech trees (distinct, expanded-tree isomorphism) | with irreducible vertex |
+|---|---|---|---|
+| 3 | 1 | 1 (= expansion of L3) | 0 |
+| 4 | 2 | 2 (= expansions of L4_star, L4_path) | 0 |
+| 5 | 3 | 0 (Taylor) | - |
+| 6 | 7 | **6** = expansion of L6 + 5 new | **5** |
+| 9 | 73 | pending | |
+| 11 | 488 | pending | |
+**Question 3.1 of OWY is answered YES already at L = 6**: e.g. `1-0:1 1-2:6 1-5:4 0-6:1 0-9:1 2-3:6 2-4:2 6-7:3 6-8:1`
+(26 vertices after subdivision, leaves 3,4,5,7,8,9; vertices 1 and 2 have degree 3 and no leaf neighbour); leaf distances
+{3..17}: checked.  The five new trees are listed by `summarize_leaf.py 6`.
