@@ -1,0 +1,207 @@
+Hindawi Publishing Corporation
+International Journal of Combinatorics
+Volume 2014, Article ID 218086, 2 pages
+http://dx.doi.org/10.1155/2014/218086
+
+
+
+
+Research Article
+Modular Leech Trees of Order at Most 8
+
+           David Leach
+           Department of Mathematics, University of West Georgia, 1601 Maple Street, Carrollton, GA 30118, USA
+
+           Correspondence should be addressed to David Leach; cleach@westga.edu
+
+           Received 11 August 2014; Accepted 2 September 2014; Published 18 September 2014
+
+           Academic Editor: Laszlo A. Szekely
+
+           Copyright © 2014 David Leach. This is an open access article distributed under the Creative Commons Attribution License, which
+           permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.
+
+           In 1975, John Leech asked when can the edges of a tree on 𝑛 vertices be labeled with positive integers such that the sums along the
+           paths are exactly the integers 1, 2, . . . , ( 𝑛2 ). He found five such trees, and no additional trees have been discovered since. In 2011
+           Leach and Walsh introduced the idea of labeling trees with elements of the group Z𝑘 where 𝑘 = ( 𝑛2 ) + 1 and examined the cases for
+           𝑛 ≤ 6. In this paper we show that no modular Leech trees of order 7 exist, and we find all modular Leech trees of order 8.
+
+
+
+1. Introduction                                                               previously known is the tree of order 6 found in [6] shown
+                                                                              in Figure 2. It was also shown in [6] that no modular Leech
+A tree on 𝑛 vertices is said to be a Leech tree if its edges can be           tree of order 5 exists.
+weighted with positive integers in such a way that each of the                    In Section 2 we will see how Taylor’s condition applies to
+( 𝑛2 ) paths has a distinct weight from the set {1, 2, . . . , ( 𝑛2 )}. The   modular Leech trees, and in Section 3 we will enumerate all
+weight of a path is found by summing all of its edge weights.                 Leech trees of order at most 8.
+Leech [1] found the five examples shown in Figure 1, which
+are to date the only ones known. In 1977, Taylor [2] proved
+that, in order for a Leech tree of order 𝑛 to exist, it must be that
+𝑛 = 𝑘2 or 𝑛 = 𝑘2 + 2 for some integer 𝑘. Since then it has been               2. Taylor’s Condition for Modular Leech Trees
+shown by several authors [3–5] that no Leech trees of order
+9, 11, or 16 exist, leaving 𝑛 = 18 as the smallest open case.                 For the normal Leech trees, Taylor’s condition restricts the
+Székely et al. [4] have conjectured that no additional Leech                 possible orders severely. However, with modular Leech trees
+trees exist. Since Leech trees are so difficult to come by, we                over Z𝑘 , Taylor’s condition only applies when 𝑘 is even. The
+consider the generalization to modular Leech trees.                           proof is very similar to half of Taylor’s proof.
+       Let 𝑇 be a tree on 𝑛 vertices and let 𝑘 = ( 𝑛2 ) + 1. We say           Theorem 1. Suppose that 𝑇 is a modular Leech tree of order 𝑛
+that 𝑇 is a modular Leech tree if there exists an edge weighting              and 𝑛 ≡ 2 or 3 (mod 4); then 𝑛 = 𝑚2 + 2 for some integer 𝑚.
+function 𝑤 : 𝐸(𝑇) → Z𝑘 such that each of the ( 𝑛2 ) paths
+within 𝑇 has a distinct weight from 1, 2, . . . , ( 𝑛2 ) with the             Proof. Assume that 𝑇 is a modular Leech tree of order 𝑛 and
+sums taken modulo ( 𝑛2 ) + 1. We call such an edge weighting                  that 𝑛 ≡ 2 or 3 (mod 4). Since 𝑛 ≡ 2 or 3 (mod 4), we have
+function a Z𝑘 -Leech labeling. Since the pathweights are all                  that ( 𝑛2 ) is odd and thus the modulus ( 𝑛2 ) + 1 is even.
+distinct, the function 𝑤 induces a bijection between the paths
+                                                                                  We color each vertex of the tree black or white as follows:
+of 𝑇 and the elements of the group Z𝑘 . We use 𝑤 to refer to
+                                                                              start at any vertex V and color it black. From V we color all
+this bijection as well.
+                                                                              other vertices by traversing the edges of the graph. We keep
+       Note that a “normal” Leech tree of order 𝑛 is also a                   the same color across edges with even weight and change
+modular Leech tree over Z( 𝑛 )+1 in which none of the path                    colors across edges with odd weight. When all vertices are
+                                 2
+sums, before applying the mod operation, have a weight                        colored, an edge connects different colored vertices if and
+greater than ( 𝑛2 ). Thus Leech’s original five examples provide              only if its weight is odd. Furthermore, since the modulus is
+us with five modular Leech trees. The only other example                      even, for any vertices 𝑢, V ∈ 𝑉(𝑇), the path from 𝑢 to V has
+2                                                                                            International Journal of Combinatorics
+
+         1               1    2               1       3        2
+                                                                                                   25                           2
+
+        1        2                                                             1           12           3        18
+                                  1               4
+                                          5
+             4
+                                      2           8
+                                                                                                                           22
+              Figure 1: The five known Leech trees.
+
+                                                                                   Figure 3: Leech tree of order 8 over Z29 .
+                     1
+                                              8
+                                  5
+                                                                   𝑏 ∈ Z𝑘 , there exists a path with weight 𝑏. Now define 𝑔 :
+                                                          12
+                     2                                             𝑃(𝑇) → Z𝑘 by 𝑔(𝑒) = 𝑏 ⋅ 𝑓(𝑒).
+                                                                        We now show that 𝑔 : 𝑃(𝑇) → Z𝑘 is bijective: let 𝑃1
+                                                                   and 𝑃2 be paths in 𝑇 and suppose that 𝑔(𝑃1 ) = 𝑔(𝑃2 ). Then
+                                                                   𝑏 ⋅ 𝑓(𝑃1 ) = 𝑏 ⋅ 𝑓(𝑃1 ). Since 𝑔𝑐𝑑(𝑏, 𝑘) = 1, 𝑏−1 exists and thus
+             Figure 2: Leech tree of order 6 over Z16 .            𝑓(𝑃1 ) = 𝑓(𝑃2 ). Since 𝑓 is a bijective, 𝑃1 = 𝑃2 and thus 𝑔 is
+                                                                   also bijective. Since 𝑔 : 𝑃(𝑇) → Z𝑘 is bijective, 𝑔 is a Leech
+                                                                   labeling of 𝑇.
+odd weight if and only if 𝑢 and V are colored with opposite
+colors.                                                            Corollary 4. If there exists a Z𝑘 -Leech labeling of a tree 𝑇 and
+    Now we count the number of odd paths in two ways: let 𝑏        𝑒 ∈ 𝐸(𝑇), then there exists a Z𝑘 -Leech labeling of 𝑇 in which
+and 𝑤 be the number of black and white vertices, respectively.     edge 𝑒 has weight 1.
+Thus the number of odd paths is 𝑏𝑤. Also, since there are ( 𝑛2 )
+                                                                       For 𝑛 = 8, there are 23 distinct unlabeled trees. By
+paths and ( 𝑛2 ) is odd, the number of odd paths is (1/2)((𝑛(𝑛 −
+                                                                   computer search, we find that there is one modular Leech tree
+1)/2) + 1). Putting these together gives 𝑛 − 2 = 𝑛2 − 4𝑏𝑤.
+                                                                   for 𝑛 = 8 and the edge-weighting function is unique, up to
+Substituting 𝑏+𝑤 for 𝑛 on the right side leads to 𝑛 = (𝑏−𝑤)2 +2    group and graph isomorphism. It is shown in Figure 3.
+and the theorem is proved.
+
+    The proof of Theorem 1 makes use of the fact that, under       Conflict of Interests
+the assumptions of the theorem, a path has odd weight if and       The author declares that there is no conflict of interests
+only if it contains an odd number of odd-weight edges. This        regarding the publication of this paper.
+fact does not hold when the modulus is odd. (For example,
+consider a path on four vertices with edges weighted 3, 5, and
+1 and examine the path-weights mod 7.) Recall that a normal        References
+Leech tree on 𝑛 vertices is also a modular Leech tree over Z𝑘
+                                                                   [1] J. Leech, “Research problems: another tree labelling problem,”
+where 𝑘 = ( 𝑛2 ) + 1 and by Taylor’s condition 𝑛 = 𝑚2 or 𝑚2 + 2        The American Mathematical Monthly, vol. 82, no. 9, pp. 923–925,
+for some integer 𝑚. We can conclude the following.                     1975.
+                                                                   [2] H. Taylor, “Odd path sums in an edge-labeled tree,” Mathematics
+Theorem 2. If there exists a modular Leech tree of order 𝑛, and        Magazine, vol. 50, no. 5, pp. 258–259, 1977.
+𝑛 is not 𝑚2 + 2 for some integer 𝑚, then 𝑛 ≡ 0 or 1 (mod 4).       [3] H. Taylor, “A distinct distance set of 9 nodes in a tree of diameter
+                                                                       36,” Discrete Mathematics, vol. 93, no. 2-3, pp. 167–168, 1991.
+                                                                   [4] L. A. Székely, H. Wang, and Y. Zhang, “Some non-existence
+3. Computational Results                                               results on Leech trees,” Bulletin of the Institute of Combinatorics
+                                                                       and its Applications, vol. 44, pp. 37–45, 2005.
+We have already seen modular Leech trees of orders 2, 3, 4,        [5] B. Calhoun, K. Ferland, L. Lister, and J. Polhill, “Minimal
+and 6. By Leach and Walsh [6] and Theorem 2 we know that               distinct distance trees,” Journal of Combinatorial Mathematics
+none exist for 5 or 7. To examine larger values of 𝑛, we use           and Combinatorial Computing, vol. 61, pp. 33–57, 2007.
+computer search. The following theorem and corollary reduce        [6] D. Leach and M. Walsh, “Generalized Leech trees,” Journal of
+the space that must be searched.                                       Combinatorial Mathematics and Combinatorial Computing, vol.
+                                                                       78, pp. 15–22, 2011.
+Theorem 3. Let 𝑛 be an integer and 𝑘 = ( 𝑛2 ) + 1. Suppose that
+𝑓 : 𝐸(𝑇) → Z𝑘 is a Z𝑘 -Leech labeling of a tree 𝑇. Then for any
+𝑏 ∈ Z𝑘 satisfying 𝑔𝑐𝑑(𝑏, 𝑘) = 1, the function 𝑔 : 𝐸(𝑇) → Z𝑘
+defined by 𝑔(𝑒) = 𝑏 ⋅ 𝑓(𝑒) is also a Z𝑘 -Leech labeling of 𝑇.
+
+Proof. Let 𝑃(𝑇) be the set of all paths in 𝑇. We can consider
+𝑓 as a bijection between 𝑃(𝑇) and Z𝑘 , so for every nonzero
+Advances in                                                                        Advances in                                    Journal of                                                                                    Journal of
+Operations Research
+Hindawi Publishing Corporation
+                                                                                   Decision Sciences
+                                                                                   Hindawi Publishing Corporation
+                                                                                                                                  Applied Mathematics
+                                                                                                                                  Hindawi Publishing Corporation
+                                                                                                                                                                                 Algebra
+                                                                                                                                                                                 Hindawi Publishing Corporation
+                                                                                                                                                                                                                                Probability and Statistics
+                                                                                                                                                                                                                                Hindawi Publishing Corporation
+http://www.hindawi.com                                            Volume 2014      http://www.hindawi.com           Volume 2014   http://www.hindawi.com           Volume 2014   http://www.hindawi.com           Volume 2014   http://www.hindawi.com           Volume 2014
+
+
+
+
+The Scientific                                                                                                                                                                                                                  International Journal of
+World Journal
+Hindawi Publishing Corporation
+                                                                                                                                                                                                                                Differential Equations
+                                                                                                                                                                                                                                Hindawi Publishing Corporation
+http://www.hindawi.com                                            Volume 2014                                                                                                                                                   http://www.hindawi.com           Volume 2014
+
+
+
+
+                                                                                                                     Submit your manuscripts at
+                                                                                                                      http://www.hindawi.com
+
+International Journal of                                                                                                                                                                                                        Advances in
+Combinatorics
+Hindawi Publishing Corporation
+                                                                                                                                                                                                                                Mathematical Physics
+                                                                                                                                                                                                                                Hindawi Publishing Corporation
+http://www.hindawi.com                                            Volume 2014                                                                                                                                                   http://www.hindawi.com           Volume 2014
+
+
+
+
+Journal of                                                                         Journal of                                     Mathematical Problems                          Abstract and                                   Discrete Dynamics in
+Complex Analysis
+Hindawi Publishing Corporation
+                                                                                   Mathematics
+                                                                                   Hindawi Publishing Corporation
+                                                                                                                                  in Engineering
+                                                                                                                                  Hindawi Publishing Corporation
+                                                                                                                                                                                 Applied Analysis
+                                                                                                                                                                                 Hindawi Publishing Corporation
+                                                                                                                                                                                                                                Nature and Society
+                                                                                                                                                                                                                                Hindawi Publishing Corporation
+http://www.hindawi.com                                            Volume 2014      http://www.hindawi.com           Volume 2014   http://www.hindawi.com           Volume 2014   http://www.hindawi.com           Volume 2014   http://www.hindawi.com           Volume 2014
+
+
+
+
+                                 International
+                                 Journal of                                        Journal of
+                                 Mathematics and
+                                 Mathematical
+                                                                                   Discrete Mathematics
+                                 Sciences
+
+
+
+                                                                                                                                  Journal of                                     International Journal of                       Journal of
+
+                                 Hindawi Publishing Corporation                    Hindawi Publishing Corporation   Volume 2014
+                                                                                                                                  Function Spaces
+                                                                                                                                  Hindawi Publishing Corporation
+                                                                                                                                                                                 Stochastic Analysis
+                                                                                                                                                                                 Hindawi Publishing Corporation
+                                                                                                                                                                                                                                Optimization
+                                                                                                                                                                                                                                Hindawi Publishing Corporation
+                                 http://www.hindawi.com              Volume 2014   http://www.hindawi.com                         http://www.hindawi.com           Volume 2014   http://www.hindawi.com           Volume 2014   http://www.hindawi.com           Volume 2014
+
