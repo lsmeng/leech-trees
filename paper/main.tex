@@ -1,0 +1,1093 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage[margin=1.05in]{geometry}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[hidelinks,pdfusetitle]{hyperref}
+\usepackage{url}
+\urlstyle{same}
+
+% ---------------------------------------------------------------------------
+% \todo{...}: visible marker for items the author must confirm before submission.
+% Set \todofalse to hide them.
+\newif\iftodo\todotrue
+\newcommand{\todo}[1]{\iftodo{\color{red!80!black}\sffamily\bfseries [TODO: #1]}\fi}
+% ---------------------------------------------------------------------------
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem*{remark*}{Remark}
+
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\bin}[2]{\binom{#1}{#2}}
+\newcommand{\file}[1]{\texttt{#1}}
+
+\title{There is no Leech tree on 18 vertices\\[3pt]
+  \large and related distinct-distance tree problems}
+\author{Lingsen Meng\\[2pt]
+  \small Department of Earth, Planetary, and Space Sciences,\\[-2pt]
+  \small University of California, Los Angeles, CA 90095, USA\\[-2pt]
+  \small \texttt{meng@epss.ucla.edu}\ \todo{author to confirm e-mail address}}
+\date{Draft of 19 August 2026}
+
+\hypersetup{
+  pdftitle={There is no Leech tree on 18 vertices, and related distinct-distance tree problems},
+  pdfauthor={Lingsen Meng},
+  pdfsubject={Leech trees, distinct distance trees, exhaustive search}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A \emph{Leech tree} of order $n$ is a tree on $n$ vertices with positive integer
+edge weights whose $\bin n2$ pairwise path-weights are exactly $1,2,\dots,\bin n2$.
+Leech (1975) found five such trees, of orders $2,3,4,4,6$; Taylor (1977) showed
+that the order must be a square or a square plus two; computer searches by
+Sz\'ekely, Wang and Zhang (2005) and by Calhoun, Ferland, Lister and Polhill (2007)
+excluded the admissible orders $9$, $11$ and $16$, so that $n=18$ has been the
+smallest open order.  We show that there is no Leech tree on $18$ vertices.  The
+proof is an exhaustive computer search over ``forced forests'' in the sense of
+Calhoun et al., organised so that every weighted forest that can occur as the set
+of lightest edges of a Leech tree is generated exactly once up to isomorphism.
+The search tree has $59{,}779{,}854{,}336$ nodes and contains no tree on $18$
+vertices; its per-level node counts are a mathematical invariant (the number of
+non-isomorphic forced forests with a given number of edges) which we report and
+which was reproduced bit-for-bit by three independent runs on two architectures
+and two compilers, and by an independent clean-room implementation written from
+the algorithm description alone.  We also record the same statistics for
+$n\le 17$, where the search reproduces the known results, and discuss what would
+be needed to turn the computation into a formally checkable certificate.
+Variants of the same two engines settle several neighbouring questions: for the
+minimal distinct distance trees of Calhoun et al.\ we obtain $M(11)=60$, with
+exactly two minimal trees, and $77\le M(12)\le 78$ (their bounds were
+$59\le M(11)\le 77$, $69\le M(12)\le 94$); there is no modular Leech tree of
+order $9$ or of order $11$, while modular Leech trees of order $5$ do exist,
+contrary to a statement quoted in the literature; and there are exactly six
+leaf-Leech trees with six leaves, five of which contain an irreducible vertex,
+which answers Question 3.1 of Ozen, Wang and Yalman in the affirmative.
+\end{abstract}
+
+\noindent\textbf{Keywords.} Leech tree, perfect distance tree, distinct distance
+tree, minimal distinct distance tree, modular Leech tree, leaf-Leech tree,
+Golomb ruler, Sidon set, exhaustive search, computer-assisted proof.
+
+\noindent\textbf{MSC 2020.} 05C05, 05C78, 05C85, 11B83.
+
+\section{Introduction}\label{sec:intro}
+
+Let $T$ be a tree on $n$ vertices with a weight $w(e)\in\Z_{>0}$ on every edge,
+and let $d(x,y)$ denote the weight of the (unique) $x$--$y$ path.  Following
+Leech~\cite{Leech1975} we call $(T,w)$ a \emph{Leech tree} (also \emph{perfect
+distance tree}, \emph{perfect distance-distinct tree}) if the multiset
+$\{d(x,y):\{x,y\}\subseteq V(T)\}$ equals $\{1,2,\dots,N\}$ with $N=\bin n2$.
+Leech exhibited the five Leech trees of Table~\ref{tab:known} and asked whether
+there are any others.  None has been found since.
+
+\begin{table}[ht]
+\centering
+\caption{The five known Leech trees \cite{Leech1975}.  Weights are listed as
+edge lists $u$--$v$:$w$ on vertices $0,1,\dots$; each labelling is unique up to
+isomorphism.}
+\label{tab:known}
+\small
+\begin{tabular}{@{}cllll@{}}
+\toprule
+$n$ & $N$ & tree & weighted edges & remark\\
+\midrule
+2 & 1  & $K_2$            & 0--1:1 & \\
+3 & 3  & $P_3$            & 0--1:1, 1--2:2 & \\
+4 & 6  & $K_{1,3}$ (star) & 0--1:1, 0--2:2, 0--3:4 & \\
+4 & 6  & $P_4$ (path)     & 0--1:1, 1--2:3, 2--3:2 & weight 3 must be the middle edge\\
+6 & 15 & $B_{2,2}$ (double star) & 0--1:1, 0--2:2, 0--3:5, 3--4:4, 3--5:8 & centres $0,3$ joined by weight $5$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Necessary conditions on the order were given by Taylor~\cite{Taylor1977}:
+counting odd distances shows that a Leech tree of order $n$ exists only if
+$n=k^2$ or $n=k^2+2$ for some integer $k$ (Lemma~\ref{lem:taylor} below).  The
+admissible orders are therefore $2,3,4,6,9,11,16,18,25,27,\dots$.  Sz\'ekely,
+Wang and Zhang~\cite{SzekelyWangZhang2005} excluded $n=9$ (also excluded by Shen
+Lin's search reported by Taylor~\cite{Taylor1991}) and $n=11$ by computer search,
+and proved asymptotic upper bounds on the length of a path and on the maximum
+degree of a Leech tree.  Calhoun, Ferland, Lister and Polhill~\cite{Calhoun2007}
+introduced \emph{distinct distance trees} (all path weights distinct, not
+necessarily forming an interval), gave a backtracking algorithm over weighted
+forests with a \emph{forced next weight} (their Lemma~2.6 and Algorithm~2.7), and
+determined all perfect distance trees of order $n<18$; in particular they
+excluded $n=16$.  Their summary states the bound as $n\le 24$, but their
+abstract, their Table~1 (where the entry for $n=18$ is only the trivial lower
+bound), and every later paper give $n<18$; we treat ``24'' as a misprint.
+Further structural results---the non-existence of Leech trees of diameter~$3$
+for $n\ge 7$, of certain ``brooms'', the ``leaf-Leech'' transformation, and Luo
+and Yu's finiteness result for diameter~$4$ and improved degree bound---are in
+\cite{OzenWangYalman2016,Varghese2020,LuoYu2024}; a Leech labelling of general
+graphs was introduced in \cite{Eldho2024}.  The order $n=18$ is listed as the
+smallest open case, for instance in \cite{Varghese2020,OzenWangYalman2016} and
+in the FrontierMath open-problem list~\cite{FrontierMath}.
+
+In this note we settle the case $n=18$.
+
+\begin{theorem}\label{thm:main}
+There is no Leech tree on $18$ vertices.
+\end{theorem}
+
+The proof is a computer search.  Its mathematical content is small---the forcing
+lemma of \cite{SzekelyWangZhang2005,Calhoun2007} and an elementary description of
+the automorphism group of a forest with distinct edge weights
+(Lemma~\ref{lem:aut}), which yields a search tree in which every relevant
+weighted forest appears exactly once up to isomorphism---and its cost is modest
+(about $6\times10^{10}$ search nodes, a few CPU-hours).  We nevertheless think
+that a careful account is warranted, for three reasons.  First, because $n=18$
+has been repeatedly cited as open, the result should be stated with a precise
+description of what was computed and how it was checked.  Second, the per-level
+node counts of the search are a well-defined combinatorial quantity (the number
+of non-isomorphic ``forced forests'' with $k$ edges that fit inside a Leech tree
+of order $18$), so that the computation is falsifiable in a much stronger sense
+than a bare ``no solution found'': any re-implementation must reproduce eighteen
+integers, not one bit.  Third, we want to be explicit about the status of the
+result as a computer-assisted theorem, including the parts that are and are not
+covered by independent verification (Section~\ref{sec:discussion}).
+
+The rest of the note is organised as follows.  Section~\ref{sec:prelim}
+collects the lemmas that are used, marking which are classical and which are
+(minor) additions.  Section~\ref{sec:algorithm} describes the algorithm and
+proves that it is complete and free of isomorphic duplicates.
+Section~\ref{sec:verification} describes the verification strategy.
+Section~\ref{sec:results} states the results for $n\le 18$, including the
+per-level tables.  Section~\ref{sec:variants} reports what the same two engines
+give on three neighbouring problems---minimal distinct distance trees, modular
+Leech trees, and leaf-Leech trees---where the literature leaves gaps that a
+search of this kind can close.  Section~\ref{sec:discussion} discusses the status
+of the proof and what remains open.
+
+\section{Preliminaries}\label{sec:prelim}
+
+Throughout, $n$ is the order, $N=\bin n2$, and ``distance'' means weighted path
+length.  Weighted forests are considered up to isomorphism (a bijection of
+vertices preserving edges and weights).  We say that a weighted forest is
+\emph{distance-distinct} if the distances between pairs of vertices in the same
+component are pairwise distinct.  All lemmas below are elementary; we include
+proofs of the two that carry the main argument (Lemmas~\ref{lem:forcing} and
+\ref{lem:aut}) and sketch the rest.
+
+\begin{lemma}[forcing lemma; {\cite[``Find-Next-Weight'']{SzekelyWangZhang2005}},
+{\cite[Lemma 2.6]{Calhoun2007}}]\label{lem:forcing}
+Let $(T,w)$ be a Leech tree with edge weights $w_1<w_2<\dots<w_{n-1}$, and for
+$1\le k\le n-1$ let $F_{k-1}$ be the forest formed by the edges of weights
+$w_1,\dots,w_{k-1}$.  Then $w_k$ equals the least positive integer that is not a
+distance within a component of $F_{k-1}$.
+\end{lemma}
+
+\begin{proof}
+Let $m$ be that least missing integer.  If $w_k<m$ then $w_k$ is already a
+distance in $F_{k-1}$, contradicting distinctness.  If $w_k>m$ then $m$ is not an
+edge weight, and any path realising $m$ has at least two edges, hence every edge
+on it has weight $<m<w_k$ and lies in $F_{k-1}$; so $m$ would be a distance in
+$F_{k-1}$, contradiction.  Hence $w_k=m$.
+\end{proof}
+
+Consequently $w_1=1$, $w_2=2$, and $w_3\in\{3,4\}$ according as the edges of
+weight $1$ and $2$ are non-adjacent or adjacent; a Leech labelling of a given
+tree is determined by the \emph{order} in which its edges receive their weights.
+Note that Lemma~\ref{lem:forcing} fails for graphs with cycles~\cite{Calhoun2007}.
+
+\begin{lemma}[Taylor's parity condition~\cite{Taylor1977}; cf.\ {\cite[Thm.~1]{SzekelyWangZhang2005}}, {\cite[Thm.~1.3]{Calhoun2007}}]\label{lem:taylor}
+If a Leech tree of order $n$ exists, then $n=k^2$ or $n=k^2+2$ for an integer
+$k$; the vertex classes $A,B$ at even and odd weighted distance from a fixed
+vertex satisfy $|A|\,|B|=\lceil N/2\rceil$.  For $n=18$: $N=153$,
+$\{|A|,|B|\}=\{11,7\}$.
+\end{lemma}
+
+\begin{proof}[Sketch]
+$d(x,y)\equiv d(x,z)+d(y,z)\pmod 2$ in a tree; a distance is odd iff its ends lie
+in different classes, so $|A|\,|B|=\lceil N/2\rceil$, and
+$(|A|-|B|)^2=n^2-4|A|\,|B|\in\{n,n-2\}$.
+\end{proof}
+
+\begin{lemma}[cut identity]\label{lem:cut}
+For any weighted tree, $\sum_{x<y}d(x,y)=\sum_e c_e\,w(e)$, where
+$c_e=s_e(n-s_e)$ is the number of vertex pairs separated by $e$ and $s_e$ is the
+number of vertices on one side of $e$.  For a Leech tree the left side is
+$N(N+1)/2$.
+\end{lemma}
+
+\begin{lemma}[Golomb and containment bounds]\label{lem:golomb}
+In a distance-distinct weighted tree:
+\begin{enumerate}
+\item[(a)] the vertices of any path with $h$ edges, placed on a line at their
+cumulative distances, form a Golomb ruler with $h+1$ marks, so $d(x,y)\ge
+G(h+1)$ where $G(m)$ is the length of an optimal Golomb ruler with $m$ marks;
+\item[(b)] if the tree is Leech, every path weight is at most $N$, so the (hop)
+diameter $D$ satisfies $G(D+1)\le N$;
+\item[(c)] (containment) if $s_x,s_y$ denote the number of vertices ``behind''
+$x$ and $y$ on the $x$--$y$ path (so that $s_xs_y$ pairs have paths containing
+the $x$--$y$ path), then in a Leech tree $d(x,y)\le N+1-s_xs_y$; in particular
+$w(e)\le N+1-c_e$ for every edge.
+\end{enumerate}
+\end{lemma}
+
+The values
+\[
+G(1),\dots,G(17)=0,1,3,6,11,17,25,34,44,55,72,85,106,127,151,177,199
+\]
+(OEIS A003022 \cite{OEIS}) are used; $G(m)$ for $m\le 13$ was re-verified by
+exhaustive search for this project, and $G(14),\dots,G(17)$ are taken from the
+literature (Shearer's tables~\cite{Shearer1990}; the proof of the 19-mark ruler
+\cite{Dollas1998}; the distributed.net OGR project~\cite{DistributedNetOGR}).
+Since $G(16)=177>153=N$, a Leech tree of order $18$ has hop-diameter at most
+$14$.  This strengthens the exact finite form of
+\cite[Thm.~2]{SzekelyWangZhang2005} (which gives diameter $\le 15$ at $n=18$).
+
+\begin{lemma}[star-Sidon degree bound]\label{lem:sidon}
+Let $v$ be a vertex of degree $d$ in a Leech tree of order $n$ with incident
+weights $a_1<\dots<a_d$.  Then the $a_i$ and the $\bin d2$ sums $a_i+a_j$
+($i<j$) are $d+\bin d2$ pairwise distinct integers in $[1,N]$; call a set of
+positive integers with this property (pairwise sums of \emph{distinct} elements
+distinct and different from the elements) \emph{star-Sidon}.  Let $S(d)$ be the
+minimum of $a_{d-1}+a_d$ over star-Sidon sets of size $d$; then
+$S(d)\le a_{d-1}+a_d\le N+1-b_{(1)}b_{(2)}$, where $b_{(1)}\le b_{(2)}$ are the
+two smallest branch sizes at $v$.  Exhaustive computation gives
+\begin{center}
+\begin{tabular}{@{}l*{11}{r}@{}}
+\toprule
+$d$    & 2 & 3 & 4  & 5  & 6  & 7  & 8  & 9  & 10  & 11  & 12\\
+\midrule
+$S(d)$ & 3 & 6 & 11 & 19 & 31 & 43 & 63 & 80 & 110 & 138 & 169\\
+\bottomrule
+\end{tabular}
+\end{center}
+and $S$ is non-decreasing in $d$.  Since $S(12)=169>153$, the maximum degree of
+a Leech tree of order $18$ is at most $11$ (a degree-$11$ vertex is possible only
+with $b_{(1)}b_{(2)}\le 16$).
+\end{lemma}
+
+\begin{remark*}[correction]
+An earlier version of this lemma asserted that the incident weights form a
+Golomb ruler (equivalently a Sidon set in the strong sense) and used
+$G(d)+G(d-1)+2$ in place of $S(d)$.  That is false: the Leech condition only
+makes $\{a_i\}$ a \emph{weak} Sidon set (sums of two distinct elements
+distinct); three-term arithmetic progressions among the $a_i$ are not excluded.
+The star $K_{1,7}$ with weights $\{1,2,4,8,14,19,24\}$ has all $28$ distances
+distinct, yet $a_6+a_7=43<44=G(7)+G(6)+2$; the correct minima are those in the
+table (the two sequences differ from $d=6$ on).  The counterexample was found
+during the internal audit of the search code (Section~\ref{sec:verification}).
+The maximum-degree consequence at $n=18$ ($\Delta\le 11$) is unaffected: it
+also follows from an exhaustive search over star-Sidon sets with all elements
+and sums $\le 153$, which finds a set of size $11$ (e.g.\
+$\{1,2,4,7,12,23,32,41,56,70,83\}$) and none of size $12$.
+Lemma~\ref{lem:sidon} is a finite, explicit version of the idea behind
+\cite[Thm.~3]{SzekelyWangZhang2005} and, we believe, of \cite{LuoYu2024}; we
+could not access the text of \cite{LuoYu2024} and make no claim of priority.
+\todo{obtain Luo--Yu 2024 and compare with Lemma~\ref{lem:sidon}}
+\end{remark*}
+
+\begin{lemma}[weight bounds; {\cite[Thms.~2.8, 2.9]{Calhoun2007}}]\label{lem:weights}
+In a Leech tree of order $n$ the largest edge weight satisfies
+$m_1\le\lfloor(4n-1)^2/48\rfloor$ and the second largest
+$m_2\le\lfloor(N-1)/2\rfloor$; more generally the weights of any set of edges
+lying on a common path sum to at most $N$.  At $n=18$: $m_1\le 105$,
+$m_2\le 76$.
+\end{lemma}
+
+\paragraph{What is used where.}
+It is worth being precise about which of these statements the proof of
+Theorem~\ref{thm:main} depends on.  The forest search of
+Section~\ref{sec:algorithm} uses only Lemma~\ref{lem:forcing}, the trivial facts
+that all distances are distinct and at most $N$ and that a subforest of a Leech
+tree has at most $n$ vertices, the ``common path'' case of
+Lemma~\ref{lem:weights} (any two edges lie on a common path, so $w(e)+w(f)\le N$;
+this rule was found never to prune anything at $n\le 18$), and
+Lemma~\ref{lem:aut} below.  Lemmas~\ref{lem:taylor}--\ref{lem:sidon} and the
+rest of Lemma~\ref{lem:weights} are \emph{not} needed for Theorem~\ref{thm:main};
+they are used in the independent per-topology engine
+(Section~\ref{sec:pertopology}) as pruning rules and as topology filters, and are
+recorded here because they were verified in the course of the project and
+because Lemma~\ref{lem:sidon} corrects a statement that circulated in our own
+notes.  Lemmas~\ref{lem:forcing}, \ref{lem:taylor}, \ref{lem:weights} and
+Lemma~\ref{lem:golomb}(a),(b) are from the literature (\ref{lem:golomb}(b) as
+applied to the diameter is folklore; \cite[Prop.~1.2]{Calhoun2007} uses it for
+paths); Lemma~\ref{lem:cut}, Lemma~\ref{lem:golomb}(c), Lemma~\ref{lem:sidon}
+(in the corrected form) and Lemma~\ref{lem:aut} do not seem to appear in the
+Leech tree literature, though none of them is deep.
+
+\section{The algorithm}\label{sec:algorithm}
+
+\subsection{Forced forests}\label{sec:forced}
+
+Fix $n$ and $N=\bin n2$.  By Lemma~\ref{lem:forcing}, if $(T,w)$ is a Leech tree
+and $t\ge 1$, then the subforest $F_t=\{e\in T:w(e)<t\}$ satisfies:
+(i) $F_t$ is distance-distinct with all distances in $[1,N]$;
+(ii) $F_t$ has at most $n$ vertices (we regard $F_t$ as a forest without
+isolated vertices; the vertex set is the set of endpoints of its edges);
+(iii) if $t'$ is the least positive integer that is not a distance of $F_t$, then
+either $F_t=T$ (in which case $t'=N+1$), or $T$ has an edge $e$ of weight exactly
+$t'$ and $F_{t'+1}=F_t+e$.
+Call a weighted forest \emph{forced} (for the target $[1,N]$ and order $n$) if it
+arises from the empty forest by repeatedly adding an edge whose weight is the
+least missing distance, in one of three ways: \emph{join} (the new edge connects
+two existing components), \emph{attach} (one endpoint is a new vertex), or
+\emph{new} (both endpoints are new; a fresh single-edge component), never
+exceeding $n$ vertices and never repeating a distance or exceeding $N$.  This is
+exactly the search of \cite[Alg.~2.7]{Calhoun2007}.  By (iii) every Leech tree
+of order $n$ is a forced forest with $n-1$ edges and $n$ vertices; conversely a
+forced forest with $n$ vertices and $n-1$ edges is a tree in which every value
+$1,\dots,N$ is realised (the least missing value has been pushed to $N+1$),
+hence a Leech tree.
+
+The natural DFS enumerates forced forests level by level (level $k$ = $k$
+edges).  Its cost is dominated by the last few levels, and without symmetry
+reduction the same abstract forest is generated many times, since the endpoints
+of single-edge components and the components themselves can be listed in many
+orders.  The one idea that makes the search cheap is complete isomorph
+rejection, for which the following two lemmas suffice.
+
+\subsection{Isomorph rejection}\label{sec:isomorph}
+
+\begin{lemma}[canonical parent]\label{lem:parent}
+In a forced forest the edge weights are pairwise distinct and the weights of
+successive edges are strictly increasing; hence removing the edge of maximum
+weight from a forced forest with $k+1$ edges yields a forced forest with $k$
+edges, and this parent is well defined up to isomorphism.
+\end{lemma}
+
+\begin{proof}
+Each new weight $t$ is the least missing distance and becomes a distance once
+the edge is added, so later weights are larger.  Deleting the last edge returns
+to the previous state of the DFS.
+\end{proof}
+
+\begin{lemma}[automorphisms of a distinct-weight forest]\label{lem:aut}
+Let $P$ be a forest without isolated vertices whose edge weights are pairwise
+distinct.  Then the group of weight-preserving automorphisms of $P$ is generated
+by the transpositions of the two endpoints of the single-edge components of $P$;
+in particular $\Aut(P)\cong\Z_2^{\,s}$, where $s$ is the number of single-edge
+components, and it acts on components independently.
+\end{lemma}
+
+\begin{proof}
+Let $\varphi$ be a weight-preserving automorphism.  Since the weights are
+distinct, $\varphi$ fixes every edge setwise.  If two distinct edges $e,f$ share
+a vertex $v$, then $\varphi(v)\in e\cap f=\{v\}$, so $v$ is fixed.  In a
+component with at least two edges every edge has an endpoint of degree $\ge 2$;
+that endpoint is fixed, and then the other endpoint of the (setwise fixed) edge
+is fixed too.  So every component with $\ge 2$ edges is fixed pointwise.  A
+single-edge component admits exactly the identity and the endpoint swap, and
+swaps of different components commute and are independent.
+\end{proof}
+
+\begin{proposition}[exactly-once generation]\label{prop:once}
+Consider the following restricted DFS.  Vertices are labelled in order of
+appearance.  At a node $P$ (a labelled forced forest), the \emph{eligible}
+vertices are all vertices of $P$ except the larger-labelled endpoint of each
+single-edge component.  Children are: all joins between eligible vertices $x<y$
+in different components; all attachments of a new vertex to an eligible vertex
+$x$; and, if $P$ has at most $n-2$ vertices, the single ``new'' child.  (Each
+child is kept only if it is a forced forest, i.e.\ passes the distance and
+vertex tests.)  Then every abstract forced forest with $k$ edges is generated
+exactly once at level $k$, for every $k$.
+\end{proposition}
+
+\begin{proof}
+Induction on $k$.  Assume the level-$k$ nodes are pairwise non-isomorphic and
+cover every abstract forced forest with $k$ edges.  Let $G$ be an abstract
+forced forest with $k+1$ edges, $e$ its maximum-weight edge and $P=G-e$; by
+Lemma~\ref{lem:parent}, $P$ is a forced forest with $k$ edges, so it appears
+exactly once as a labelled node $P'$.  Two extensions $P'+(x,y,t)$ and
+$P'+(x',y',t)$ (with the same forced weight $t$) are isomorphic iff some
+$\varphi\in\Aut(P')$ maps $\{x,y\}$ to $\{x',y'\}$: an isomorphism of the
+children fixes the unique maximum-weight edge and restricts to an automorphism
+of the parents.  By Lemma~\ref{lem:aut}, $\Aut(P')$ is the product of the
+endpoint swaps of the single-edge components, so the orbit of an endpoint set is
+obtained by independently swapping the endpoint(s) that lie in single-edge
+components.  Choosing the smaller label in each single-edge component therefore
+selects exactly one representative per orbit for joins (unordered pairs in
+distinct components), for attachments (orbit of $x$), and trivially for the
+``new'' child.  Children of non-isomorphic parents are non-isomorphic (their
+canonical parents would be isomorphic).
+\end{proof}
+
+Proposition~\ref{prop:once} is what allows the search tree to be \emph{counted}:
+its level-$k$ node count equals the number of non-isomorphic forced forests with
+$k$ edges for the given $(n,N)$.  This makes the computation checkable in the
+strong sense discussed in the Introduction.  Because $\Aut$ is recomputed from
+the current component structure at each node, no automorphism state is cached;
+the appearance-order labelling is used only to pick ``the smaller endpoint of a
+two-vertex component''.
+
+\subsection{Implementation and sharding}\label{sec:impl}
+
+The engine (\file{forest\_search.cpp}, C++17, no dependencies) keeps, for each
+vertex $x$, the bitset $D_0[x]$ of distances from $x$ within its component, and
+the bitset $R$ of realised distances.  Adding an edge $(x,y,t)$ generates the new
+distances as shifted unions $D_0[x]+t+D_0[y]$; a child is rejected as soon as a
+shifted set meets $R$ or exceeds $N$, and a per-vertex prefilter discards $x$
+when already the distances from $x$ to the \emph{new neighbour} alone collide
+(these are a subset of the new distances of any join or attachment at $x$).  All
+state is undone on return (incremental, no copies).  The only other prune is
+$t+w_{\max}\le N$ (Lemma~\ref{lem:weights}, common path), which never fires at
+$n\le 18$.\footnote{More precisely, the clean-room implementation of
+Section~\ref{sec:cleanroom} found that this rule fires exactly once at $n=12$
+(removing one level-10 node) and never in the $n=18$ tree; since it is a
+necessary condition it cannot remove a solution, and both engines apply it, so
+the per-level counts reported here are those \emph{with} the rule.}  There are
+no bounds, counting arguments or lookahead in this engine; its efficiency comes
+from Proposition~\ref{prop:once} (which alone reduced the node count roughly
+tenfold at $n=12$--$13$ relative to the same DFS without isomorph rejection) and
+from bit-parallel distance sets.
+
+For parallelism the DFS is sharded at a fixed level $L$: the level-$L$ nodes are
+enumerated in DFS order (deterministic), and shard $i$ of $K$ explores the
+subtrees of the level-$L$ nodes with index $\equiv i \pmod K$; the levels $\le L$
+are visited by every shard.  Hence, if $h_i(d)$ is the number of level-$d$ nodes
+visited by shard $i$, one must have $h_i(d)=h(d)$ for $d\le L$ and every $i$,
+and $\sum_i h_i(d)=h(d)$ for $d>L$; the total number of visited nodes is
+$\sum_i\mathrm{nodes}_i=\mathrm{unique}+(K-1)\cdot\mathrm{prefix}(\le L)$.
+These identities were checked in $36$ $(n,\text{target},K,L)$ configurations,
+including $K$ not dividing the number of level-$L$ nodes and $K$ larger than it.
+The verdict script for a sharded run asserts: exactly $K$ records, indices
+$0,\dots,K-1$ each once, identical $(K,L)$, all \texttt{DONE}, and the histogram
+identities above.
+
+\section{Verification}\label{sec:verification}
+
+The engine of Section~\ref{sec:algorithm} was written by an AI coding agent
+under human direction (see the statement in Section~\ref{sec:ai}).  We
+therefore treated it as untrusted and audited it in the following ways.
+Everything in this section refers to code that is available with the paper
+(Section~\ref{sec:data}).
+
+\subsection{Independent enumerator (oracle) and differential tests}\label{sec:oracle}
+
+A Python enumerator (\file{referee\_forest\_enum.py}), written independently of
+the C++ code from the definition in Section~\ref{sec:forced}, generates
+\emph{all} labelled join/attach/new children of every node without any symmetry
+rule, keeps a child iff its full distance multiset (recomputed from scratch by
+BFS) is duplicate-free and inside the target, and de-duplicates each level by a
+complete canonical form for distinct-weight forests without isolated vertices
+(the sorted multiset of per-vertex sorted incident-weight tuples).  Its
+per-level counts equal the engine's for every level and every $n\le 12$ (at
+$n=12$: $1,1,2,8,41,229,1384,8877,58933,278539,356479$ nodes on levels
+$0,\dots,10$, 23 minutes in Python), for planted targets with holes at
+$n=6,\dots,9$, and for the prefix of the $n=17$ and $n=18$ trees through level
+$9$ (at $n=18$: $480{,}085$ level-9 forests).  A second Python mode that
+re-implements the engine's own generation rule \emph{without} de-duplication
+produced zero canonical-form collisions in all these cases, i.e.\ the isomorph
+rejection is irredundant as implemented and not only as proved.
+
+Two independent formulations of the same problem were used as further oracles:
+(a) a per-topology engine (Section~\ref{sec:pertopology}) whose solution counts,
+summed over \emph{all} unlabelled trees of a given order, must equal the forest
+engine's; this was checked on $45$ instances ($n=6,\dots,12$, standard and
+planted targets, including targets with two non-isomorphic solutions) with $0$
+mismatches; and (b) a plain edge-by-edge backtracking over target values with
+\emph{no} forcing lemma, summed over topologies as labellings divided by
+$|\Aut|$, for $n\le 9$.  Full-depth planted instances at $n=13,\dots,18$
+(random weighted trees with distinct distances, custom target set) were run
+through the engine: in all $16$ instances the planted tree was found among the
+solutions and every reported solution was re-checked; these are the only tests
+that exercise the $n=18$, full-vertex-count code path with a witness.  Finally
+the production binary was shown to be a faithful build of the archived source by
+reproducing its depth histograms at $n=4,\dots,14$ and the exact node count
+($100{,}024{,}625$) of one $n=18$ production shard from a byte-for-byte rebuild.
+
+\subsection{Independent method: per-topology search}\label{sec:pertopology}
+
+Before the forest engine we built a per-topology exact search
+(\file{leech\_search.cpp}): for each of the $123{,}867$ unlabelled trees on $18$
+vertices (OEIS A000055 \cite{OEIS}; enumerated by two independent generators,
+the WROM algorithm \cite{WROM1986} as implemented in NetworkX
+\cite{HagbergNetworkX2008} and nauty's \texttt{gentreeg} \cite{McKayPiperno2014},
+which agree for $n=5,9,11,16,18$: $3,47,235,19320,123867$) it branches on which
+unassigned edge receives the least missing value (Lemma~\ref{lem:forcing}) and
+prunes with distinctness, the containment and Golomb windows
+(Lemma~\ref{lem:golomb}), the cut identity (Lemma~\ref{lem:cut}), Hall-type
+counting on value windows, Taylor's parity (Lemma~\ref{lem:taylor}),
+Lemma~\ref{lem:weights}, and complete symmetry breaking over $\Aut$ of the
+topology (verified as \emph{exactly one representative per orbit} by the
+identity $\mathrm{count(sym)}\cdot|\Aut|=\mathrm{count(nosym)}$ on planted
+instances with $|\Aut|$ up to $20{,}000$).  This engine was audited by a
+differential harness against a rule-free DFS and against a CP-SAT enumeration
+\cite{ORTools}: $574$ instances (all topologies $n=7,\dots,10$ with planted
+targets, the standard target $n=7,\dots,9$, parity-skewed families, symmetry
+stress set) $\times$ $3$ binaries $\times$ $32$ flag subsets, and a second seed
+with $560$ instances, with $0$ discrepancies.  It reproduces the literature
+id-by-id at $n=9$ ($47$ topologies) and $n=11$ ($235$), agreeing with CP-SAT and
+with the DRAT-certified SAT route (Section~\ref{sec:sat}), and it has now decided
+\emph{all} $19{,}320$ topologies of order $16$ on the cluster as UNSAT
+($19{,}308$ with the first-generation engine at a $1800$\,s cap; the $12$
+topologies that hit the cap were re-run with the improved engine and finished in
+$673$--$1317$\,s each).  This is an independent-method reproduction of the
+non-existence of a Leech tree of order $16$ \cite{Calhoun2007}.
+
+The per-topology engine is between three and four orders of magnitude slower in
+total than the forest engine (it re-derives the same small-weight forests once
+per topology: $n=16$ took $321$ CPU-s with the forest engine against roughly
+$500$--$700$ CPU-h topology-by-topology), which is why it is used as a
+\emph{cross-check} rather than as the primary proof.
+
+At $n=18$ this cross-check is \emph{incomplete}, and we state its status
+precisely.  A first pass over all $122{,}344$ surviving topologies (those left
+after the proven filters of Section~\ref{sec:order18}) has finished on the
+cluster with a $300$\,s time cap per topology: $73{,}021$ topologies UNSAT,
+$49{,}323$ undecided at the cap, and---this is the part that matters---$0$
+topologies SAT.  The $49{,}323$ undecided topologies are being re-run with the
+improved engine at a $3600$\,s cap; that run had not finished at the time of
+writing.  The independent-method cross-check therefore currently covers
+$73{,}021$ of the $122{,}344$ survivor topologies, i.e.\ $59.7\%$ of them; the
+remaining $1{,}523$ of the $123{,}867$ topologies had been removed beforehand by
+the filters of Section~\ref{sec:order18}, and the forest engine of
+Theorem~\ref{thm:main} uses no topology filters at all.  No topology anywhere in
+the project, at any order, has ever been reported SAT except for those carrying
+the three known Leech trees of orders $4$ and $6$.  Until the
+re-run is complete, Theorem~\ref{thm:main} rests on the forest engine, its
+audits (Section~\ref{sec:oracle}), the three bit-identical replications
+(Section~\ref{sec:replication}) and the clean-room implementation
+(Section~\ref{sec:cleanroom}); the per-topology run is corroboration by a
+different method, not a second complete proof.
+\todo{report the completed per-topology outcome for $n=18$ once the re-run of
+the $49{,}323$ undecided topologies has finished; if it disagrees with the
+forest engine, the theorem must be withheld.}
+
+\subsection{SAT encoding with checked proofs ($n\le 11$)}\label{sec:sat}
+
+For small orders we also produced machine-checkable certificates: an
+order-encoding CNF per topology (pair/value variables, ternary sum relations
+along a rooted tree, sibling-subtree symmetry breaking), solved with CaDiCaL
+\cite{BiereCaDiCaL2020,BiereCaDiCaL2024} (version 3.0.1; Kissat 4.0.4 was used
+as a second solver) producing DRAT proofs, checked with \texttt{drat-trim}
+\cite{WetzlerHeuleHunt2014}.  All $47$ topologies at $n=9$ and all $235$ at
+$n=11$ are UNSAT with verified proofs (also the $5$ non-Leech topologies at
+$n=6$; the sixth yields the known tree); this reproduces
+\cite{SzekelyWangZhang2005} with independent certificates.  The approach does
+not scale ($30$ random $n=16$ topologies: $0/30$ decided in $600$\,s each), so
+no DRAT-style certificate exists for $n=18$; see Section~\ref{sec:discussion}.
+
+\subsection{Replication of the $n=18$ run}\label{sec:replication}
+
+The $n=18$ forest search was run three times with the reference engine, with
+two shard layouts, on two architectures and with two compilers, and once more
+with the clean-room implementation of Section~\ref{sec:cleanroom}; the
+per-shard depth histograms were compared (Table~\ref{tab:replication}).
+
+\begin{table}[ht]
+\centering
+\caption{Replication of the $n=18$ forest search.  $\sum$nodes counts the shared
+prefix (levels $\le L$) once per shard; ``unique'' $=\sum\text{nodes}-(K-1)\cdot
+73{,}408$, where $73{,}408$ is the number of nodes on levels $0,\dots,8$.
+Hoffman2 is the UCLA shared cluster (SLURM array jobs); ``local'' is an Apple
+M4 laptop.}
+\label{tab:replication}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}lllrrlcc@{}}
+\toprule
+run & machine / compiler & $(K,L)$ & $\sum$nodes & unique nodes & levels 9--16 & L17 & trees\\
+\midrule
+Hoffman2 job 83703 & x86\_64, gcc 11.5 & (210, 8) & 59,795,196,608 & 59,779,854,336 & Table~\ref{tab:levels18} & 0 & 0\\
+Hoffman2 job 83752 & x86\_64, gcc 11.5 & (175, 9) & 59,876,162,118 & 59,779,854,336 & identical & 0 & 0\\
+local, reference & arm64 M4, clang & (512, 8) & 59,817,365,824 & 59,779,854,336 & n/a\footnotemark & --- & 0\\
+local, clean-room & arm64 M4, clang & (100, 8) & 59,787,121,728 & 59,779,854,336 & identical & 0 & 0\\
+\bottomrule
+\end{tabular}
+\end{table}
+\footnotetext{The local driver of the reference engine discarded the per-shard
+stderr histograms; only the node counts and status of each shard were kept.
+The identity of the unique node count with the two cluster runs is the check
+available for this run.}
+
+The four sums of visited nodes differ exactly by the multiplicity of the shared
+prefix ($(K-1)\cdot\mathrm{prefix}(\le L)$), and the unique node counts agree
+bit-for-bit.  For the two cluster runs and the clean-room run the per-level
+sums agree with each other on every level, and agree with the Python oracle on
+levels $\le 9$.  The node counts of the reference engine are deterministic, so
+its three-fold replication detects hardware, compiler and job-management faults
+(lost or truncated shards, mis-sharding), not algorithmic errors; the
+algorithmic checks are those of Sections~\ref{sec:oracle}--\ref{sec:pertopology}
+and \ref{sec:cleanroom}.
+
+\subsection{Clean-room re-implementation}\label{sec:cleanroom}
+
+A second implementation of the forced-forest search (\file{cr\_forest.c}, C,
+single file) was written from the algorithmic description of
+Section~\ref{sec:algorithm} and \cite{Calhoun2007} only, by an agent that had
+no access to the production source; it uses its own state representation
+(state copied per DFS level, full within-component distance matrix, component
+identifiers by smallest label) and its own ordering of children, and shares
+with the reference engine only the mathematical rules of
+Proposition~\ref{prop:once}.  It comes with its own brute-force Python oracle
+(all labelled children, BFS re-computation of distances, canonical-form
+de-duplication per level), with which it agrees at every level for $n=4,\dots,12$,
+and it passes the same sharding identities on $11$ $(n,K,L)$ cases.  It
+reproduces the reference engine's per-level counts at every level for
+$n=4,\dots,16$ (at $n=16$: $1{,}096{,}039{,}152$ nodes, identical histogram),
+for levels $0,\dots,12$ at $n=17$, and---run over the full $n=18$ tree with
+$K=100$, $L=8$ ($34{,}207$ CPU-s at low priority on the laptop)---all eighteen
+per-level counts of Table~\ref{tab:levels18}, the unique node count
+$59{,}779{,}854{,}336$, and no tree on $18$ vertices.  The verdict script
+\file{cleanroom/verify\_18.py} performs the shard-integrity checks of
+Section~\ref{sec:impl} and prints the comparison with the reference counts.
+
+\section{Results}\label{sec:results}
+
+\subsection{Orders $n\le 17$}\label{sec:small}
+
+The forest engine finds exactly the known Leech trees and no others: at $n=4$
+two (the star and the path), at $n=6$ one (the double star), and none at $n=5$
+and $7\le n\le 17$.  (The condition of Lemma~\ref{lem:taylor} is not imposed, so
+the non-admissible orders are searched as well and come out empty, as they
+must.)  Node counts and CPU times (single core, Apple M4, under load) are given
+in Table~\ref{tab:small}.
+
+\begin{table}[ht]
+\centering
+\caption{Forest search for $n\le 17$ (target $[1,\bin n2]$).  ``Last levels''
+lists the node counts of the three deepest non-empty levels.  For $n=17$ the
+run was sharded ($K=32$, $L=8$); the unique node count subtracts the $31$
+repeated copies of the $73{,}408$-node prefix.}
+\label{tab:small}
+\small
+\begin{tabular}{@{}rrrcl@{}}
+\toprule
+$n$ & nodes (unique) & CPU & Leech trees & last levels\\
+\midrule
+11 & 123,309 & 0.05\,s & 0 & L7 8,645; L8 43,855; L9 69,144\\
+12 & 704,494 & 0.14\,s & 0 & L8 58,933; L9 278,539; L10 356,479\\
+13 & 4,178,290 & 0.9\,s & 0 & L9 424,878; L10 1.86M; L11 1.82M\\
+14 & 25,486,327 & 6.4\,s & 0 & L10 3.25M; L11 13.0M; L12 8.66M\\
+15 & 162,497,458 & 44\,s & 0 & L11 26.2M; L12 93.5M; L13 38.4M\\
+16 & 1,096,039,152 & 321\,s & 0 & L12 220.0M; L13 683.5M; L14 154.7M\\
+17 & 7,875,306,893 & 1.7 CPU-h & 0 & (histograms not retained)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The full level histogram at $n=16$ (levels $0,\dots,15$) is
+\begin{multline*}
+1,\ 1,\ 2,\ 8,\ 41,\ 229,\ 1384,\ 8899,\ 62843,\ 480048,\ 3968025,\ 33269745,\\
+220001476,\ 683511193,\ 154735257,\ 0.
+\end{multline*}  The counts at $n=16$ and $n=17$ reproduce
+the non-existence results of \cite{Calhoun2007}; those at $n=9,11$ reproduce
+\cite{SzekelyWangZhang2005}, and are also confirmed by the per-topology engine,
+CP-SAT, and (for $n=9,11$) DRAT-checked SAT proofs.  The per-level counts at
+low levels are the same for all $n$ once $n$ is large enough for the vertex
+bound not to bite ($1,1,2,8,41,229,1384,8899,62843,\dots$), and grow by a factor
+of roughly $7.5$ per level; the whole tree grows by a factor of $6.5$--$7$ per
+unit of $n$.
+
+\subsection{Order 18}\label{sec:order18}
+
+\begin{theorem}[Theorem~\ref{thm:main}, quantitative form]\label{thm:quant}
+For $n=18$, $N=153$, the search tree of Section~\ref{sec:algorithm} has the
+per-level node counts of Table~\ref{tab:levels18}, a total of
+$59{,}779{,}854{,}336$ nodes, and no node at level $17$.  Consequently there is
+no Leech tree of order $18$.
+\end{theorem}
+
+\begin{table}[ht]
+\centering
+\caption{Number of non-isomorphic forced forests with $k$ edges for
+$(n,N)=(18,153)$.  Verified identical in both cluster runs and in the
+clean-room implementation; levels $\le 9$ also by the Python oracle.}
+\label{tab:levels18}
+\small
+\begin{tabular}{@{}l*{6}{r}@{}}
+\toprule
+level $k$ & 0 & 1 & 2 & 3 & 4 & 5\\
+forests & 1 & 1 & 2 & 8 & 41 & 229\\
+\midrule
+level $k$ & 6 & 7 & 8 & 9 & 10 & 11\\
+forests & 1,384 & 8,899 & 62,843 & 480,085 & 3,984,162 & 35,540,837\\
+\midrule
+level $k$ & 12 & 13 & 14 & 15 & 16 & 17\\
+forests & 332,597,341 & 2,896,330,052 & 17,017,193,146 & 37,669,242,243 & 1,824,413,062 & \textbf{0}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The tree dies at the last two levels: of the $1.8\times10^9$ distance-distinct
+forced forests with $16$ edges (i.e.\ one edge short of a spanning tree on $18$
+vertices, or $17$ edges on fewer vertices), none can be completed.  The whole
+computation cost about $5$--$11$ CPU-hours depending on machine and load
+(roughly $0.3\,\mu$s per node unloaded; $39{,}708$ CPU-s for the local
+$512$-shard run at low priority); on the cluster each of the $210$ shard
+processes ran for about $1.5$ minutes of wall time.  For comparison, a
+per-topology search of the same order was projected at $10^4$--$10^5$ CPU-hours.
+
+We record for completeness that the published structural results prune very
+little at the topology level: of the $123{,}867$ trees on $18$ vertices, the
+diameter bound (Lemma~\ref{lem:golomb}(b)), the degree bound
+(Lemma~\ref{lem:sidon}), the exclusion of stars, double stars, paths and the
+broom of \cite{Varghese2020} remove $152$, leaving $123{,}715$; adding real
+relaxations (majorisation of the distance vector, projection bound) leaves
+$122{,}344$.  The forest search does not use topologies at all.
+
+\section{Neighbouring problems settled by the same engines}\label{sec:variants}
+
+The forced-forest search of Section~\ref{sec:algorithm} and the per-topology
+search of Section~\ref{sec:pertopology} are not specific to the target
+$\{1,\dots,N\}$.  With small modifications they decide three neighbouring
+problems on which the literature stops short of exact values, and on which
+the published bounds are, in each case, more than twenty years old or explicitly
+left open.  All results in this section were obtained after the $n=18$
+computation, with copies of the engines kept separate from the production
+sources; every witness reported below was re-checked by an independent
+breadth-first-search checker that shares no code with any engine, and the ones
+printed here are small enough to be verified by hand.
+
+\subsection{Minimal distinct distance trees: $M(11)=60$ and $77\le M(12)\le 78$}
+\label{sec:mdd}
+
+Calhoun, Ferland, Lister and Polhill~\cite{Calhoun2007} define: ``If all of
+these distances are distinct, we call the tree a distinct distance tree.  Define
+the function $M(n)$ to be the smallest integer so that there exists a distinct
+distance tree with $n$ vertices and maximum distance $M(n)$'' \cite[p.~33]{Calhoun2007};
+a \emph{minimal distinct distance tree} is one attaining $M(n)$, and a Leech tree
+is exactly a distinct distance tree with $M(T)=\bin n2$.  They determine
+$M(n)$ for $n\le 10$ ($0,1,3,6,11,15,22,30,39,50$) and give the bounds of their
+Table~1 for $11\le n\le 18$, among them $59\le M(11)\le 77$, $69\le M(12)\le 94$
+and $80\le M(13)\le 119$, with the remark that ``it will take too long for the
+algorithm to check higher numbers of gaps and find the exact value of $M(n)$''
+\cite[p.~44]{Calhoun2007}.
+
+The forest engine adapts to $M(n)$ by replacing the forcing lemma with a
+three-way decision at each value level $t$ (all values $<t$ decided): either $t$
+is already a distance, or $t$ is declared a \emph{gap} (never a distance; at most
+$D-\bin n2$ gaps are available when the target maximum is $D$), or $t$ is the
+weight of the next edge, added by join, attach or new as before.  Every state
+$(\text{forest},t)$ is again reached by exactly one decision sequence, so the
+isomorph rejection of Proposition~\ref{prop:once} carries over verbatim and the
+number of solutions at $D=M(n)$ is the number of minimal trees up to isomorphism.
+Feasibility is decided for increasing $D$; the run at $D=M(n)-1$ is the
+exclusion.  The engine reproduces all of Calhoun's values and, where they are
+stated, their counts of minimal trees ($n=7$: $2$; $n=8$: $2$; $n=9$: $1$;
+$n=10$: $1$, with the same weights $1,2,3,4,5,11,14,18,28$), at costs from $215$
+nodes ($n=7$, $D=21$) to $2.2\times10^7$ nodes ($n=10$, $D=49$).
+
+\begin{theorem}\label{thm:mdd}
+$M(11)=60$, and there are exactly two minimal distinct distance trees on $11$
+vertices, namely (edge lists $u$--$v$:$w$)
+\begin{align*}
+&0\text{--}1{:}1,\ 0\text{--}2{:}2,\ 3\text{--}4{:}4,\ 5\text{--}6{:}5,\ 5\text{--}7{:}6,\
+3\text{--}8{:}8,\ 3\text{--}5{:}9,\ 3\text{--}9{:}16,\ 2\text{--}7{:}26,\ 7\text{--}10{:}27,\\
+&0\text{--}1{:}1,\ 0\text{--}2{:}2,\ 3\text{--}4{:}4,\ 5\text{--}6{:}5,\ 5\text{--}7{:}6,\
+3\text{--}8{:}8,\ 3\text{--}5{:}9,\ 3\text{--}9{:}16,\ 7\text{--}10{:}26,\ 0\text{--}7{:}27,
+\end{align*}
+whose $55$ distances are $\{1,\dots,60\}$ minus $\{7,10,21,36,54\}$ and
+$\{7,10,21,36,56\}$ respectively.  Moreover $77\le M(12)\le 78$ and
+$M(13)\le 105$.
+\end{theorem}
+
+The computations behind Theorem~\ref{thm:mdd} are as follows (all on the cluster
+unless stated; ``UNSAT'' means the exhaustive run at that $D$ found no tree and
+all shards completed).  At $n=11$: $D=59$ UNSAT ($1.80\times10^8$ nodes locally,
+$1.83\times10^8$ in $7$ shards on the cluster), $D=60$ two trees
+($5.86\times10^8$ nodes, $111$ CPU-s).  For $D=61,\dots,65$ the numbers of
+distinct distance trees with maximum distance exactly $D$ are $0,6,3,12,32$.
+As an independent-method check, a per-topology backtracking program with no
+forcing lemma, no forest search and no isomorph rejection was run over all
+$235$ topologies of order $11$: at $D=59$ it finds $0$ labellings in
+$12{,}620{,}879{,}225$ nodes and at $D=60$ it finds $18$ labellings in
+$15{,}106{,}490{,}676$ nodes, with identical node counts and identical solution
+lists on two machines (arm64/clang and x86\_64/gcc); the $18$ labellings are
+exactly the two trees above counted with their automorphisms ($6$ and $12$).
+The same check at $n=10$ gives $0$ labellings at $D=49$ and $6$ (one tree,
+$|\Aut|=6$) at $D=50$.  At $n=12$ the exhaustive runs at
+$D=69,70,\dots,76$ are all UNSAT, at costs $3.7\times10^8$, $1.5\times10^9$,
+$5.2\times10^9$, $1.6\times10^{10}$, $4.2\times10^{10}$, $1.0\times10^{11}$,
+$2.4\times10^{11}$ and $5.1\times10^{11}$ nodes, so $M(12)\ge 77$; and the
+witness-hunting mode found the tree
+\[
+0\text{--}1{:}1,\ 0\text{--}2{:}2,\ 3\text{--}4{:}4,\ 5\text{--}6{:}5,\ 0\text{--}3{:}6,\
+5\text{--}7{:}13,\ 8\text{--}9{:}14,\ 4\text{--}8{:}15,\ 6\text{--}9{:}16,\ 8\text{--}10{:}17,\
+9\text{--}11{:}37
+\]
+with all $66$ distances distinct and maximum $78$, so $M(12)\le 78$.  The
+exhaustive run at $D=77$ (expected $\sim10^{12}$ nodes) is queued; a search for a
+witness at $D=77$ was still running, without success, after $5\times10^{10}$
+nodes.  \todo{state the exact value of $M(12)$ once the exhaustive $D=77$ run
+completes}  Appending one leaf to the $n=12$ witness with $D=79$ gives a
+$13$-vertex distinct distance tree of maximum distance $105$, whence
+$M(13)\le 105$ (Calhoun: $119$).
+
+\subsection{Modular Leech trees: none of order 9 or 11, but two of order 5}
+\label{sec:modular}
+
+Leach and Walsh introduced the modular relaxation, and Leach~\cite{Leach2014}
+states it as: ``Let $T$ be a tree on $n$ vertices and let $k=\bin n2+1$.  We say
+that $T$ is a modular Leech tree if there exists an edge weighting function
+$w:E(T)\to\Z_k$ such that each of the $\bin n2$ paths within $T$ has a distinct
+weight from $1,2,\dots,\bin n2$ with the sums taken modulo $\bin n2+1$''
+\cite[p.~1]{Leach2014}; equivalently $w$ induces a bijection between the paths of
+$T$ and $\Z_k\setminus\{0\}$.  Every Leech tree is a modular Leech tree, so
+orders $2,3,4,6$ occur.  Leach~\cite[Thms.~1--2]{Leach2014} shows that if
+$n\equiv 2,3\pmod 4$ then a modular Leech tree of order $n$ forces $n=m^2+2$
+(so none exist for $n=7,10,14,15,\dots$), that multiplying a labelling by a unit
+of $\Z_k$ gives a labelling, and, by computer search, that there is exactly one
+modular Leech tree of order $8$ (over $\Z_{29}$, unique up to group and graph
+isomorphism).  Nothing is stated there about $n\ge 9$.
+
+Our engine here is a per-topology depth-first search over the frozen topology
+lists, placing edges in breadth-first order from a maximum-degree root and
+maintaining the set of realised residues in a $128$-bit word; solutions are
+counted as orbits under the unit action of $\Z_k$.  Two implementations with
+different symmetry breaking (restriction of the first label versus a
+lexicographic-minimum test over the unit stabiliser, the latter with forward
+checking) were written and give identical orbit counts for $n=4,\dots,9$;
+brute force over all $(k-1)^{n-1}$ labellings independently confirms $n=4,5,6$;
+and at $n=8$ the search reproduces Leach exactly, finding the single topology of
+his Figure~3 with one labelling up to the leaf swap, our labelling being
+$3$ times his in $\Z_{29}$.
+
+\begin{table}[ht]
+\centering
+\caption{Modular Leech trees of order $n$ over $\Z_k$, $k=\bin n2+1$.  ``Orbits''
+counts $\Z_k$-Leech labellings up to multiplication by a unit (graph
+automorphisms are not divided out).  New results in bold.}
+\label{tab:modular}
+\small
+\begin{tabular}{@{}rrrlll@{}}
+\toprule
+$n$ & $k$ & topologies & trees / orbits & search nodes & remark\\
+\midrule
+4  & 7  & 2   & 2 / 4          & $16$--$18$ & Leech's two trees\\
+5  & 11 & 3   & \textbf{2 / 4} & $58$--$127$ & see the discussion below\\
+6  & 16 & 6   & 2 / 34         & $1.7\times10^3$--$2.2\times10^4$ & the Leech tree and one other\\
+7  & 22 & 11  & 0              & $3.1\times10^4$--$4.6\times10^5$ & agrees with \cite[Thm.~2]{Leach2014}\\
+8  & 29 & 23  & 1 / 2          & $2.4\times10^5$--$7.6\times10^5$ & $=$ \cite{Leach2014}\\
+9  & 37 & 47  & \textbf{0}     & $6.5\times10^6$--$1.8\times10^7$ & new\\
+10 & 46 & 106 & 0              & $3.6\times10^8$--$1.4\times10^{10}$ & consistent with \cite[Thm.~1]{Leach2014}\\
+11 & 56 & 235 & \textbf{0}     & $1.3\times10^{10}$ & new; single implementation\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:modular} summarises the outcome.  The two new non-existence
+results are $n=9$ and $n=11$; both orders are permitted by Leach's theorems
+($9=3^2$, $11=3^2+2$), so they were open.  The order-$9$ result is produced by
+both implementations; the order-$11$ result comes from the faster implementation
+only (the slower one did not finish), and we label it accordingly as a
+single-implementation computation.
+
+The order-$5$ entry requires comment.  Leach writes: ``By Leach and Walsh [6] and
+Theorem 2 we know that none exist for 5 or 7'' \cite[p.~2]{Leach2014}, his~[6]
+being \cite{LeachWalsh2011}.  His
+Theorems~1--2 exclude $n=7$; they say nothing about $n=5$ (as $5\equiv1\pmod4$),
+so the order-$5$ statement rests entirely on \cite{LeachWalsh2011}, which we were
+not able to obtain.  Under the definition quoted above, modular Leech trees of
+order $5$ do exist.  There are two, on two different topologies; over
+$\Z_{11}$ they are the path
+$0\text{--}1{:}5,\ 1\text{--}2{:}1,\ 2\text{--}3{:}2,\ 3\text{--}4{:}7$
+and the spider
+$0\text{--}1{:}1,\ 1\text{--}2{:}5,\ 0\text{--}3{:}3,\ 0\text{--}4{:}7$,
+with $4$ unit-orbits in total.  The ten path sums of the first are
+$5,1,2,7,6,3,9,8,10$ and $15\equiv 4$, and those of the second are
+$1,5,6,3,7,4,8,9,13\equiv 2$ and $10$: in both cases exactly
+$\Z_{11}\setminus\{0\}$, as the reader can check in a minute.  Both labellings
+use distinct nonzero labels, so they also satisfy the more restrictive readings
+of the definition.  We found these by exhaustive search over all
+$10^4$ labellings of all three topologies as well as by both search engines.  We
+therefore report a discrepancy with the claim quoted above, without being able to
+locate its source: it may be a difference of definition in \cite{LeachWalsh2011},
+which we have not read, or an error in that paper or in its summary.
+Everything else we compute agrees with \cite{Leach2014}.
+
+\subsection{Leaf-Leech trees: six leaves, and Question 3.1 of Ozen--Wang--Yalman}
+\label{sec:leafleech}
+
+Ozen, Wang and Yalman~\cite{OzenWangYalman2016} define: ``A (not weighted) tree
+$T$ with $n$ leaves is a leaf-Leech tree if the distances between pairs of leaves
+are exactly $3,4,\dots,\bin n2+2$'' \cite[Def.~1]{OzenWangYalman2016} (distances
+$1$ and $2$ between leaves are impossible except in trivial cases, whence the
+shift).  They prove the Taylor analogue (the number of leaves is $k^2$ or
+$k^2+2$), that the \emph{expansion} $T^e$ of a Leech tree---subdivide each edge
+into a path of its weight and hang a pendant vertex at every original
+vertex---is leaf-Leech, and, conversely, that a leaf-Leech tree with no
+\emph{irreducible} vertex (a vertex ``with degree at least three and no leaf
+neighbors'' \cite[p.~4]{OzenWangYalman2016}) is the expansion of a Leech tree.
+They then ask \cite[Question 3.1]{OzenWangYalman2016}: ``Does there exist a
+leaf-Leech tree that contains an irreducible vertex?'', remarking that they have
+not been able to find a leaf-Leech tree that is not the expansion of a Leech
+tree; before the present note the largest number of leaves for which any
+leaf-Leech tree was known was $6$, from Leech's order-$6$ tree.
+
+Contracting the degree-$2$ vertices turns a leaf-Leech tree with $L$ leaves into
+a series-reduced tree (all internal degrees $\ge 3$) with $L$ leaves and positive
+integer edge weights whose $S=\bin L2$ weighted leaf-to-leaf distances are
+exactly $\{3,\dots,S+2\}$; conversely every such weighted tree expands to a
+leaf-Leech tree.  The series-reduced topologies ($L+1\le |V|\le 2L-2$) were
+enumerated with nauty's \texttt{gentreeg} and cross-checked against NetworkX, and
+each was solved with CP-SAT \cite{ORTools} in enumerate-all-solutions mode
+(weights in $[1,S+2]$, an \texttt{AllDifferent} over the $S$ leaf-pair distance
+variables constrained to $[3,S+2]$, which forces the bijection); solutions were
+de-duplicated modulo isomorphism of the expanded unweighted tree and re-checked
+by the independent checker.
+
+\begin{proposition}\label{prop:leafleech}
+There are exactly six leaf-Leech trees with six leaves.  Exactly one of them, the
+expansion of Leech's order-$6$ tree, has no irreducible vertex; the other five
+have one.  In particular the answer to Question 3.1 of
+\cite{OzenWangYalman2016} is yes.
+\end{proposition}
+
+For $L=3$ and $L=4$ the enumeration gives $1$ and $2$ leaf-Leech trees, namely
+the expansions of the Leech trees of those orders, and for $L=5$ none (as
+Proposition~1 of \cite{OzenWangYalman2016} already excludes).  That exactly one
+of the six trees at $L=6$ is irreducible-vertex-free is a consistency check on
+the enumeration, since by their Theorem~2 such a tree must be the expansion of a
+Leech tree of order $6$, and there is exactly one of those.  An explicit witness
+for Proposition~\ref{prop:leafleech}, in contracted form, is
+\[
+1\text{--}0{:}1,\ 1\text{--}2{:}6,\ 1\text{--}5{:}4,\ 0\text{--}6{:}1,\
+0\text{--}9{:}1,\ 2\text{--}3{:}6,\ 2\text{--}4{:}2,\ 6\text{--}7{:}3,\
+6\text{--}8{:}1 ,
+\]
+whose expansion has $26$ vertices and six leaves $3,4,5,7,8,9$ at the fifteen
+pairwise distances $3,4,\dots,17$; the vertices $1$ and $2$ have degree $3$ and,
+in the expanded tree, no leaf neighbour, so both are irreducible.  This tree is
+therefore not the expansion of any Leech tree.
+
+The next admissible numbers of leaves are $L=9$ and $L=11$ ($73$ and $488$
+series-reduced topologies), where CP-SAT is no longer adequate---exactly as in
+the Leech problem itself, it decides the small cases and then stalls (the
+$10$-vertex topology at $L=9$ is infeasible in $41$\,s, the $11$-vertex ones were
+undecided after $3600$\,s).  A forcing-style engine over leaf distances,
+analogous to Section~\ref{sec:algorithm}, would be the natural next step; we
+leave it open.
+
+\subsection{Status of the results of this section}\label{sec:variantstatus}
+
+These are computational results of the same kind as Theorem~\ref{thm:main}, with
+weaker but explicitly stated verification.  The existence statements
+(the two minimal trees at $n=11$, the $D=78$ tree at $n=12$, the modular trees of
+order $5$, the six leaf-Leech trees) are witnesses, printed above or in the
+archive, and are checkable by hand or by any independent checker; they do not
+depend on the search being exhaustive.  The non-existence statements
+($M(11)\ge 60$, $M(12)\ge 77$, no modular Leech tree of order $9$ or $11$, only
+six leaf-Leech trees at $L=6$) do depend on exhaustiveness: $M(11)\ge 60$ and the
+count of minimal trees at $n=11$ are confirmed by a second, structurally
+different program on two architectures; the modular order-$9$ result by two
+implementations with different symmetry breaking; the modular order-$11$ result
+by one implementation only; the leaf-Leech enumeration by a single CP-SAT model
+over an independently cross-checked topology list.  We label them accordingly and
+regard the modular order-$11$ result as the least independently supported of the
+group.
+
+\section{Discussion}\label{sec:discussion}
+
+\paragraph{Status of the result.}
+Theorem~\ref{thm:main} is a computer-assisted theorem in the usual sense: the
+mathematics (Lemmas~\ref{lem:forcing}, \ref{lem:parent}, \ref{lem:aut} and
+Proposition~\ref{prop:once}) is short and has been checked by hand and by
+exhaustive small cases; the remainder is a finite computation whose correctness
+depends on the faithful execution of a program.  What distinguishes this
+computation from a bare ``no solution found'' is that its intermediate
+output---the eighteen per-level counts of Table~\ref{tab:levels18}---is a
+mathematically defined sequence (the number of non-isomorphic forced forests of
+each size), so that any independent implementation can be checked against it
+level by level.  The shallow levels have been confirmed by an oracle written
+from the definitions; all eighteen levels have been reproduced by an independent
+implementation written from the algorithm description; and three replications
+of the reference engine on different hardware and compilers agree bit-for-bit.
+The one verification we would like to have and do not yet have in full is the
+independent \emph{method}: the per-topology engine, which shares no code and no
+search order with the forest engine, has decided $73{,}021$ of the $122{,}344$
+surviving $18$-vertex topologies (all UNSAT, none SAT) and is still running on
+the remainder (Section~\ref{sec:pertopology}).  It has, however, already
+reproduced the complete order-$16$ result ($19{,}320$ topologies, all UNSAT) by
+this independent route, which is the strongest available calibration of the two
+engines against each other and against \cite{Calhoun2007}.
+
+\paragraph{Certificates.}
+We do not have a proof certificate for $n=18$ that could be checked by a
+formally verified checker, as we do for $n\le 11$ (DRAT).  Two routes are open.
+(i) Cube-and-conquer: use the forcing-lemma tree to a fixed depth as cubes and
+certify each cube with a CDCL solver producing DRAT proofs; the completeness of
+the cube set follows from Lemma~\ref{lem:forcing} by a one-paragraph argument,
+so the search engine's pruning need not be trusted, only its branching order.
+Our experiments at $n=16$ suggest a cost of the order of one CPU-hour per
+topology and proofs of $10^2$\,MB per cube, i.e.\ $10^4$--$10^5$ CPU-hours for
+all of $n=18$---feasible on a cluster but not done.  (ii) Proof logging inside
+the forest engine (VeriPB/pseudo-Boolean), which would certify the isomorph
+rejection as well; not attempted.  We regard the present level of verification
+(independent oracle for the shallow levels, differential tests on planted
+instances, three bit-identical replications, and an independent implementation
+reproducing all per-level counts) as adequate for the claim, and the per-level
+counts as the reproducible artefact that a sceptical reader should target.
+
+\paragraph{What remains.}
+The next admissible orders are $n=25$ ($N=300$) and $n=27$ ($N=351$).
+Extrapolating the growth factor of $6.5$--$7$ per unit of $n$ gives of the
+order of $10^{16}$--$10^{17}$ nodes at $n=25$, which is beyond the present
+method by four to five orders of magnitude; new pruning ideas (for instance
+exploiting the top-value structure and the parity classes inside the forest
+search, or a meet-in-the-middle over the smallest and largest weights) or a
+genuinely different argument would be needed.  Whether Leech's five trees are
+the only Leech trees remains open; the present note only moves the smallest open
+order from $18$ to $25$.  In the neighbouring problems of
+Section~\ref{sec:variants} the frontier is much closer: the exact value of
+$M(12)$ needs one exhaustive run that is queued, $M(13)$ is out of reach of the
+present engine, modular Leech trees of order $12$ and above are untouched, and
+the leaf-Leech question at $9$ leaves needs an engine of the kind built here for
+Leech trees rather than a generic solver.
+
+\section{AI-assisted research statement}\label{sec:ai}
+
+The search programs, the test and verification harnesses, the literature
+ledger and the drafts of this note were produced by AI coding agents (Claude,
+Anthropic, in the Claude Code environment) working under the direction of the
+author, who set the problem, chose the algorithmic route (forced-forest search
+with isomorph rejection), decided what had to be verified, ran the cluster jobs
+and reviewed the proofs and the code.  An adversarial ``referee'' pass over both
+engines was likewise carried out by an AI agent instructed to look for unsound
+pruning and incomplete symmetry breaking; it produced the correction to
+Lemma~\ref{lem:sidon} recorded in Section~\ref{sec:prelim} and the verification
+scheme of Section~\ref{sec:verification}.  The clean-room implementation of
+Section~\ref{sec:cleanroom} was written by a separate agent that had no access to
+the production source.  All mathematical claims in this note were checked by
+independent implementations as described in Section~\ref{sec:verification};
+human review of the proofs, the code and the text is ongoing, and the author
+takes responsibility for the content.
+\todo{author to confirm and adjust this statement}
+
+\section{Data and code availability}\label{sec:data}
+
+All code and data are available at
+\url{https://github.com/lsmeng/leech-trees}
+\todo{repository to be created; add archival DOI (Zenodo) at submission}.
+The archive contains: the two search engines (\file{forest\_search.cpp},
+\file{leech\_search.cpp}) and the clean-room \file{cr\_forest.c}; the
+independent Python enumerators and differential harnesses; the SAT encoder and
+the DRAT-verified proofs for $n\le 11$; the frozen list of the $123{,}867$ trees
+of order $18$ with the two-generator cross-check; the per-shard output records
+and depth histograms of the $n=18$ runs and of the $n\le 17$ runs; the verdict
+scripts; and the referee reports on which Section~\ref{sec:verification} is
+based.  It also contains, in a separate directory, the modified engines and the
+raw outputs behind Section~\ref{sec:variants} (minimal distinct distance trees,
+modular Leech trees, leaf-Leech trees), including the witnesses printed above and
+the independent checker used on them.  The five known Leech trees are checked by
+two independent checkers, and every witness produced by any engine in the project
+was passed through both.
+
+\subsection*{Acknowledgements}
+Computations were carried out on the author's laptop and on the Hoffman2
+Shared Cluster of the UCLA Office of Advanced Research Computing.
+\todo{confirm acknowledgement wording; add funding if any}
+
+\bibliographystyle{abbrvnat}
+\bibliography{refs}
+
+\end{document}
