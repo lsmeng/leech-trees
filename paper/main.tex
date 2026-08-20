@@ -40,8 +40,8 @@
 \author{Lingsen Meng\\[2pt]
   \small Department of Earth, Planetary, and Space Sciences,\\[-2pt]
   \small University of California, Los Angeles, CA 90095, USA\\[-2pt]
-  \small \texttt{meng@epss.ucla.edu}\ \todo{author to confirm e-mail address}}
-\date{Draft of 19 August 2026}
+  \small \texttt{lsmeng@g.ucla.edu}}
+\date{Draft of 20 August 2026}
 
 \hypersetup{
   pdftitle={There is no Leech tree on 18 vertices, and related distinct-distance tree problems},
@@ -72,7 +72,8 @@ $n\le 17$, where the search reproduces the known results, and discuss what would
 be needed to turn the computation into a formally checkable certificate.
 Variants of the same two engines settle several neighbouring questions: for the
 minimal distinct distance trees of Calhoun et al.\ we obtain $M(11)=60$, with
-exactly two minimal trees, and $77\le M(12)\le 78$ (their bounds were
+exactly two minimal trees, and $M(12)=77$, again with exactly two minimal trees
+(their bounds were
 $59\le M(11)\le 77$, $69\le M(12)\le 94$); there is no modular Leech tree of
 order $9$ or of order $11$, while modular Leech trees of order $5$ do exist,
 contrary to a statement quoted in the literature; and there are exactly six
@@ -291,8 +292,10 @@ and sums $\le 153$, which finds a set of size $11$ (e.g.\
 $\{1,2,4,7,12,23,32,41,56,70,83\}$) and none of size $12$.
 Lemma~\ref{lem:sidon} is a finite, explicit version of the idea behind
 \cite[Thm.~3]{SzekelyWangZhang2005} and, we believe, of \cite{LuoYu2024}; we
-could not access the text of \cite{LuoYu2024} and make no claim of priority.
-\todo{obtain Luo--Yu 2024 and compare with Lemma~\ref{lem:sidon}}
+could not access the text of \cite{LuoYu2024} beyond its abstract and therefore
+make no claim of priority.  The abstract states that their maximum-degree
+result improves \cite[Thm.~3]{SzekelyWangZhang2005}; a theorem-by-theorem
+comparison with Lemma~\ref{lem:sidon} requires access to the full paper.
 \end{remark*}
 
 \begin{lemma}[weight bounds; {\cite[Thms.~2.8, 2.9]{Calhoun2007}}]\label{lem:weights}
@@ -559,8 +562,9 @@ cluster with a $300$\,s time cap per topology: $73{,}021$ topologies UNSAT,
 $49{,}323$ undecided at the cap, and---this is the part that matters---$0$
 topologies SAT.  The $49{,}323$ undecided topologies are being re-run with the
 improved engine at a $3600$\,s cap; that run had not finished at the time of
-writing.  The independent-method cross-check therefore currently covers
-$73{,}021$ of the $122{,}344$ survivor topologies, i.e.\ $59.7\%$ of them; the
+writing.  As of 20 August 2026 it had raised the independent-method coverage to
+$112{,}082$ of the $122{,}344$ survivor topologies, i.e.\ $91.6\%$, with
+$1{,}169$ re-run cases still undecided at the cap and no SAT result.  The
 remaining $1{,}523$ of the $123{,}867$ topologies had been removed beforehand by
 the filters of Section~\ref{sec:order18}, and the forest engine of
 Theorem~\ref{thm:main} uses no topology filters at all.  No topology anywhere in
@@ -761,7 +765,7 @@ sources; every witness reported below was re-checked by an independent
 breadth-first-search checker that shares no code with any engine, and the ones
 printed here are small enough to be verified by hand.
 
-\subsection{Minimal distinct distance trees: $M(11)=60$ and $77\le M(12)\le 78$}
+\subsection{Minimal distinct distance trees: $M(11)=60$ and $M(12)=77$}
 \label{sec:mdd}
 
 Calhoun, Ferland, Lister and Polhill~\cite{Calhoun2007} define: ``If all of
@@ -791,7 +795,8 @@ $n=10$: $1$, with the same weights $1,2,3,4,5,11,14,18,28$), at costs from $215$
 nodes ($n=7$, $D=21$) to $2.2\times10^7$ nodes ($n=10$, $D=49$).
 
 \begin{theorem}\label{thm:mdd}
-$M(11)=60$, and there are exactly two minimal distinct distance trees on $11$
+$M(11)=60$ and $M(12)=77$.  At each order there are exactly two minimal
+distinct distance trees.  The two trees on $11$
 vertices, namely (edge lists $u$--$v$:$w$)
 \begin{align*}
 &0\text{--}1{:}1,\ 0\text{--}2{:}2,\ 3\text{--}4{:}4,\ 5\text{--}6{:}5,\ 5\text{--}7{:}6,\
@@ -800,8 +805,22 @@ vertices, namely (edge lists $u$--$v$:$w$)
 3\text{--}8{:}8,\ 3\text{--}5{:}9,\ 3\text{--}9{:}16,\ 7\text{--}10{:}26,\ 0\text{--}7{:}27,
 \end{align*}
 whose $55$ distances are $\{1,\dots,60\}$ minus $\{7,10,21,36,54\}$ and
-$\{7,10,21,36,56\}$ respectively.  Moreover $77\le M(12)\le 78$ and
-$M(13)\le 105$.
+$\{7,10,21,36,56\}$ respectively.  The two trees on $12$ vertices are
+\begin{align*}
+&0\text{--}1{:}1,\ 2\text{--}3{:}2,\ 4\text{--}5{:}3,\ 2\text{--}6{:}4,\
+4\text{--}7{:}5,\ 0\text{--}8{:}9,\ 4\text{--}9{:}12,\ 2\text{--}7{:}14,\
+7\text{--}10{:}20,\ 9\text{--}11{:}29,\ 8\text{--}9{:}30,\\
+&0\text{--}1{:}1,\ 2\text{--}3{:}2,\ 4\text{--}5{:}3,\ 2\text{--}6{:}4,\
+4\text{--}7{:}5,\ 0\text{--}8{:}9,\ 4\text{--}9{:}12,\ 3\text{--}7{:}14,\
+7\text{--}10{:}18,\ 9\text{--}11{:}29,\ 8\text{--}9{:}30.
+\end{align*}
+Their $66$ distances have maximum $77$ and omit from $\{1,\dots,77\}$,
+respectively,
+\begin{align*}
+&\{7,11,13,27,32,43,48,49,50,53,58\},\\
+&\{7,11,13,27,36,43,48,49,50,53,58\}.
+\end{align*}
+Moreover $M(13)\le 105$.
 \end{theorem}
 
 The computations behind Theorem~\ref{thm:mdd} are as follows (all on the cluster
@@ -828,11 +847,13 @@ witness-hunting mode found the tree
 5\text{--}7{:}13,\ 8\text{--}9{:}14,\ 4\text{--}8{:}15,\ 6\text{--}9{:}16,\ 8\text{--}10{:}17,\
 9\text{--}11{:}37
 \]
-with all $66$ distances distinct and maximum $78$, so $M(12)\le 78$.  The
-exhaustive run at $D=77$ (expected $\sim10^{12}$ nodes) is queued; a search for a
-witness at $D=77$ was still running, without success, after $5\times10^{10}$
-nodes.  \todo{state the exact value of $M(12)$ once the exhaustive $D=77$ run
-completes}  Appending one leaf to the $n=12$ witness with $D=79$ gives a
+with all $66$ distances distinct and maximum $78$.  The exhaustive run at
+$D=77$ subsequently completed in $70$ shards: all shards reported \texttt{DONE},
+the aggregate search contained $1{,}020{,}925{,}849{,}186$ nodes, and it found
+exactly the two trees printed in Theorem~\ref{thm:mdd}.  Their distance sets were
+recomputed independently by both breadth-first and rooted-depth/LCA checkers.
+Together with the exhaustive exclusions through $D=76$, this proves
+$M(12)=77$.  Appending one leaf to the $n=12$ witness with $D=79$ gives a
 $13$-vertex distinct distance tree of maximum distance $105$, whence
 $M(13)\le 105$ (Calhoun: $119$).
 
@@ -985,7 +1006,7 @@ leave it open.
 
 These are computational results of the same kind as Theorem~\ref{thm:main}, with
 weaker but explicitly stated verification.  The existence statements
-(the two minimal trees at $n=11$, the $D=78$ tree at $n=12$, the modular trees of
+(the two minimal trees at $n=11$, the two minimal trees at $n=12$, the modular trees of
 order $5$, the six leaf-Leech trees) are witnesses, printed above or in the
 archive, and are checkable by hand or by any independent checker; they do not
 depend on the search being exhaustive.  The non-existence statements
@@ -1051,36 +1072,31 @@ search, or a meet-in-the-middle over the smallest and largest weights) or a
 genuinely different argument would be needed.  Whether Leech's five trees are
 the only Leech trees remains open; the present note only moves the smallest open
 order from $18$ to $25$.  In the neighbouring problems of
-Section~\ref{sec:variants} the frontier is much closer: the exact value of
-$M(12)$ needs one exhaustive run that is queued, $M(13)$ is out of reach of the
+Section~\ref{sec:variants} the frontier is much closer: $M(13)$ is out of reach of the
 present engine, modular Leech trees of order $12$ and above are untouched, and
 the leaf-Leech question at $9$ leaves needs an engine of the kind built here for
 Leech trees rather than a generic solver.
 
 \section{AI-assisted research statement}\label{sec:ai}
 
-The search programs, the test and verification harnesses, the literature
-ledger and the drafts of this note were produced by AI coding agents (Claude,
-Anthropic, in the Claude Code environment) working under the direction of the
-author, who set the problem, chose the algorithmic route (forced-forest search
-with isomorph rejection), decided what had to be verified, ran the cluster jobs
-and reviewed the proofs and the code.  An adversarial ``referee'' pass over both
-engines was likewise carried out by an AI agent instructed to look for unsound
-pruning and incomplete symmetry breaking; it produced the correction to
-Lemma~\ref{lem:sidon} recorded in Section~\ref{sec:prelim} and the verification
-scheme of Section~\ref{sec:verification}.  The clean-room implementation of
-Section~\ref{sec:cleanroom} was written by a separate agent that had no access to
-the production source.  All mathematical claims in this note were checked by
-independent implementations as described in Section~\ref{sec:verification};
-human review of the proofs, the code and the text is ongoing, and the author
-takes responsibility for the content.
-\todo{author to confirm and adjust this statement}
+AI assistants, principally Anthropic Claude Code and OpenAI Codex, were used to
+develop search programs, propose and test mathematical arguments, prepare
+verification harnesses, organise the literature ledger and assist with drafting
+and editing this note.  The author selected the research questions and
+algorithmic directions, specified the verification standard, ran or authorised
+the computations, and reviewed the resulting arguments, code and text.  AI
+outputs were treated as untrusted: load-bearing claims were subjected to
+adversarial review, differential tests, independent witness checkers and, for
+the main search, a clean-room re-implementation whose authoring agent had no
+access to the production source.  This process found and corrected the erroneous
+earlier version of Lemma~\ref{lem:sidon}.  The author is the sole author of this
+article and takes full responsibility for its content.
 
 \section{Data and code availability}\label{sec:data}
 
 All code and data are available at
-\url{https://github.com/lsmeng/leech-trees}
-\todo{repository to be created; add archival DOI (Zenodo) at submission}.
+\url{https://github.com/LSMENG/leech-trees}.  A versioned archival DOI will be
+added through Zenodo when the submission release is deposited.
 The archive contains: the two search engines (\file{forest\_search.cpp},
 \file{leech\_search.cpp}) and the clean-room \file{cr\_forest.c}; the
 independent Python enumerators and differential harnesses; the SAT encoder and
@@ -1098,7 +1114,6 @@ was passed through both.
 \subsection*{Acknowledgements}
 Computations were carried out on the author's laptop and on the Hoffman2
 Shared Cluster of the UCLA Office of Advanced Research Computing.
-\todo{confirm acknowledgement wording; add funding if any}
 
 \bibliographystyle{abbrvnat}
 \bibliography{refs}

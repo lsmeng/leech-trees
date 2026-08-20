@@ -31,3 +31,6 @@ docs/sources/SWZ2005_leech7_preprint.txt
 
 # macOS
 .DS_Store
+
+# Local inspection and rendering scratch files
+tmp/

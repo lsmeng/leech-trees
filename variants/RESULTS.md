@@ -65,10 +65,11 @@ weights 4,8,16 at one vertex; id 96: 12 = 3! x 2).  Cross-check n=10 the same wa
 **n = 12** (OBSERVED, Hoffman2): D=69,70,71,72,73,74,75,76 all UNSAT with 3.7e8, 1.5e9, 5.2e9, 1.6e10, 4.2e10, 1.0e11,
 2.4e11, 5.1e11 nodes (35-70 shards each, sum CPU 82 s ... 9.1e4 s); witness hunt (`--edge-first --maxsol 1`): D=78 SAT
 `0-1:1 0-2:2 3-4:4 5-6:5 0-3:6 5-7:13 8-9:14 4-8:15 6-9:16 8-10:17 9-11:37` (missing 9,20,22,23,24,28,38,46,59,64,69,72;
-checker OK; 3.1e10 nodes, 4601 s), also D=79,80,81,82 witnesses; the D=77 hunt had not found a tree after ~5e10 nodes when
-the session closed.  => **77 <= M(12) <= 78** (Calhoun: 69..94).  Exhaustive D=77,78,79 runs (K=70 shards each, jobs 84758-84760)
-are queued on Hoffman2 (`$SCRATCH/leech-trees/variants/results/mdd_12_77_shard*.jsonl`; aggregate with
-`python3 agg_mdd.py results 12 77`); expected cost ~1e12-3e12 nodes each (~1-3 h wall on 70 cores).
+checker OK; 3.1e10 nodes, 4601 s), also D=79,80,81,82 witnesses.  The exhaustive D=77 run completed in 70/70 DONE shards:
+1,020,925,849,186 nodes, exactly two solutions up to isomorphism, both independently checked by BFS and depth/LCA distance
+computations.  Their edge lists are `0-1:1 2-3:2 4-5:3 2-6:4 4-7:5 0-8:9 4-9:12 2-7:14 7-10:20 9-11:29 8-9:30`
+and `0-1:1 2-3:2 4-5:3 2-6:4 4-7:5 0-8:9 4-9:12 3-7:14 7-10:18 9-11:29 8-9:30`.
+Together with D<=76 UNSAT, this gives **M(12) = 77**, exactly two minimal trees (Calhoun: 69..94).
 
 **n = 13**: not attempted exhaustively (M(13) >= 80 from Calhoun; extrapolated cost > 1e15 nodes at D ~ 90).  Upper bound
 by leaf extension of the n=12 witnesses: **M(13) <= 105** (Calhoun 119): `... 4-12:62` appended to the D=79 tree
@@ -151,7 +152,7 @@ needed — left open.  **Question 3.1 of OWY is answered YES already at L = 6**:
 | quantity | literature | new value | confidence |
 |---|---|---|---|
 | M(11) | 59..77 (Calhoun 2007) | **60**, exactly 2 minimal trees | forest engine (2 machines/compilers, sharded) + independent per-topology DFS over all 235 topologies (2 machines, identical node counts); witnesses by independent checker |
-| M(12) | 69..94 | **77 <= M(12) <= 78** | UNSAT D<=76 by forest engine on Hoffman2 (all shards DONE); D=78 witness verified by checker; D=77 exhaustive queued |
+| M(12) | 69..94 | **77**, exactly 2 minimal trees | UNSAT D<=76; D=77 exhaustive forest run, 70/70 shards DONE, 1.021e12 nodes and 2 solutions; both witnesses verified independently by BFS and depth/LCA checkers |
 | M(13) | 80..119 | 80 <= M(13) <= 105 | upper bound = verified witness; lower bound literature |
 | modular Leech, order 5 | "none" (Leach-Walsh 2011 as quoted by Leach 2014) | **exist**: 2 topologies (P5; spider) / 4 U(11)-orbits | v1 + v2 + brute force over all labelings + checker |
 | modular Leech, order 9 | open | **none** (47 topologies) | v1 and v2 (different symmetry breaking / pruning) agree, 1.8e7 / 6.5e6 nodes |

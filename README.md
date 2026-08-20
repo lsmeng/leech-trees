@@ -103,3 +103,15 @@ Hoffman2 job 83594 (v1 engine, cap 300 s, easy-first): 122,344/122,344 survivor 
 
 ## 2026-08-19 (later) — per-topology cross-check progress
 `redo18` (v2 engine, cap 3600 s) has re-decided 17,273 of the 49,323 first-pass UNKNOWNs: **17,272 UNSAT, 1 still UNKNOWN at 1 h, 0 SAT**. Independent-method coverage now 90,293 / 122,344 survivor topologies (73.8%); remaining shards queued on Hoffman2 (no Claude budget needed).
+
+## 2026-08-20 — minimal distinct distance trees at n=12 (OBSERVED)
+The Hoffman2 D=77 exhaustive run completed with 70/70 shards DONE, 1,020,925,849,186 nodes and exactly two solutions up to
+isomorphism. Both witnesses independently pass `variants/checker_distinct.py` (BFS distances) and a separate rooted-depth/LCA
+distance computation. Together with the completed UNSAT runs at D=69,...,76, this gives **M(12)=77**, with exactly two minimal
+trees (improving Calhoun et al.'s literature bounds 69 <= M(12) <= 94). Witnesses and missing-distance sets are recorded in
+`variants/RESULTS.md` and `paper/main.tex`.
+
+## 2026-08-20 13:27 PDT — per-topology n=18 cross-check progress (OBSERVED)
+The running Hoffman2 `redo18` campaign has raised independent-method coverage to **112,082 / 122,344 survivor topologies
+(91.6%) UNSAT**, with 1,169 re-run cases still UNKNOWN at the 3600 s cap and 0 SAT. This is corroboration only; the complete
+forest-engine result and its clean-room replication remain the basis of the n=18 theorem.
