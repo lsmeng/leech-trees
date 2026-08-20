@@ -326,6 +326,19 @@ Leech tree literature, though none of them is deep.
 
 \section{The algorithm}\label{sec:algorithm}
 
+The search described in this section is a re-implementation of Algorithm~2.7 of
+Calhoun, Ferland, Lister and Polhill~\cite{Calhoun2007}, which is itself built on
+the forcing lemma (their Lemma~2.6; the ``Find-Next-Weight'' rule of
+\cite{SzekelyWangZhang2005}).  The algorithm is theirs: a depth-first search whose
+nodes are weighted forests, in which the next edge receives a forced weight and is
+inserted by joining two components, attaching a new vertex, or starting a disjoint
+edge.  What is offered here is an implementation efficient enough to carry that
+search to $n=18$ --- roughly $7.6$ times the work of $n=17$, which is as far as
+\cite{Calhoun2007} went --- together with an explicit proof of the isomorph-rejection
+rule (Lemma~\ref{lem:aut}, asserted without proof in \cite{Calhoun2007}), a sharding
+scheme, and the verification chain of Section~\ref{sec:verification}.  We make no
+claim of algorithmic novelty.
+
 \subsection{Forced forests}\label{sec:forced}
 
 Fix $n$ and $N=\bin n2$.  By Lemma~\ref{lem:forcing}, if $(T,w)$ is a Leech tree
