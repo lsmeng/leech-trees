@@ -1,0 +1,9 @@
+binary SRC[leech_search_4785a43.cpp:b5e80adfaf25057e] -> /private/tmp/claude-501/-Users-geoclaw-Documents/a128be0a-cd3b-4a92-82b6-f91337915fb0/scratchpad/refbin/ref_nw3_b5e80adfaf25057e md5 e5ad1eb9f9c6d7ec21240e9d46c53c90
+binary PROD[bin/leech_search] -> /Users/geoclaw/Documents/claude/projects/leech-trees/bin/leech_search md5 02eec8642901886a27ec8f9702416431
+560 instances
+DFS ground truth done 341.7 s; SAT instances: 479
+CP-SAT cross-check done 360.7
+SRC[leech_search_4785a43.cpp:b5e80adfaf25057e] done 527.4
+PROD[bin/leech_search] done 540.6
+instances by kind (total, SAT): {'planted1-60': [164, 164], 'planted1-30': [79, 79], 'planted1-20': [32, 32], 'leech': [81, 0], 'par0': [26, 26], 'par1': [60, 60], 'par2': [63, 63], 'sym1-60': [34, 34], 'sym1-30': [21, 21]}
+DISCREPANCIES: 0

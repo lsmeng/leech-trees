@@ -1,0 +1,4 @@
+RES id=0 n=25 nodes=122198514 attempts=663333273 found=0 capped=0 time=43.69
+RES id=1 n=25 nodes=747084222 attempts=4844912640 found=0 capped=1 time=300.00
+RES id=2 n=25 nodes=27952235 attempts=172163186 found=0 capped=0 time=15.71
+RES id=3 n=25 nodes=504870455 attempts=3445334016 found=0 capped=1 time=300.00

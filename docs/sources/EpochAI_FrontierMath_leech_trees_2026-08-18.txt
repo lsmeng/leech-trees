@@ -1,0 +1,34 @@
+Leech Trees
+Unsolved
+Combinatorics
+Construction - Finite
+Record Breaking
+Moderately interesting
+Contents
+About the problem
+Prompt
+About the problem
+About the problem
+Prompt
+About the problem
+A 
+Leech tree
+ is a tree together with a positive-integer edge-weighting satisfying the property that the set of pairwise distances between vertices is exactly the set of positive integers from 1 to \(\frac{n(n-1)}{2}\).
+Leech trees were initially introduced in the 1970s by Leech, who was motivated by applications to efficient circuit design. (To see the connection to circuit design, think of the edges as resistors and the edge-weights as different resistances.) Only five Leech trees are currently known, and all were given by Leech in 
+his initial paper
+.
+This problem asks for a construction of a new Leech tree. The smallest \(n\) for which it is open whether there is a Leech tree on \(n\) vertices is \(n=18\). A nice solution to this problem would be a construction showing how to build an infinite family of Leech trees, or giving some insight into how to construct Leech trees in general. Even a solution obtained through brute-force would still be of interest. The main risk for this problem is that no other Leech trees exist.
+Prompt
+Copy
+A tree with positive-integer edge weights is called a Leech tree if the set of all pairwise path distances between vertices is exactly {1, 2, 3, ..., n(n-1)/2}, where n is the number of vertices. In other words, every integer from 1 up to n(n-1)/2 appears as the path distance between exactly one pair of vertices.
+Your task is to construct a Leech tree with 18 or more vertices.
+Output your answer as a file named submission.json containing a JSON array of edges, where each edge is a triple [x, y, w]:
+- x and y are positive integers representing the two endpoint vertices
+- w is a positive integer representing the edge weight
+The edges must form a valid tree (connected, no cycles) on n >= 18 vertices with positive-integer edge weights, and the n(n-1)/2 pairwise path distances must be exactly the integers 1, 2, 3, ..., n(n-1)/2.
+Example format for a small Leech tree on 3 vertices (distances 1, 2, 3):
+[
+  [1, 2, 1],
+  [2, 3, 2]
+]
+Your submission.json should follow this same format, scaled up to 18 or more vertices.

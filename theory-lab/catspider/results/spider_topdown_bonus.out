@@ -1,0 +1,36 @@
+{'n': 36, 'N': 630, 'raw_solutions': 0, 'unique_by_edge_multiset': 0, 'nodes': 33373, 'options_generated': 84749982, 'secs': 69.91}
+{'n': 38, 'N': 703, 'raw_solutions': 0, 'unique_by_edge_multiset': 0, 'nodes': 37528, 'options_generated': 105891550, 'secs': 82.86}
+Traceback (most recent call last):
+  File "/Users/geoclaw/Documents/claude/projects/leech-trees/theory-lab/catspider/spider_topdown.py", line 208, in <module>
+    main()
+    ~~~~^^
+  File "/Users/geoclaw/Documents/claude/projects/leech-trees/theory-lab/catspider/spider_topdown.py", line 190, in main
+    sols, stats = solve(n, Tlist, verbose)
+                  ~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Users/geoclaw/Documents/claude/projects/leech-trees/theory-lab/catspider/spider_topdown.py", line 177, in solve
+    run_T(T)
+    ~~~~~^^^
+  File "/Users/geoclaw/Documents/claude/projects/leech-trees/theory-lab/catspider/spider_topdown.py", line 168, in run_T
+    dfs(N-1)
+    ~~~^^^^^
+  File "/Users/geoclaw/Documents/claude/projects/leech-trees/theory-lab/catspider/spider_topdown.py", line 153, in dfs
+    if PARANOID: paranoid_check()
+       ^^^^^^^^
+NameError: name 'PARANOID' is not defined
+Traceback (most recent call last):
+  File "/Users/geoclaw/Documents/claude/projects/leech-trees/theory-lab/catspider/spider_topdown.py", line 208, in <module>
+    main()
+    ~~~~^^
+  File "/Users/geoclaw/Documents/claude/projects/leech-trees/theory-lab/catspider/spider_topdown.py", line 190, in main
+    sols, stats = solve(n, Tlist, verbose)
+                  ~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Users/geoclaw/Documents/claude/projects/leech-trees/theory-lab/catspider/spider_topdown.py", line 177, in solve
+    run_T(T)
+    ~~~~~^^^
+  File "/Users/geoclaw/Documents/claude/projects/leech-trees/theory-lab/catspider/spider_topdown.py", line 168, in run_T
+    dfs(N-1)
+    ~~~^^^^^
+  File "/Users/geoclaw/Documents/claude/projects/leech-trees/theory-lab/catspider/spider_topdown.py", line 153, in dfs
+    if PARANOID: paranoid_check()
+       ^^^^^^^^
+NameError: name 'PARANOID' is not defined

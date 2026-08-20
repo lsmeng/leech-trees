@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this code or the result, please cite the note below."
+type: software
+title: "leech-trees: exhaustive forced-forest search proving that there is no Leech tree on 18 vertices"
+authors:
+  - family-names: Meng
+    given-names: Lingsen
+    affiliation: "Department of Earth, Planetary, and Space Sciences, University of California, Los Angeles"
+    email: meng@epss.ucla.edu
+version: "0.1.0"
+date-released: "2026-08-18"
+repository-code: "https://github.com/lsmeng/leech-trees"
+license: MIT
+keywords:
+  - Leech tree
+  - perfect distance tree
+  - distinct distance tree
+  - Golomb ruler
+  - exhaustive search
+  - computer-assisted proof
+preferred-citation:
+  type: unpublished
+  title: "There is no Leech tree on 18 vertices"
+  authors:
+    - family-names: Meng
+      given-names: Lingsen
+  year: 2026
+  notes: "Draft note, 18 August 2026. paper/main.pdf in this repository."

@@ -1,0 +1,17 @@
+# Keep line endings and diffs sane for data/result files
+*.jsonl text eol=lf -diff
+*.err   text eol=lf -diff
+*.out   text eol=lf -diff
+*.log   text eol=lf -diff
+*.txt   text eol=lf
+*.py    text eol=lf
+*.c     text eol=lf
+*.cpp   text eol=lf
+*.sh    text eol=lf
+*.md    text eol=lf
+*.tex   text eol=lf
+*.bib   text eol=lf
+*.pdf   binary
+# The frozen tree list is 22 MB: never diff it, keep it under plain git (below GitHub's 50 MB soft limit; no LFS needed)
+data/trees_18.jsonl -diff
+results/theory_filters_18.jsonl -diff

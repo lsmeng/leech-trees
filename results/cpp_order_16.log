@@ -1,0 +1,27 @@
+n=16 total=19320 done=0 todo=19320 procs=10 time=3600.0 extra='' out=/Users/geoclaw/Documents/claude/projects/leech-trees/results/cpp_order_16.jsonl
+200/19320 elapsed 2271s
+400/19320 elapsed 6055s
+600/19320 elapsed 16304s
+800/19320 elapsed 21802s
+1000/19320 elapsed 25777s
+1200/19320 elapsed 25994s
+1400/19320 elapsed 26217s
+1600/19320 elapsed 26467s
+1800/19320 elapsed 26750s
+2000/19320 elapsed 27813s
+2200/19320 elapsed 28361s
+2400/19320 elapsed 29004s
+2600/19320 elapsed 30132s
+2800/19320 elapsed 31069s
+3000/19320 elapsed 31864s
+3200/19320 elapsed 33200s
+3400/19320 elapsed 34043s
+3600/19320 elapsed 35150s
+3800/19320 elapsed 36112s
+4000/19320 elapsed 39999s
+4200/19320 elapsed 43833s
+4400/19320 elapsed 45391s
+4600/19320 elapsed 47863s
+4800/19320 elapsed 49746s
+5000/19320 elapsed 53456s
+5200/19320 elapsed 57541s

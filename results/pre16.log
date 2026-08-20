@@ -1,0 +1,4 @@
+n=16 selected=2 done=0 todo=2 procs=2 solver=cadical variant=order dirs=3 T=900.0
+[1/2] id=4943 TIMEOUT solve=900.08s proof=176.2MB drat=- (-s) ncl=4583987
+[2/2] id=10611 TIMEOUT solve=900.299s proof=207.7MB drat=- (-s) ncl=4732597
+done 920.8 s {'TIMEOUT': 2}

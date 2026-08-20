@@ -1,0 +1,4 @@
+{'n': 36, 'N': 630, 'raw_solutions': 0, 'unique_by_edge_multiset': 0, 'nodes': 33373, 'options_generated': 84749982, 'secs': 124.13}
+{'n': 38, 'N': 703, 'raw_solutions': 0, 'unique_by_edge_multiset': 0, 'nodes': 37528, 'options_generated': 105891550, 'secs': 132.17}
+{'n': 49, 'N': 1176, 'raw_solutions': 0, 'unique_by_edge_multiset': 0, 'nodes': 63676, 'options_generated': 300699989, 'secs': 307.99}
+{'n': 51, 'N': 1275, 'raw_solutions': 0, 'unique_by_edge_multiset': 0, 'nodes': 69302, 'options_generated': 353983359, 'secs': 293.48}
