@@ -1,0 +1,27 @@
+n=25 nodes=15105 nsol=0 time=0.04
+depth: 0:1 1:1 2:2 3:8 4:41 5:184 6:732 7:2765 8:11371 9:0 10:0 11:0 12:0 13:0 14:0 15:0 16:0 17:0 18:0 19:0 20:0 21:0 22:0 23:0 24:0
+depth  0 by ncomp: 0:1
+depth  1 by ncomp: 1:1
+depth  2 by ncomp: 1:1 2:1
+depth  3 by ncomp: 1:4 2:3 3:1
+depth  4 by ncomp: 1:16 2:18 3:6 4:1
+depth  5 by ncomp: 1:30 2:96 3:47 4:10 5:1
+depth  6 by ncomp: 1:38 2:277 3:303 4:98 5:15 6:1
+depth  7 by ncomp: 1:34 2:503 3:1226 4:792 5:188 6:21 7:1
+depth  8 by ncomp: 1:11 2:751 3:3767 4:4589 5:1895 6:329 7:29
+depth  9 by ncomp:
+depth 10 by ncomp:
+depth 11 by ncomp:
+depth 12 by ncomp:
+depth 13 by ncomp:
+depth 14 by ncomp:
+depth 15 by ncomp:
+depth 16 by ncomp:
+depth 17 by ncomp:
+depth 18 by ncomp:
+depth 19 by ncomp:
+depth 20 by ncomp:
+depth 21 by ncomp:
+depth 22 by ncomp:
+depth 23 by ncomp:
+depth 24 by ncomp:

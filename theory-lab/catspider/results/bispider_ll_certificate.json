@@ -1,0 +1,72 @@
+{
+  "cleanroom": {
+    "exact_per_regime_match": true,
+    "implementations_share_no_imports": true
+  },
+  "coverage": {
+    "far": "U>36 and L=U-Q>36; delta and rho=delta+2Q=N-2L use exact values through 36 and stable sentinel 37",
+    "near": "U>36 and 1<=L=U-Q<=36; delta=T-U uses exact values through 36 and stable sentinel 37",
+    "small": "2<=U<=36 and 1<=L=U-Q<U; N>=153 forces delta=N-2U>=81"
+  },
+  "date": "2026-08-21",
+  "exact_calibration": {
+    "command": "gcc -O3 -std=c11 -D_POSIX_C_SOURCE=200809L -o bin/bispider bispider.c && bin/bispider 18 LL",
+    "n18": {
+      "anchors": 2825,
+      "deepest_missing_offset": 33,
+      "max_noncentre_marks": 11,
+      "nodes": 723912,
+      "nsol": 0,
+      "paranoid_full_distance_recheck": true
+    }
+  },
+  "partition_audit_n18_through_n40": {
+    "far": 463127,
+    "near": 146772,
+    "small": 14490
+  },
+  "regions": {
+    "far": {
+      "accepted_children": 89380,
+      "dead_states": 52129,
+      "frontier_states": 0,
+      "max_deepest_missing_offset": 36,
+      "max_selected_vertices": 12,
+      "nodes": 89723,
+      "regimes": 343,
+      "sha256": "db87ce9807221abb07c97c21aafc180086bcf6e69af1d3fe541f755bb847b584"
+    },
+    "near": {
+      "accepted_children": 431737,
+      "dead_states": 253306,
+      "frontier_states": 0,
+      "max_deepest_missing_offset": 28,
+      "max_selected_vertices": 12,
+      "nodes": 433069,
+      "regimes": 1332,
+      "sha256": "94cd15d95cc0df434125c5e88af5fbb4b5c2089d397aeae186b6dfb7fab5c3f3"
+    },
+    "small": {
+      "accepted_children": 217172,
+      "dead_states": 131397,
+      "frontier_states": 0,
+      "max_deepest_missing_offset": 20,
+      "max_selected_vertices": 11,
+      "nodes": 217802,
+      "regimes": 630,
+      "sha256": "9d94098ed78c1100f8ae92c88a08afb70d198fbffc9e33b9ef4e8ea4b138d28b"
+    }
+  },
+  "reproduce": "nice -n 10 python3 theory-lab/catspider/verify_bispider_ll.py --jobs 4",
+  "status": "OBSERVED",
+  "theorem": "No LL-anchored Leech bi-spider of order n>=18 exists. Combined with the paired LR certificates, no Leech bi-spider of order n>=18 exists.",
+  "totals": {
+    "accepted_children": 738289,
+    "dead_states": 436832,
+    "frontier_states": 0,
+    "nodes": 740594,
+    "regimes": 2305
+  },
+  "trust_boundary": "Finite relaxed W=36 top-window exhaustion. Every actual LL anchor maps to exactly one of the small/near/far regimes. The searches retain all possible high-offset realiser forms and necessary within-class distance collisions, but omit cross-class parameter-dependent collisions, vertices outside the window and the vertex budget. These omissions only enlarge the state space. No SAT witness is produced.",
+  "window": 36
+}

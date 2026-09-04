@@ -1,0 +1,23 @@
+{
+  "cleanroom": {
+    "exact_per_A_match": true,
+    "regimes": 50,
+    "sha256": "baf3929973241ec3b1a24673083d1d9fd6cb998f51c7e4b8fbccc22bfa62d87e"
+  },
+  "date": "2026-08-21",
+  "primary": {
+    "accepted_children": 87835,
+    "dead_states": 53581,
+    "frontier_states": 0,
+    "max_deepest_missing_offset": 20,
+    "max_selected_vertices": 11,
+    "nodes": 87885,
+    "regimes": 50,
+    "sha256": "baf3929973241ec3b1a24673083d1d9fd6cb998f51c7e4b8fbccc22bfa62d87e"
+  },
+  "reproduce": "nice -n 10 python3 theory-lab/catspider/verify_bispider_smalla_positive.py",
+  "status": "OBSERVED",
+  "theorem": "For an LR anchor N=A+Q+B with A<B, 1<=A<=50, B>20 and Q-(B-A)>20, no Leech bi-spider extends the anchor.",
+  "trust_boundary": "Finite relaxed top-window exhaustion. Exact long parameters, parameter-dependent collisions and the vertex budget are omitted, so the searched state space is a supertree of every exact continuation in the theorem region.",
+  "window": 20
+}

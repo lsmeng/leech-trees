@@ -1,0 +1,46 @@
+# Python
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+
+# Compiled binaries (rebuild with scripts/build.sh and cleanroom/build, see README-GITHUB.md)
+bin/
+cleanroom/cr_forest
+tools/
+
+# Large / regenerable proof artefacts (DRAT proofs; regenerate with src/run_sat.py --keep-proofs)
+results/proofs/
+
+# LaTeX build files
+paper/*.aux
+paper/*.log
+paper/*.blg
+paper/*.bbl
+paper/*.out
+paper/*.fls
+paper/*.fdb_latexmk
+
+# Third-party copyrighted material archived for reference (not redistributed):
+# scanned/paywalled papers and other authors' programs.  Own programs in
+# docs/sources/ (golomb*.c, stardeg.c) are kept.
+docs/sources/*.pdf
+docs/sources/SWZ_*.c
+docs/sources/JCMCC2007_Calhoun_OCR.txt
+docs/sources/SWZ2005_leech7_preprint.txt
+
+# macOS
+.DS_Store
+
+# Local inspection and rendering scratch files
+tmp/
+
+# --- Deposit curation (2026-09-04) ---
+# The superseded top-window / exp-families programme.  These are the artefacts of
+# the delta-indexed pipeline that Section 8 of the paper replaces; they are not
+# cited anywhere in the paper, they total ~2.3 GB, and two files exceed GitHub's
+# 100 MB limit.  They are deliberately not part of the deposited archive.
+theory-lab/topwindow/
+theory-lab/exp-families/
+theory-lab/scratch_*.py
+tmp/

@@ -1,0 +1,43 @@
+{
+  "claim_status": "OBSERVED calibration; no order-25 or all-order conclusion",
+  "engine": "threebranch_exact.c",
+  "validation": {
+    "python_invariant_agreement_orders": [8, 9, 10],
+    "python_per_mode_agreement_order": 10,
+    "paranoid_fast_agreement_orders": [8, 9, 10, 11, 12],
+    "independent_fixed_topology_agreement_order": 11,
+    "window_shard_audit": "order 10, W=20, K=3; all additive and maximum invariants agree",
+    "two_new_mark_probe_children": 3,
+    "witness_policy": "every reported witness passes checker_a.py and checker_b.py"
+  },
+  "exact_runs": {
+    "8": {"anchors": 1473, "nodes": 2663, "legal_children": 1190, "legal_pair_children": 0, "solutions": 0, "status": "DONE"},
+    "9": {"anchors": 4804, "nodes": 21350, "legal_children": 16546, "legal_pair_children": 0, "solutions": 0, "status": "DONE"},
+    "10": {"anchors": 12289, "nodes": 107677, "legal_children": 95388, "legal_pair_children": 0, "solutions": 0, "status": "DONE"},
+    "11": {"anchors": 25196, "nodes": 390157, "legal_children": 364961, "legal_pair_children": 0, "solutions": 0, "status": "DONE"},
+    "12": {"anchors": 45487, "nodes": 1213546, "legal_children": 1168059, "legal_pair_children": 0, "solutions": 0, "status": "DONE"},
+    "13": {"anchors": 80907, "nodes": 3553972, "legal_children": 3473065, "legal_pair_children": 0, "solutions": 0, "status": "DONE"},
+    "14": {"anchors": 140777, "nodes": 10035575, "legal_children": 9894798, "legal_pair_children": 0, "solutions": 0, "status": "DONE"},
+    "15": {
+      "anchors": 225554,
+      "nodes": 25379164,
+      "legal_children": 25153610,
+      "legal_pair_children": 0,
+      "solutions": 0,
+      "status": "DONE",
+      "modes": {
+        "AA": {"anchors": 19098, "nodes": 1890679, "solutions": 0},
+        "BB": {"anchors": 18940, "nodes": 1450468, "solutions": 0},
+        "AB": {"anchors": 112580, "nodes": 12402120, "solutions": 0},
+        "AC": {"anchors": 74936, "nodes": 9635897, "solutions": 0}
+      }
+    }
+  },
+  "one_vertex_lemma": {
+    "status": "OBSERVED theorem",
+    "proof": "docs/anchored-one-vertex-lemma.md",
+    "verifier": "theory-lab/threebranch/verify_one_vertex_lemma.py",
+    "conservative_vs_pruned_agreement_orders": [8, 9, 10, 11, 12, 13, 14, 15]
+  },
+  "verdict": "PASS"
+}

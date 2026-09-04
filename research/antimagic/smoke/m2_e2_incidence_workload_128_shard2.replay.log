@@ -1,0 +1,51 @@
+{
+  "accepted_raw": 8388608,
+  "actual_workloads_match": true,
+  "artifact_sha256": "60f12f79912b893343b853a5baff9d2ffc6039748d26e98102315487f01fd107",
+  "base_records_match": true,
+  "canonical_count": 8388608,
+  "canonical_stream_sha256": "70a4a9b3fd52f46f9aa1c642a52f859bf933da5c7f11486a5e47c54e8d727ae2",
+  "execution_mode": "workload_plan_rank_list",
+  "global_raw_count": 8388608,
+  "index_version": "m2-e2-base-index-v1",
+  "planned_workload_max_match": true,
+  "planned_workload_total_match": true,
+  "processed_raw": 8388608,
+  "raw_stream_sha256": "3df7b9cee2b161999b7610d2a61097b2330d5eea7d4631970a60c57609931203",
+  "replay_script_sha256": "42a5603f7f67011a01d7648f56efc08002b2e8fe6f81972a6190446471405aaa",
+  "replay_version": "m2-e2-workload-shard-replay-v1",
+  "runner_version": "m2-e2-incidence-runner-v1",
+  "schema_version": "literal-low-v3-owner-status",
+  "scope": {
+    "all_outward_masks_for_valid_bases": true,
+    "all_ports_for_valid_bases": true,
+    "e_values": [
+      2
+    ],
+    "m_values": [
+      2
+    ],
+    "valid_ranks": [
+      46853,
+      46854,
+      46855,
+      47136,
+      47160,
+      47946,
+      48075
+    ],
+    "workload_shard_count": 128,
+    "workload_shard_index": 2
+  },
+  "sentinel_raw": 0,
+  "sentinel_reason_counts": {},
+  "source_merge_payload_sha256": "8ee646dcf15db200fbd460be7448c13f388d07032f08913eef1c1b115a753e2f",
+  "source_validity_merge_sha256": "3d4a620b16ae6fc80288c88106e6d7023e74bc52bdf7eb04c6e7590136da498c",
+  "status": "VERIFIED_INDEPENDENT_M2_E2_WORKLOAD_SHARD_STREAM_REPLAY",
+  "trust_boundary": "Full-stream independent replay for exactly this workload-plan shard and its committed valid-rank list. It does not certify any other workload shard, the global workload merge, universal m=2,e=2 S2 orbit completeness, L-surjectivity, high completion, or Leech-tree nonexistence.",
+  "workload_plan_payload_sha256": "7fe9f364739105c804748ba77aadb157bd53740c012ba9d26f3f6a6d4f82acb6",
+  "workload_plan_sha256": "582e15d04aae4339bbfb7cdb87e1a5da066f0ea09e10239ae5eb46996f4475c4"
+}
+real 1756.64
+user 1746.22
+sys 9.63

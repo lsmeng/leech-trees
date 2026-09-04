@@ -1,0 +1,29 @@
+{
+  "claim": "No order-18 Leech tree has exactly three branch vertices.",
+  "status": "OBSERVED computational theorem",
+  "engine": "theory-lab/threebranch/threebranch_exact.c --no-pairs --diameter-intro",
+  "proof_context": "docs/threebranch-engine.md",
+  "verifier": "theory-lab/threebranch/verify_threebranch_n18.py",
+  "modes": ["AA", "BB", "AB", "AC"],
+  "totals": {
+    "anchors_generated": 821400,
+    "anchors": 756300,
+    "nodes": 273479949,
+    "candidate_marks": 2134643776,
+    "legal_children": 272723649,
+    "solutions": 0,
+    "frontier": 0,
+    "deepest_missing_offset": 43,
+    "max_noncentre_marks": 11
+  },
+  "conservative_pair_enumeration": {
+    "candidate_marks": 6022279105,
+    "candidate_pairs": 29931056264,
+    "legal_pair_children": 0,
+    "nodes": 273479949,
+    "solutions": 0,
+    "status": "all four modes DONE"
+  },
+  "witness_policy": "Every reported witness must pass src/checker_a.py and src/checker_b.py; this run reported none.",
+  "scope_note": "This is an exact finite-order family exclusion. It does not exclude exactly-three-branch trees at all n>=18 or arbitrary order-25 trees."
+}

@@ -1,0 +1,14 @@
+{
+  "N": 4950,
+  "accepted_children": 270659,
+  "anchors": 2474,
+  "budget_rejects": 0,
+  "dead_states": 140237,
+  "deepest_missing_offset": 25,
+  "frontier_states": 0,
+  "max_marks": 9,
+  "n": 100,
+  "nodes": 273133,
+  "options_generated": 13732039,
+  "solutions": 0
+}

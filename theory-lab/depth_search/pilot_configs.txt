@@ -1,0 +1,22 @@
+r10_plain --order 25 --nf --r 10 --all-s --no-witness --levels --nodes-limit 20000000
+r12_plain --order 25 --nf --r 12 --all-s --no-witness --levels --nodes-limit 20000000
+r16_plain --order 25 --nf --r 16 --all-s --no-witness --levels --nodes-limit 20000000
+r22_plain --order 25 --nf --r 22 --all-s --no-witness --levels --nodes-limit 20000000
+r10_force --order 25 --nf --r 10 --all-s --no-witness --levels --nodes-limit 20000000 --force-edges
+r12_force --order 25 --nf --r 12 --all-s --no-witness --levels --nodes-limit 20000000 --force-edges
+r16_force --order 25 --nf --r 16 --all-s --no-witness --levels --nodes-limit 20000000 --force-edges
+r22_force --order 25 --nf --r 22 --all-s --no-witness --levels --nodes-limit 20000000 --force-edges
+r10_hall --order 25 --nf --r 10 --all-s --no-witness --levels --nodes-limit 20000000 --hall --hall-max 12
+r12_hall --order 25 --nf --r 12 --all-s --no-witness --levels --nodes-limit 20000000 --hall --hall-max 12
+r16_hall --order 25 --nf --r 16 --all-s --no-witness --levels --nodes-limit 20000000 --hall --hall-max 12
+r22_hall --order 25 --nf --r 22 --all-s --no-witness --levels --nodes-limit 20000000 --hall --hall-max 12
+r10_both --order 25 --nf --r 10 --all-s --no-witness --levels --nodes-limit 20000000 --hall --hall-max 12 --force-edges
+r12_both --order 25 --nf --r 12 --all-s --no-witness --levels --nodes-limit 20000000 --hall --hall-max 12 --force-edges
+r16_both --order 25 --nf --r 16 --all-s --no-witness --levels --nodes-limit 20000000 --hall --hall-max 12 --force-edges
+r22_both --order 25 --nf --r 22 --all-s --no-witness --levels --nodes-limit 20000000 --hall --hall-max 12 --force-edges
+gen_n12 --order 12 --sym w1 --no-witness --levels
+gen_n13 --order 13 --sym w1 --no-witness --levels
+gen_n14 --order 14 --sym w1 --no-witness --levels --nodes-limit 30000000000
+gen_n25_w1 --order 25 --sym w1 --no-witness --levels --nodes-limit 20000000000
+gen_n25_diam --order 25 --sym diam --no-witness --levels --nodes-limit 20000000000
+gen_n25_diam284 --order 25 --sym diam --sub-diam 284 --no-witness --levels --nodes-limit 20000000000

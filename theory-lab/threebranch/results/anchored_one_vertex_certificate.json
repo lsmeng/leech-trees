@@ -1,0 +1,11 @@
+{
+  "claim": "After a diameter-N pair is selected and all values above the greatest missing v are realized, a valid distinct-distance tree extension realizes v using at most one new vertex.",
+  "status": "OBSERVED theorem",
+  "proof": "docs/anchored-one-vertex-lemma.md",
+  "weighted_tree_quartets_checked": 19800,
+  "conservative_vs_lemma_pruned_orders": [8, 9, 10, 11, 12, 13, 14, 15],
+  "invariants_compared": ["anchors", "nodes", "legal_children", "solutions"],
+  "nonanchored_two_new_positive_probe_children": 3,
+  "all_comparisons": "PASS",
+  "scope_note": "This is a branching reduction, not a nonexistence theorem for any unresolved order or topology class."
+}

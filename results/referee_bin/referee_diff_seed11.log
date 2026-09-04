@@ -1,0 +1,31 @@
+binary SRC[leech_search_4785a43.cpp:b5e80adfaf25057e] -> /private/tmp/claude-501/-Users-geoclaw-Documents/a128be0a-cd3b-4a92-82b6-f91337915fb0/scratchpad/refbin/ref_nw3_b5e80adfaf25057e md5 e5ad1eb9f9c6d7ec21240e9d46c53c90
+binary SRC[leech_search_v1.cpp:fa63b64c72b65d9e] -> /private/tmp/claude-501/-Users-geoclaw-Documents/a128be0a-cd3b-4a92-82b6-f91337915fb0/scratchpad/refbin/ref_nw3_fa63b64c72b65d9e md5 0f0c74a8e9356b4b15251e7fc4854958
+binary PROD[bin/leech_search] -> /Users/geoclaw/Documents/claude/projects/leech-trees/bin/leech_search md5 02eec8642901886a27ec8f9702416431
+574 instances
+DFS ground truth done 344.0 s; SAT instances: 493
+CP-SAT cross-check done 361.4
+SRC[leech_search_4785a43.cpp:b5e80adfaf25057e] done 491.0
+  SRC[leech_search_v1.cpp:fa63b64c72b65d9e]: flags ['--legacy'] not supported by this build, skipped
+  SRC[leech_search_v1.cpp:fa63b64c72b65d9e]: flags ['--legacy', '--no-fc'] not supported by this build, skipped
+  SRC[leech_search_v1.cpp:fa63b64c72b65d9e]: flags ['--legacy', '--no-grp'] not supported by this build, skipped
+  SRC[leech_search_v1.cpp:fa63b64c72b65d9e]: flags ['--legacy', '--no-hall'] not supported by this build, skipped
+  SRC[leech_search_v1.cpp:fa63b64c72b65d9e]: flags ['--legacy', '--no-grp2'] not supported by this build, skipped
+  SRC[leech_search_v1.cpp:fa63b64c72b65d9e]: flags ['--legacy', '--no-fc', '--no-hall', '--no-grp', '--no-sum', '--no-parity', '--no-top', '--no-grp2'] not supported by this build, skipped
+  SRC[leech_search_v1.cpp:fa63b64c72b65d9e]: flags ['--legacy', '--no-fc', '--no-hall'] not supported by this build, skipped
+  SRC[leech_search_v1.cpp:fa63b64c72b65d9e]: flags ['--legacy', '--no-fc', '--no-grp', '--no-hall', '--no-sum', '--no-top'] not supported by this build, skipped
+  SRC[leech_search_v1.cpp:fa63b64c72b65d9e]: flags ['--legacy', '--cover'] not supported by this build, skipped
+  SRC[leech_search_v1.cpp:fa63b64c72b65d9e]: flags ['--legacy', '--match'] not supported by this build, skipped
+  SRC[leech_search_v1.cpp:fa63b64c72b65d9e]: flags ['--wcover', '200'] not supported by this build, skipped
+  SRC[leech_search_v1.cpp:fa63b64c72b65d9e]: flags ['--wcover', '50', '--no-grp'] not supported by this build, skipped
+  SRC[leech_search_v1.cpp:fa63b64c72b65d9e]: flags ['--no-look'] not supported by this build, skipped
+  SRC[leech_search_v1.cpp:fa63b64c72b65d9e]: flags ['--wcover', '0'] not supported by this build, skipped
+  SRC[leech_search_v1.cpp:fa63b64c72b65d9e]: flags ['--wcover', '0', '--no-look'] not supported by this build, skipped
+  SRC[leech_search_v1.cpp:fa63b64c72b65d9e]: flags ['--wcover', '500'] not supported by this build, skipped
+  SRC[leech_search_v1.cpp:fa63b64c72b65d9e]: flags ['--hallw', '78'] not supported by this build, skipped
+  SRC[leech_search_v1.cpp:fa63b64c72b65d9e]: flags ['--hallw', '3'] not supported by this build, skipped
+  SRC[leech_search_v1.cpp:fa63b64c72b65d9e]: flags ['--hallw', '0'] not supported by this build, skipped
+  SRC[leech_search_v1.cpp:fa63b64c72b65d9e]: flags ['--no-look', '--wcover', '0', '--no-grp', '--no-hall', '--no-parity', '--no-top', '--no-sum'] not supported by this build, skipped
+SRC[leech_search_v1.cpp:fa63b64c72b65d9e] done 597.2
+PROD[bin/leech_search] done 606.6
+instances by kind (total, SAT): {'planted1-60': [172, 172], 'planted1-30': [82, 82], 'planted1-20': [32, 32], 'leech': [81, 0], 'par0': [30, 30], 'par1': [60, 60], 'par2': [62, 62], 'sym1-60': [36, 36], 'sym1-30': [19, 19]}
+DISCREPANCIES: 0

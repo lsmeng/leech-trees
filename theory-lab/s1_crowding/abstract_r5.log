@@ -1,0 +1,26 @@
+ABSTRACT m=19 r=5 lowpar=0,0,0,0 xcap=1000 leaves=0 nodes=5553 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,0,0,1 xcap=1000 leaves=0 nodes=18476 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,0,0,2 xcap=1000 leaves=0 nodes=18476 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,0,0,3 xcap=1000 leaves=0 nodes=18476 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,0,1,0 xcap=1000 leaves=0 nodes=18476 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,0,1,1 xcap=1000 leaves=0 nodes=40867 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,0,1,2 xcap=1000 leaves=0 nodes=31391 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,0,1,3 xcap=1000 leaves=0 nodes=175810 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,0,2,0 xcap=1000 leaves=0 nodes=18476 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,0,2,1 xcap=1000 leaves=0 nodes=31391 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,0,2,2 xcap=1000 leaves=0 nodes=40867 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,0,2,3 xcap=1000 leaves=0 nodes=175810 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,1,0,0 xcap=1000 leaves=0 nodes=18476 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,1,0,1 xcap=1000 leaves=0 nodes=40867 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,1,0,2 xcap=1000 leaves=0 nodes=175810 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,1,0,3 xcap=1000 leaves=0 nodes=31391 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,1,1,0 xcap=1000 leaves=0 nodes=40867 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,1,1,1 xcap=1000 leaves=0 nodes=46494 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,1,1,2 xcap=1000 leaves=0 nodes=193377 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,1,1,3 xcap=1000 leaves=0 nodes=193377 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,1,2,0 xcap=1000 leaves=0 nodes=175810 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,1,2,1 xcap=1000 leaves=0 nodes=193377 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,1,2,2 xcap=1000 leaves=0 nodes=351658 EXHAUSTED
+ABSTRACT m=19 r=5 lowpar=0,1,2,3 xcap=1000 leaves=0 nodes=1697398 EXHAUSTED
+ABSTRACT_SUMMARY m=19 r=5 shapes=24 xcap=1000 total_leaves=0 NO_STRUCTURE
+./abstract_class_search --m 19 --r 5 --all-shapes --nodes-limit 3000000000  0.27s user 0.00s system 49% cpu 0.558 total

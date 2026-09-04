@@ -1,0 +1,41 @@
+== validation against data/known_leech_trees.json ==
+  n   sym   raw up to iso expected  verdict
+  2  none     1         1        1  OK
+  2    w1     1         1        1  OK
+  2  diam     1         1        1  OK
+  3  none     3         1        1  OK
+  3    w1     2         1        1  OK
+  3  diam     2         1        1  OK
+  4  none     8         2        2  OK
+  4    w1     4         2        2  OK
+  4  diam     4         2        2  OK
+  5  none     0         0        0  OK
+  5    w1     0         0        0  OK
+  5  diam     0         0        0  OK
+  6  none     6         1        1  OK
+  6    w1     2         1        1  OK
+  6  diam     2         1        1  OK
+  7  none     0         0        0  OK
+  7    w1     0         0        0  OK
+  7  diam     0         0        0  OK
+  8  none     0         0        0  OK
+  8    w1     0         0        0  OK
+  8  diam     0         0        0  OK
+  9  none     0         0        0  OK
+  9    w1     0         0        0  OK
+  9  diam     0         0        0  OK
+ 10  none     0         0        0  OK
+ 10    w1     0         0        0  OK
+ 10  diam     0         0        0  OK
+ 11  none     0         0        0  OK
+ 11    w1     0         0        0  OK
+ 11  diam     0         0        0  OK
+ALL VALIDATION PASSED
+
+== scaling, general mode, --sym w1 ==
+  n    N          nodes    CPU(s)  levels
+  7   21          3,811      0.00  1 1 23 363 2239 1184 0
+  8   28         35,132      0.01  1 1 33 758 8558 23191 2590 0
+  9   36        336,616      0.05  1 1 45 1408 24585 161863 145824 2889 0
+ 10   45      3,394,521      1.69  1 1 59 2407 58985 693835 2094056 543205 1972 0
+ 11   55     35,461,384     28.84  1 1 75 3853 124992 2250485 14804764 17150528 1125953 732 0

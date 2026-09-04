@@ -1,0 +1,74 @@
+{
+  "archive_sha256": "9e6d34ab3777b54d5370fcd4beaabbd9aa00db688b4efd8f109ee2644efcb420",
+  "claim": "order-25 three-branch width-25 window is insufficient",
+  "modes": {
+    "AA": {
+      "anchors": 514546,
+      "anchors_generated": 529396,
+      "candidate_marks": 6636765470,
+      "candidate_pairs": 0,
+      "deepest_missing_offset": 38,
+      "frontier": 3543964,
+      "legal_children": 775900154,
+      "legal_pair_children": 0,
+      "legal_single_children": 775900154,
+      "nodes": 776414700,
+      "nsol": 0
+    },
+    "AB": {
+      "anchors": 3066710,
+      "anchors_generated": 3241792,
+      "candidate_marks": 46765267602,
+      "candidate_pairs": 0,
+      "deepest_missing_offset": 40,
+      "frontier": 44969254,
+      "legal_children": 5768545193,
+      "legal_pair_children": 0,
+      "legal_single_children": 5768545193,
+      "nodes": 5771611903,
+      "nsol": 0
+    },
+    "AC": {
+      "anchors": 2043332,
+      "anchors_generated": 2150218,
+      "candidate_marks": 60005727159,
+      "candidate_pairs": 0,
+      "deepest_missing_offset": 40,
+      "frontier": 117107310,
+      "legal_children": 7267503656,
+      "legal_pair_children": 0,
+      "legal_single_children": 7267503656,
+      "nodes": 7269546988,
+      "nsol": 0
+    },
+    "BB": {
+      "anchors": 512875,
+      "anchors_generated": 529396,
+      "candidate_marks": 2589996564,
+      "candidate_pairs": 0,
+      "deepest_missing_offset": 33,
+      "frontier": 700550,
+      "legal_children": 330830060,
+      "legal_pair_children": 0,
+      "legal_single_children": 330830060,
+      "nodes": 331342935,
+      "nsol": 0
+    }
+  },
+  "shards": 24,
+  "source_sha256": "2e796bf278634c302ffb9fe3510004379a2887b3d5af0e52f7edcfb5764172ac",
+  "status": "VERIFIED_DIAGNOSTIC_NOT_UNSAT",
+  "totals": {
+    "anchors": 6137463,
+    "anchors_generated": 6450802,
+    "candidate_marks": 115997756795,
+    "candidate_pairs": 0,
+    "frontier": 166321078,
+    "legal_children": 14142779063,
+    "legal_pair_children": 0,
+    "legal_single_children": 14142779063,
+    "nodes": 14148916526,
+    "nsol": 0
+  },
+  "witnesses_checked_by_a_and_b": 0
+}

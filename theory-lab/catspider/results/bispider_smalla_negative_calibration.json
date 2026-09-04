@@ -1,0 +1,35 @@
+{
+  "date": "2026-08-21",
+  "engine": "bispider.c with paranoid full-distance recheck",
+  "note": "Exact numeric corroboration only; these fixed-order runs are not used in the uniform proof.",
+  "order_25_anchor_comparison": {
+    "exact_stat_matches": 1875,
+    "invalid_initial_parameters": 15,
+    "parameter_cases": 2010,
+    "strict_relaxations": 120,
+    "status": "VERIFIED_SUPERTREE"
+  },
+  "runs": [
+    {
+      "A_range": [1, 15],
+      "N": 300,
+      "branches": 1995,
+      "deepest_missing_offset": 15,
+      "max_noncentre_marks": 9,
+      "n": 25,
+      "nodes": 465945,
+      "nsol": 0
+    },
+    {
+      "A_range": [1, 15],
+      "N": 351,
+      "branches": 2370,
+      "deepest_missing_offset": 15,
+      "max_noncentre_marks": 9,
+      "n": 27,
+      "nodes": 570497,
+      "nsol": 0
+    }
+  ],
+  "status": "OBSERVED"
+}

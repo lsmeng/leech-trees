@@ -1,0 +1,44 @@
+{
+  "date": "2026-08-21",
+  "family": "hop-diameter<=4",
+  "recovered_source": {
+    "original_scratch_md5": "5a292292d2b43668dd4218675d8e75f4",
+    "original_scratch_sha256": "60be619bb2e0c122057ed8c21091c9df7b11de501057a292d2795eee221fa97b",
+    "committed_candidate_sha256": "1e67b61e3ae0d6ab11b2c623b6ae7a0183fa07510c734659e1cc73375ba9b61d",
+    "changes_after_recovery": "Removed two unused draft helper functions and added the D4_NO_ENDGAME audit switch; the search path is unchanged."
+  },
+  "c_ladder": {
+    "orders": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
+    "nodes": [2, 3, 6, 11, 47, 178, 497, 1289, 3311, 8778, 24264, 70639, 216040, 690247, 2282083, 7767003, 27157047],
+    "solutions": [1, 1, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "total_nodes": 38221445
+  },
+  "cleanroom_ladder": {
+    "orders": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+    "nodes": [2, 3, 8, 18, 78, 309, 1086, 3976, 14446, 54546, 199009, 723070],
+    "solutions": [1, 1, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+    "total_nodes": 996551,
+    "note": "Node counts differ because the clean-room program has a separate state representation and an additional necessary cross-assembly bound; solution counts agree."
+  },
+  "positive_controls": {
+    "known_witnesses": 5,
+    "known_witnesses_pass_checker_a_and_b": true,
+    "random_distinct_distance_d4_targets": 40,
+    "misses": 0
+  },
+  "structural_checks": {
+    "random_distinct_distance_d4_trees": 300,
+    "failures": 0
+  },
+  "endgame_ablation": {
+    "order": 17,
+    "normal_nodes": 7767003,
+    "without_endgame_nodes": 47986068,
+    "normal_solutions": 0,
+    "without_endgame_solutions": 0
+  },
+  "reproduce": "nice -n 10 python3 theory-lab/diameter4/verify_diameter4.py --max-order 18 --cleanroom-max 13 --jobs 3",
+  "status": "OBSERVED",
+  "theorem": "The only Leech trees of hop-diameter at most four and order at most 18 are the five known trees. With Taylor's LITERATURE order restriction, the same classification holds through order 24.",
+  "trust_boundary": "Exact forced-forest enumeration plus the proved diameter-four component invariant, universal and partial-cut containment caps, and a monotone endgame feasibility relaxation. Budget exhaustion in the endgame relaxation returns alive. Sharded runs require every shard status DONE."
+}

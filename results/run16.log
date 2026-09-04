@@ -1,0 +1,32 @@
+n=16 selected=30 done=0 todo=30 procs=8 solver=cadical variant=order dirs=3 T=600.0
+[1/30] id=8484 TIMEOUT solve=600.177s proof=141.1MB drat=- (-s) ncl=4404343
+[2/30] id=1326 TIMEOUT solve=600.046s proof=127.8MB drat=- (-s) ncl=4391101
+[3/30] id=12623 TIMEOUT solve=600.056s proof=147.6MB drat=- (-s) ncl=4911129
+[4/30] id=13781 TIMEOUT solve=600.331s proof=129.6MB drat=- (-s) ncl=4829994
+[5/30] id=13268 TIMEOUT solve=600.11s proof=140.1MB drat=- (-s) ncl=4857525
+[6/30] id=9938 TIMEOUT solve=600.07s proof=130.4MB drat=- (-s) ncl=4982536
+[7/30] id=16753 TIMEOUT solve=600.29s proof=133.4MB drat=- (-s) ncl=5043954
+[8/30] id=15922 TIMEOUT solve=600.059s proof=150.7MB drat=- (-s) ncl=5164653
+[9/30] id=11732 TIMEOUT solve=600.153s proof=137.3MB drat=- (-s) ncl=4768456
+[10/30] id=15617 TIMEOUT solve=600.056s proof=150.7MB drat=- (-s) ncl=5032105
+[11/30] id=7157 TIMEOUT solve=600.061s proof=127.8MB drat=- (-s) ncl=4520702
+[12/30] id=4579 TIMEOUT solve=600.083s proof=121.5MB drat=- (-s) ncl=4419144
+[13/30] id=4563 TIMEOUT solve=600.251s proof=126.9MB drat=- (-s) ncl=4670257
+[14/30] id=19116 TIMEOUT solve=600.077s proof=133.9MB drat=- (-s) ncl=5203976
+[15/30] id=9235 TIMEOUT solve=600.081s proof=122.9MB drat=- (-s) ncl=5035711
+[16/30] id=16537 TIMEOUT solve=600.111s proof=142.6MB drat=- (-s) ncl=5292481
+[17/30] id=3107 TIMEOUT solve=600.081s proof=109.1MB drat=- (-s) ncl=4384316
+[18/30] id=8208 TIMEOUT solve=600.291s proof=125.8MB drat=- (-s) ncl=4757904
+[19/30] id=4815 TIMEOUT solve=600.094s proof=122.6MB drat=- (-s) ncl=4469953
+[20/30] id=3236 TIMEOUT solve=600.061s proof=130.1MB drat=- (-s) ncl=4451807
+[21/30] id=17451 TIMEOUT solve=600.093s proof=128.6MB drat=- (-s) ncl=5158537
+[22/30] id=2416 TIMEOUT solve=600.095s proof=133.0MB drat=- (-s) ncl=4358937
+[23/30] id=10162 TIMEOUT solve=600.083s proof=121.1MB drat=- (-s) ncl=4641866
+[24/30] id=10819 TIMEOUT solve=600.08s proof=142.7MB drat=- (-s) ncl=4726689
+[25/30] id=3299 TIMEOUT solve=600.06s proof=141.1MB drat=- (-s) ncl=4089848
+[26/30] id=15471 TIMEOUT solve=600.1s proof=164.4MB drat=- (-s) ncl=4981426
+[27/30] id=11593 TIMEOUT solve=600.081s proof=134.3MB drat=- (-s) ncl=4754310
+[28/30] id=10361 TIMEOUT solve=600.075s proof=139.3MB drat=- (-s) ncl=4800017
+[29/30] id=18343 TIMEOUT solve=600.061s proof=151.8MB drat=- (-s) ncl=5314612
+[30/30] id=14226 TIMEOUT solve=600.076s proof=146.3MB drat=- (-s) ncl=4865888
+done 2454.1 s {'TIMEOUT': 30}

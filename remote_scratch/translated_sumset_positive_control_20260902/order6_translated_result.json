@@ -1,0 +1,1 @@
+{"H": [1, 2, 3], "H_size": 3, "S": [[1, 2, 3]], "S_sizes": [3], "delta": 11, "high_high_passes": 3, "hroot": [0, 0, 0, 0], "m": 4, "nodes": 3, "r": 1, "status": "COMPLETE", "tested_s": 11, "witnesses": [{"L": [0], "s": 8}, {"L": [0], "s": 9}, {"L": [0], "s": 10}]}

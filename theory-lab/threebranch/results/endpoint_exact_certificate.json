@@ -1,0 +1,19 @@
+{
+  "base_source_sha256": "2e796bf278634c302ffb9fe3510004379a2887b3d5af0e52f7edcfb5764172ac",
+  "checker_a_sha256": "daac598f6aa524ed68824d693e4467a006ca0ab750cc21d55ffa68aec45419e5",
+  "checker_b_sha256": "8f85017cb52f5898b6472048c0a9713bc835a5bf9a8e18cb7a6728101e4a25d7",
+  "claim": "outside-band high-pole a=3,4 AC endpoint engine regression",
+  "endpoint_source_sha256": "23434bc1c175b2a16890ea411133a989a9d7f5a6540eb6c75f3aa7be48191083",
+  "expected_rows": {
+    "n11_EP3": [2621, 2, 4, 19, 2, 0, 0, 17, 6, 318, 3580, 984],
+    "n11_EP4": [696, 0, 0, 0, 0, 0, 0, 0, 0, 443, 1491, 490],
+    "n18_EP3": [2793454, 4908, 7628, 40216, 2720, 0, 0, 18, 9, 1078, 140535, 15820],
+    "n18_EP4": [3413707, 1279, 1279, 6663, 0, 0, 0, 18, 9, 2837, 299523, 42005]
+  },
+  "n18_ep3_shard_partition": "exact anchor-key partition; band enumeration repeated",
+  "n18_ep3_shards": 8,
+  "status": "VERIFIED",
+  "trust_boundary": "Finite outside-band engine regression and sharding audit only. The all-order outside-band EP4 claim requires the separate symbolic relaxation; branch-in-band EP4, EP3 and low-pole AB/AC cases are not covered by this finite certificate.",
+  "verifier_sha256": "540248820ed8d0dd7e32e0c579fc8fdfaca6acc5834d86bd9e95b8c6f268307a",
+  "witnesses_checked_by_a_and_b": 0
+}

@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this software or its data, please cite the paper below."
+title: "Leech trees: search engines, certificates and verification artefacts"
+type: software
+authors:
+  - family-names: Meng
+    given-names: Lingsen
+    affiliation: "Department of Earth, Planetary, and Space Sciences, University of California, Los Angeles"
+    email: lsmeng@g.ucla.edu
+repository-code: "https://github.com/LSMENG/leech-trees"
+license: MIT
+preferred-citation:
+  type: article
+  title: "There is no Leech tree on 18 vertices, and no Leech spider of order at least five, with a leaf-deletion bound at order 25"
+  authors:
+    - family-names: Meng
+      given-names: Lingsen
+  year: 2026

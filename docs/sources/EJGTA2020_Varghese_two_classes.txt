@@ -1,0 +1,275 @@
+Electronic Journal of Graph Theory and Applications 8 (1) (2020), 205–210
+
+
+
+
+Two classes of non-Leech trees
+Seena Varghesea , Aparna Lakshmanan Sb , S. Arumugamc
+aDepartment of Mathematics, Federal Institute of Science and Technology,
+Angamaly - 683577, Kerala, India.
+b Department of Mathematics, St.Xavier’s College for Women, Aluva -683101, Kerala, India.
+c National Centre for Advanced Research in Discrete Mathematics, Kalasalingam Academy of Research and
+
+Education, Anand Nagar, Krishnankoil-626126, Tamilnadu, India.
+
+
+graceseenaprince@gmail.com, aparnaren@gmail.com, s.arumugam.klu@gmail.com
+
+
+
+
+Abstract
+Let T be a tree of order n. For any edge labeling f : E → {1, 2, 3, ...} the weight of a path P is the
+sum of the labels of the edges of P and is denoted by w(P ). If the weights of the n C2 paths in T
+are exactly 1, 2,...,n C2 , then f is called a Leech labeling and a tree which admits a Leech labeling
+is called a Leech tree. In this paper we determine all Leech trees having diameter three. We also
+prove that the tree obtained from the path Pn = (v1 , v2 , ..., vn ) by attaching a pendent vertex at
+vn−1 is not a Leech tree for all n ≥ 4.
+Keywords: Leech labeling, Leech tree
+Mathematics Subject Classification : 05C78
+
+
+
+1. Introduction
+    By a graph G = (V, E) we mean a finite undirected graph with neither loops nor multiple
+edges. The order |V | and the size |E| are denoted by n and m respectively. For graph theoretic
+terminology we refer to Chartrand and Lesniak [2].
+    Let f : E → {1, 2, 3, ...} be an edge labeling of G. The weight of a path P in G is the sum of
+the labels of the edges of P and is denoted by w(P ). Leech [5] introduced the concept of a Leech
+tree, while considering a problem in electrical engineering, where edge labels represent electrical
+
+    Received: 13 October 2018,       Revised: 24 December 2019,   Accepted: 3 March 2020.
+
+
+
+
+                                                        205                             www.ejgta.org
+                         Two classes of non-Leech trees      |   Seena Varghese et al.
+
+
+resistance. Let T be a tree of order n. An edge labeling f : E → {1, 2, 3, ...} is called a Leech
+labeling if the weights of the n C2 paths in T are exactly 1, 2,...,n C2 . A tree which admits a Leech
+labeling is called a Leech tree. Since each edge label is the weight of a path of length one, it
+follows that f is an injection and 1,2 are edge labels for all n ≥ 3. Leech found five Leech trees
+which are given in Figure 1 and these are the only known Leech trees.
+
+
+
+
+                                             Figure 1. Leech trees.
+
+
+
+   Taylor [8] proved that if T is a Leech tree of order n, then n = k 2 or k 2 + 2 for some integer
+k. Since then it has been proved by several authors ([1],[7],[9] ) that no Leech trees of order 9,
+11 or 16 exist, leaving n = 18 as the smallest open case. Some variations of Leech trees such
+as modular Leech trees ([3], [4]), minimal distinct distance trees [1] and leaf-Leech trees [6] have
+been investigated by several authors.
+   Szekely et al. [7] have proved the following theorem.
+
+Theorem 1.1. [7] If there is a Leech tree on n vertices, then it has no paths larger than √n2 (1 +
+o(1)).
+
+    A double star Br,s is a tree with vertex set {u, v, u1 , u2 , ..., ur , v1 , v2 , ..., vs } in which uv is an
+edge, each ui is a pendent vertex adjacent to u and each vj is pendent vertex adjacent to v. If both
+r and s are not zero, the double star Br,s are precisely the trees having diameter three. In this paper
+we determine all Leech trees having diameter three. We also prove that the tree obtained from the
+path Pn = (v1 , v2 , ..., vn ) by attaching a pendent vertex at vn−1 is not a Leech tree for all n ≥ 4.
+
+2. Leech trees with diameter three
+For any positive integer n , we denote the set {1, 2, ....., n} by [n]. We proceed to prove that the
+double stars B1,1 and B2,2 are the only Leech trees of diameter three.
+
+Theorem 2.1. The double star T = Br,s , where both r and s are non-zero, is a Leech tree if and
+only if T = B1,1 or B2,2 .
+
+                                                      206                                www.ejgta.org
+                       Two classes of non-Leech trees   |   Seena Varghese et al.
+
+
+Proof. Let f be a Leech labeling of Br,s where r ≥ s ≥ 1. Let S denote the set of all path weights
+in the labeling process. Since uv is the unique nonpendent edge of T , the label 1 is assigned to
+either uv or to a pendent edge. We consider two cases.
+Case 1: f (uv) = 1.
+    Without loss of generality, let f (uu1 ) = 2. Then S = [3]. The next available edge label is 4,
+which has to be used to get path of weight 4. If f (vv1 ) = 4, then S = [7] − {6}. To get path
+weight 6, one of the pendent edges must be assigned the label 6 and this gives two paths of weight
+7 , which is a contradiction. Hence f (uu2 ) = 4 and S = [6]. To get path weight 7 an edge has
+to be assigned label 7. If f (uu3 ) = 7, then S = [11] − {10} and a path of weight 10 cannot be
+obtained in any subsequent labeling. If f (vv1 ) = 7, then S = [11] − {9} and a path of weight 9
+cannot be obtained in any subsequent labeling.
+Case 2: f (uu1 ) = 1.
+    We consider three subcases.
+Subcase a: f (uv) = 2.
+    Then S = {1, 2, 3}. If f (vv1 ) = 4, then S = [7] − {5}. If an edge incident at v is given
+the label 5, then path weight 7 is repeated. If an edge incident at u is given the label 5, then path
+weight 6 is repeated. Hence f (uu2 ) = 4 and S = [6]. The next available edge label is 7 which
+has to be used to get path weight 7. If f (vv1 ) = 7, then S = [13] − {8, 11, 12}. Now if an edge
+is assigned label 8, then we get two paths with weight 10, a contradiction. Hence f (uu3 ) = 7 and
+S = [11] − {10}. Now if f (uu4 ) = 10, then path weight 11 is repeated. If f (vv1 ) = 10, then
+S = [19] − {14, 15, 17, 18} and if any edge is assigned label 14, then path weight 16 is repeated.
+Subcase b: f (uu2 ) = 2.
+    Then S = [3]. If f (uv) = 4, then proceeding as in subcase a, we get a contradiction. Suppose
+f (uu3 ) = 4. Then S = [6]. Now the label 7 can be assigned to one of the edges uu4 , uv or vv1 .
+Suppose f (uu4 ) = 7. Then S = [11] − {10}. If 10 is assigned to uu5 or uv, then path weight 11
+is repeated. Hence let f (vv1 ) = 10. Then S = [11]. Now if f (uu5 ) = 12, then the paths (u5 , u, v)
+and (v1 , v, u, u2 ) both have weight 12 + f (uv). A similar contradiction arises if f (vvj ) = 12.
+Hence f (uv) = 12 and S = [29] − {15, 17, 18, 20, 21, 25, 27, 28}. Now no edge can be assigned
+the label 15, which is a contradiction. Next , we take f (uv) = 7. Then S = [11] − {10}. Now any
+edge incident at u cannot be assigned label 10, since this gives two paths of weight 11. Suppose
+f (vv1 ) = 10. Then 12 ∈   / S and further 12 cannot be assigned as a label to any edge, which is a
+contradiction.
+    Now, suppose f (vv1 ) = 7. Then 8 cannot be assigned to any pendent edge since this gives two
+paths of weight 8 + f (uv). Hence f (uv) = 8. Then 11 ∈   / S and if the label 11 is to be assigned to
+any edge, we get two paths of weight 11 + f (uv) which is again a contradiction.
+    Finally , suppose f (vv1 ) = 4. Then S = [4]. If 5 is assigned to a pendent edge, then we get
+two paths of weight 5 + f (uv). Hence f (uv) = 5 and S = [11] − {8}. If the label 8 is assigned to
+uu3 , we get two paths of weight 9. Hence f (vv2 ) = 8 and S = [15]. This gives a Leech labeling
+of B2,2 . If there are more edges, we continue the labeling process. If f (uu3 ) = 16, then 19 ∈  / S
+and assigning the label 19 to any edge gives two paths of weight 20 or 21. If f (vv3 ) = 16, then
+17 ∈/ S and label 17 cannot be assigned to any edge.
+Subcase c: f (vv1 ) = 2.
+    Then S = {1, 2}. If 3 is assigned to a pendent edge, we get two paths of weight 3 + f (uv).
+
+                                                 207                                www.ejgta.org
+                          Two classes of non-Leech trees       |   Seena Varghese et al.
+
+
+Hence f (uv) = 3 and S = [6]. This gives a Leech labeling of B1,1 . Suppose there are more edges.
+If f (uu2 ) = 7, then 9 ∈
+                        / S and 9 cannot be assigned to any edge. If f (vv2 ) = 7, then 8 ∈
+                                                                                          / S and
+the label 8 cannot be assigned to any edge. Thus B2,2 and B1,1 are the only double stars which are
+Leech Trees.
+
+3. A family of non-Leech trees
+    All the known Leech trees given in Figure 1 have diameter at most three. Theorem 2.1 implies
+that there is no other Leech tree with diameter at most three. The path Pn are trees with diameter
+n − 1 and Pn is a Leech tree if and only if n = 2, 3 or 4. Thus all trees of diameter n − 1
+have been characterized. Hence the most natural question in this direction is to determine all
+Leech trees of diameter n − 2. We observe that K1,3 is a Leech tree with diameter n − 2. Now let
+Pn = (v1 , v2 , . . . , vn ) be a path on n vertices with n ≥ 3. Let Gn be the graph obtained from Pn
+by attaching a pendant vertex vn0 adjacent to vn−1 . Clearly Gn is a graph of order n + 1 and has
+diameter n − 1. In this section we prove that Gn is not a Leech tree for n ≥ 4. This shows K1,3
+is the only Leech tree with diameter n − 2, thus giving a characterization of all Leech trees with
+diameter n−2. Though most of the cases in the proof of this theorem follow from Theorem 1.1, we
+have given an independent proof and we believe that this proof technique along with Theorem 1.1
+will be of help in moving towards the proof of the well known basic conjecture that the number of
+Leech trees is finite.
+    Since any tree of order n < 18 other than the five Leech trees given in Figure 1 is not a Leech
+tree, it is enough to prove that Gn is not a Leech tree for n ≥ 17. We need the following Lemma.
+
+Lemma 3.1. Suppose f is a Leech labeling of Gn where n ≥ 17. Let P = (vn0 , vn−1 , vn ). Then
+w(P ) < n+1 C2 − 85.
+                                                  2
+Proof. Suppose w(P ) ≥ n+1 C2 − 85 = n +n−170     2
+                                                       . Then one of the edges vn0 vn−1 or vn−1 vn must
+have label greater than or equal to w(P    2
+                                              )
+                                                .
+                           w(P )    n2 +n−170
+     Let f (vn−1 vn ) ≥ 2 ≥             4
+                                              .
+     The n−1 C2 subpaths of the path (v1 , v2 , ..., vn−1 ) have distinct weights and hence
+w((v1 , v2 , ..., vn−1 )) ≥n−1 C2 .
+                                                             2            2
+     Hence w(Pn ) ≥n−1 C2 +f (vn−1 vn ) ≥ (n−1)(n−2)2
+                                                          + n +n−170
+                                                                4
+                                                                     = 3n −5n−166
+                                                                            4
+                                                                                    . Since w(Pn ) ≤n+1
+                         3
+C2 , it follows that n −5n−166
+                            4
+                                  ≤n+1 C2 . This gives n2 − 7n − 166 ≤ 0. However n2 − 7n − 166 > 0
+for n ≥ 17 which is a contradiction. Hence w(P ) < n+1 C2 − 85.
+
+Theorem 3.1. The tree Gn is not a Leech tree for n ≥ 17.
+
+Proof. Suppose there exists a Leech labeling f for Gn . There are three maximal paths Pn =
+(v1 , v2 , ..., vn ), Pn0 = (v1 , v2 , ..., vn−1 , vn0 ) and P = (vn0 , vn−1 , vn ) and one of these paths must have
+weight n+1 C2 . It follows from Lemma 3.1 that either Pn or Pn0 has weight n+1 C2 . We may assume
+without loss of generality that w(Pn ) =n+1 C2 . Now the path of weight n+1 C2 − 1 is either Pn0 or
+Pn − v 1 .
+Case 1: w(Pn0 ) =n+1 C2 − 1.
+
+
+                                                       208                                 www.ejgta.org
+                       Two classes of non-Leech trees   |   Seena Varghese et al.
+
+
+    In this case f (vn−1 vn0 )           =      f (vn−1 vn ) − 1 and w((vi , vi+1 , ...vn−1 , vn0 )) =
+                                                               n+1
+w((vi , vi+1 , ..., vn−1 , vn )) − 1. Hence the path of weight     C2 − 2 is either Pn − v1 or Pn − vn .
+Suppose w(Pn − v1 ) =n+1 C2 − 2. Then w(Pn0 − v1 ) =n+1 C2 − 3. Hence f (v1 v2 ) = 2.
+Since f (v2 v3 ) 6= f (v1 v2 ) = 2, the path Pn − {v1 , v2 } cannot have weight n+1 C2 − 4. Hence
+the path of weight n+1 C2 − 4 is Pn − vn and so f (vn−1 vn ) = 4 and f (vn−1 vn0 ) = 3. Also
+w(Pn − {vn , v1 }) =n+1 C2 − 6. Now the path of weight n+1 C2 − 5 is either Pn − {v1 , v2 }
+or Pn − {vn , vn−1 }. If w(Pn − {v1 , v2 }) =n+1 C2 − 5, then f (v2 v3 ) = 3 = f (vn−1 vn0 ). If
+w(Pn − {vn , vn−1 }) =n+1 C2 − 5, then f (vn−2 vn−1 ) = 1 and hence w(vn−2 vn−1 vn0 ) = f (vn−1 vn ),
+giving a contradiction.
+    Now, suppose w(Pn − vn ) =n+1 C2 − 2. Then f (vn−1 vn ) = 2 and f (vn−1 vn0 ) = 1. Now
+f (vi vi+1 ) ≥ 3 for all i, 1 ≤ i ≤ n − 2 and hence there is no path of weight n+1 C2 − 3, which is a
+contradiction.
+Case 2: w(Pn − v1 ) =n+1 C2 − 1.
+    In this case f (v1 v2 ) = 1. Since f (v2 v3 ) ≥ 2, we have w(Pn − {v1 , v2 }) ≤n+1 C2 − 3. Hence
+w(Pn0 ) =n+1 C2 − 2 and w(Pn0 − {v1 }) =n+1 C2 − 3. Also f (vn−1 vn0 ) = f (vn−1 vn ) − 2 and
+no subpath of Pn0 can have weight n+1 C2 − 4. Hence one of the paths Pn − {v1 , v2 } or Pn − vn
+must have weight n+1 C2 − 4. Suppose w(Pn − {v1 , v2 }) =n+1 C2 − 4. Then f (v2 v3 ) = 3 and
+w(Pn0 − {v1 , v2 }) =n+1 C2 − 6. Now let f (vn−1 vn ) = k. Then f (vn−1 vn0 ) = k − 2. Since 1, 3 and
+4 are already path weights, it follows that k ≥ 7 and there is no path of weight n+1 C2 − 5, which
+is a contradiction. Hence it follows that w(Pn − vn ) =n+1 C2 − 4. In this case f (vn−1 vn ) = 4,
+f (vn−1 vn0 ) = 2 and w(Pn − {v1 , v2 }) =n+1 C2 − 5. Since the pendent edges of Pn have labels 1
+and 4 and w((vn0 , vn−1 , vn )) = 6, it follows that no subpath of Pn has weight n+1 C2 − 6. Also since
+w(Pn0 ) =n+1 C2 − 2 and the pendent edges of Pn0 have labels 1 and 2, no subpath of Pn0 has weight
+n+1
+    C2 − 6. Thus there is no path of weight n+1 C2 − 6, which is a contradiction. Hence there is no
+Leech labeling for Gn .
+
+Observation 3.1. In Lemma 3.1 we have assumed that n ≥ 17, which gives w((vn0 , vn−1 , vn )) <n+1
+C2 − 85. However in the proof of Theorem 3.1 we only require w((vn0 , vn−1 , vn )) <n+1 C2 − 6.
+Hence the proof of Theorem 3.1 holds for n ≥ 9 which shows that the proof is independent of the
+known results of non existence of Leech trees of order 9, 11 and 16.
+
+4. Conclusion sand Scope
+    All the five known Leech trees given in Figure 1 are double stars and we have proved that no
+other double star is a Leech tree. Hence the basic conjecture on Leech trees can be restated as
+follows.
+Leech Tree Conjecture: The only Leech trees are the double stars B0,0 , B1,1 , B2,2 , B1,0 = B0,1
+and B2,0 = B0,2 .
+
+References
+ [1] B. Calhoun, K. Ferland, L. Lister and J. Polhill, Minimal distinct distance trees, J. Combin.
+     Math. Combin. Comput. 61 (2007), 33–57.
+
+
+                                                  209                               www.ejgta.org
+                    Two classes of non-Leech trees   |   Seena Varghese et al.
+
+
+[2] G. Chartrand and L.Lesniak, Graphs and digraphs, CRC (2005).
+
+[3] D. Leach, Modular Leech trees of order atmost 8, J. Combin., (2014), Article ID 218086.
+
+[4] D. Leach and M. Walsh, Generalized Leech trees, J. Combin. Math. Combin. Comput. 78
+    (2011), 15–22.
+
+[5] J. Leech, Another tree labeling problem, Amer. Math. Monthly 82 (1975), 923–925.
+
+[6] M. Ozen, H. Wang, D. Yalman, Note on Leech-type questions of tree, Integers 16 (2016),
+    #A21
+
+[7] L.A. Szekely, H. Wang and Y. Zhang, Some non-existence results on Leech trees, Bull. Inst.
+    Combin. Appl. 44 (2005), 37–45.
+
+[8] H. Taylor, Odd path sums in an edge-labeled tree, Math. Magazine 50 (5) (1977), 258–259.
+
+[9] H. Taylor, A distinct distance set of 9 nodes in a tree of diameter 36, Discrete Math. 93
+    (1991), 167–168.
+
+
+
+
+                                              210                                www.ejgta.org
+

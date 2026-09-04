@@ -1,0 +1,31 @@
+{
+  "cleanroom": {
+    "exact_per_regime_match": true,
+    "frontier_states": 0,
+    "memo_hits": 0,
+    "nodes": 2402716,
+    "regimes": 1956,
+    "sha256": "b445823ef3fc6541f4e7e260260376fdf4a76f0c0d54d577e56b39619458add8",
+    "tail_stability_regimes": 36
+  },
+  "date": "2026-08-21",
+  "finite_partition": {
+    "h_rule": "all admissible h through max(W,2M+abs(r)), plus the first admissible tail value",
+    "mark_cap": "M=W-min(r,0)",
+    "r_hi": 20,
+    "r_lo": -15,
+    "window": 50
+  },
+  "primary": {
+    "frontier_states": 0,
+    "max_deepest_missing_offset": 46,
+    "max_marks": 12,
+    "nodes": 2402716,
+    "regimes": 1956,
+    "sha256": "b445823ef3fc6541f4e7e260260376fdf4a76f0c0d54d577e56b39619458add8"
+  },
+  "reproduce": "nice -n 10 python3 theory-lab/catspider/verify_bispider_strip.py --full-cleanroom",
+  "status": "OBSERVED",
+  "theorem": "For an LR anchor N=A+Q+B with A<B, A>50 and -15<=Q-(B-A)<=20, no Leech bi-spider extends the anchor.",
+  "trust_boundary": "Finite relaxed offset exhaustion. Other collision classes, exact leg caps, spine positions and the vertex budget are omitted, so the searched state space is a supertree of every exact continuation in the theorem region."
+}

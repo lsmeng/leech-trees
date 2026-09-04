@@ -1,0 +1,37 @@
+{
+  "bridge_to_target_orders": {
+    "h_identity": "h=N-2A",
+    "order_condition": "n>=18 implies N=n(n-1)/2>=153",
+    "strict_inequalities": [
+      "153-2A>35 for 1<=A<=50",
+      "153-2A>2(35-A)+abs(r) because abs(r)<=20<83"
+    ],
+    "tail_threshold": "H(A,r)=max(35,2(35-A)+abs(r))"
+  },
+  "cleanroom": {
+    "exact_per_regime_match": true,
+    "regimes": 1800,
+    "sha256": "0cf2bb93dea516b883d1756492c3253b947b5bbe3555df498dacda2c7ca3f997"
+  },
+  "date": "2026-08-21",
+  "primary": {
+    "accepted_children": 1384787,
+    "dead_states": 810109,
+    "frontier_states": 0,
+    "max_deepest_missing_offset": 34,
+    "max_selected_vertices": 12,
+    "nodes": 1386587,
+    "regimes": 1800,
+    "sha256": "0cf2bb93dea516b883d1756492c3253b947b5bbe3555df498dacda2c7ca3f997"
+  },
+  "region": {
+    "A": "1<=A<=50",
+    "h": "h>max(35,2(35-A)+abs(r)) with h congruent to r mod 2",
+    "r": "-15<=r<=20"
+  },
+  "reproduce": "nice -n 10 python3 theory-lab/catspider/verify_bispider_middle_tail.py --jobs 4",
+  "status": "OBSERVED",
+  "theorem": "No LR-anchored Leech bi-spider satisfies 1<=A<=50, -15<=r<=20 and h=N-2A>max(35,2(35-A)+abs(r)). Consequently no LR-anchored Leech bi-spider of order n>=18 exists when combined with the six earlier LR regions.",
+  "trust_boundary": "Paired finite relaxed top-window exhaustion. Above the displayed threshold, every distance N-k with 0<=k<=35 has one of the forms p+b or r+b+b' on different right legs. Each implementation retains global uniqueness of these high offsets plus the necessary within-cluster collision classes, while omitting parameter-dependent cross-class collisions, all vertices outside the top window and the vertex budget. The omission only enlarges the search space.",
+  "window": 35
+}

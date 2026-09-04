@@ -1,0 +1,381 @@
+{
+ "date": "2026-08-20",
+ "runs": [
+  {
+   "n": 25,
+   "N": 300,
+   "mode": "both",
+   "range": [
+    1,
+    300
+   ],
+   "branches": 32882,
+   "nodes": 29155730,
+   "nsol": 0,
+   "secs": 700.97,
+   "status": "DONE",
+   "_file": "bispider_25_full_run1.out"
+  },
+  {
+   "n": 25,
+   "N": 300,
+   "mode": "both",
+   "range": [
+    1,
+    300
+   ],
+   "branches": 32882,
+   "nodes": 29155730,
+   "nsol": 0,
+   "secs": 702.86,
+   "status": "DONE",
+   "_file": "bispider_25_full_run2.out"
+  },
+  {
+   "n": 25,
+   "N": 300,
+   "mode": "both",
+   "range": [
+    1,
+    300
+   ],
+   "branches": 32882,
+   "nodes": 29155730,
+   "nsol": 0,
+   "secs": 703.07,
+   "status": "DONE",
+   "_file": "bispider_25_full_run3.out"
+  },
+  {
+   "n": 27,
+   "N": 351,
+   "mode": "both",
+   "range": [
+    1,
+    80
+   ],
+   "branches": 21400,
+   "nodes": 25731175,
+   "nsol": 0,
+   "secs": 432.27,
+   "status": "DONE",
+   "_file": "bispider_27_s1.out"
+  },
+  {
+   "n": 27,
+   "N": 351,
+   "mode": "both",
+   "range": [
+    81,
+    175
+   ],
+   "branches": 8876,
+   "nodes": 11836641,
+   "nsol": 0,
+   "secs": 403.25,
+   "status": "DONE",
+   "_file": "bispider_27_s2.out"
+  },
+  {
+   "n": 27,
+   "N": 351,
+   "mode": "both",
+   "range": [
+    176,
+    350
+   ],
+   "branches": 15167,
+   "nodes": 8294568,
+   "nsol": 0,
+   "secs": 396.81,
+   "status": "DONE",
+   "_file": "bispider_27_s3.out"
+  },
+  {
+   "n": 13,
+   "N": 78,
+   "cases": [
+    "LR",
+    "LL"
+   ],
+   "raw_solutions": 0,
+   "branches": 2060,
+   "nodes": 190944,
+   "options": 115875842,
+   "secs": 142.3,
+   "_file": "bispider_py_13_15.out"
+  },
+  {
+   "n": 16,
+   "shape": "cat",
+   "Dmax": 12,
+   "shard": [
+    0,
+    1,
+    -1
+   ],
+   "maxlevel": -1,
+   "sumrule": 1,
+   "levels": [
+    1,
+    1,
+    2,
+    8,
+    41,
+    229,
+    1379,
+    8819,
+    61966,
+    471643,
+    3883505,
+    32370188,
+    211307646,
+    635907907,
+    115648531,
+    0
+   ],
+   "nodes": 999661866,
+   "nsol": 0,
+   "level_L_nodes": 0,
+   "secs": 439.384,
+   "status": "DONE",
+   "_file": "cat_16.out"
+  },
+  {
+   "n": 25,
+   "shape": "cat",
+   "Dmax": 19,
+   "shard": [
+    0,
+    1,
+    -1
+   ],
+   "maxlevel": 11,
+   "sumrule": 1,
+   "levels": [
+    1,
+    1,
+    2,
+    8,
+    41,
+    229,
+    1379,
+    8819,
+    61966,
+    471680,
+    3899688,
+    34661660,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "nodes": 39105474,
+   "nsol": 0,
+   "level_L_nodes": 0,
+   "secs": 7.045,
+   "status": "DONE",
+   "_file": "cat_25_maxlevel11.out"
+  },
+  {
+   "n": 25,
+   "shape": "cat",
+   "Dmax": 19,
+   "shard": [
+    0,
+    1,
+    -1
+   ],
+   "maxlevel": 13,
+   "sumrule": 1,
+   "levels": [
+    1,
+    1,
+    2,
+    8,
+    41,
+    229,
+    1379,
+    8819,
+    61966,
+    471680,
+    3899688,
+    34661660,
+    328609581,
+    3304675701,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "nodes": 3672390756,
+   "nsol": 0,
+   "level_L_nodes": 0,
+   "secs": 623.917,
+   "status": "DONE",
+   "_file": "cat_25_maxlevel13.out"
+  },
+  {
+   "n": 16,
+   "shape": "spider",
+   "Dmax": 12,
+   "shard": [
+    0,
+    1,
+    -1
+   ],
+   "maxlevel": -1,
+   "sumrule": 1,
+   "levels": [
+    1,
+    1,
+    2,
+    8,
+    41,
+    228,
+    1349,
+    8416,
+    56890,
+    408418,
+    3124234,
+    23540083,
+    126743741,
+    266685798,
+    16287041,
+    0
+   ],
+   "nodes": 436856251,
+   "nsol": 0,
+   "level_L_nodes": 0,
+   "secs": 331.139,
+   "status": "DONE",
+   "_file": "spider_16.out"
+  },
+  {
+   "n": 25,
+   "N": 300,
+   "raw_solutions": 0,
+   "unique_by_edge_multiset": 0,
+   "nodes": 15058,
+   "options_generated": 18370372,
+   "secs": 14.29,
+   "_file": "spider_topdown_25.out"
+  },
+  {
+   "n": 27,
+   "N": 351,
+   "raw_solutions": 0,
+   "unique_by_edge_multiset": 0,
+   "nodes": 18020,
+   "options_generated": 25481416,
+   "secs": 20.15,
+   "_file": "spider_topdown_27.out"
+  },
+  {
+   "n": 36,
+   "N": 630,
+   "raw_solutions": 0,
+   "unique_by_edge_multiset": 0,
+   "nodes": 33373,
+   "options_generated": 84749982,
+   "secs": 69.91,
+   "_file": "spider_topdown_bonus.out"
+  },
+  {
+   "n": 38,
+   "N": 703,
+   "raw_solutions": 0,
+   "unique_by_edge_multiset": 0,
+   "nodes": 37528,
+   "options_generated": 105891550,
+   "secs": 82.86,
+   "_file": "spider_topdown_bonus.out"
+  },
+  {
+   "n": 38,
+   "N": 703,
+   "raw_solutions": 0,
+   "unique_by_edge_multiset": 0,
+   "nodes": 37528,
+   "options_generated": 105891550,
+   "secs": 77.37,
+   "_file": "spider_topdown_bonus2.out"
+  },
+  {
+   "n": 49,
+   "N": 1176,
+   "raw_solutions": 0,
+   "unique_by_edge_multiset": 0,
+   "nodes": 63676,
+   "options_generated": 300699989,
+   "secs": 204.75,
+   "_file": "spider_topdown_bonus2.out"
+  },
+  {
+   "n": 51,
+   "N": 1275,
+   "raw_solutions": 0,
+   "unique_by_edge_multiset": 0,
+   "nodes": 69302,
+   "options_generated": 353983359,
+   "secs": 275.58,
+   "_file": "spider_topdown_bonus2.out"
+  },
+  {
+   "n": 36,
+   "N": 630,
+   "raw_solutions": 0,
+   "unique_by_edge_multiset": 0,
+   "nodes": 33373,
+   "options_generated": 84749982,
+   "secs": 124.13,
+   "_file": "spider_topdown_bonus_paranoid.out"
+  },
+  {
+   "n": 38,
+   "N": 703,
+   "raw_solutions": 0,
+   "unique_by_edge_multiset": 0,
+   "nodes": 37528,
+   "options_generated": 105891550,
+   "secs": 132.17,
+   "_file": "spider_topdown_bonus_paranoid.out"
+  },
+  {
+   "n": 49,
+   "N": 1176,
+   "raw_solutions": 0,
+   "unique_by_edge_multiset": 0,
+   "nodes": 63676,
+   "options_generated": 300699989,
+   "secs": 307.99,
+   "_file": "spider_topdown_bonus_paranoid.out"
+  },
+  {
+   "n": 51,
+   "N": 1275,
+   "raw_solutions": 0,
+   "unique_by_edge_multiset": 0,
+   "nodes": 69302,
+   "options_generated": 353983359,
+   "secs": 293.48,
+   "_file": "spider_topdown_bonus_paranoid.out"
+  }
+ ]
+}

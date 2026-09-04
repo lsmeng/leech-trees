@@ -1,0 +1,4557 @@
+{
+  "schema_version": 1,
+  "generator": "brute_leech_small.py (independent brute-force enumerator)",
+  "generated_utc": "2026-09-02T15:48:05.518013+00:00",
+  "definition": "A Leech tree of order n is a tree on n vertices with positive integer edge weights whose C(n,2) pairwise path distances are exactly {1,...,C(n,2)}.",
+  "notes": {
+    "vertex_labels": "0-based; edges are [u, v, weight].",
+    "counts": "leech_trees_up_to_iso counts weighted trees up to isomorphism (AHU canonical form of the edge-weighted tree).",
+    "double_end": "anchors (a,b) is the unique pair at distance N; e(u)=N-d(a,u), f(u)=N-d(b,u), h(u)=(N-e-f)/2; h_c = (N-d(u,v) - min(f_u+e_v, f_v+e_u))/2."
+  },
+  "per_n": {
+    "2": {
+      "N": 1,
+      "tree_shapes": 1,
+      "tree_shapes_expected_oeis_A000055": 1,
+      "tree_shape_count_matches_known": true,
+      "leech_trees_up_to_iso": 1,
+      "raw_labeled_solutions": 1,
+      "dfs_nodes": 2,
+      "seconds": 0.0,
+      "node_limit": 50000000,
+      "time_limit_s": 120.0,
+      "exhaustive": true,
+      "hit_limit": false,
+      "per_shape": [
+        {
+          "shape_index": 0,
+          "shape_canon": "(())",
+          "edges": [
+            [
+              0,
+              1
+            ]
+          ],
+          "nodes": 2,
+          "solutions": 1,
+          "hit_limit": false
+        }
+      ]
+    },
+    "3": {
+      "N": 3,
+      "tree_shapes": 1,
+      "tree_shapes_expected_oeis_A000055": 1,
+      "tree_shape_count_matches_known": true,
+      "leech_trees_up_to_iso": 1,
+      "raw_labeled_solutions": 2,
+      "dfs_nodes": 5,
+      "seconds": 0.0,
+      "node_limit": 50000000,
+      "time_limit_s": 120.0,
+      "exhaustive": true,
+      "hit_limit": false,
+      "per_shape": [
+        {
+          "shape_index": 0,
+          "shape_canon": "((()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ],
+          "nodes": 5,
+          "solutions": 2,
+          "hit_limit": false
+        }
+      ]
+    },
+    "4": {
+      "N": 6,
+      "tree_shapes": 2,
+      "tree_shapes_expected_oeis_A000055": 2,
+      "tree_shape_count_matches_known": true,
+      "leech_trees_up_to_iso": 2,
+      "raw_labeled_solutions": 8,
+      "dfs_nodes": 31,
+      "seconds": 0.0,
+      "node_limit": 50000000,
+      "time_limit_s": 120.0,
+      "exhaustive": true,
+      "hit_limit": false,
+      "per_shape": [
+        {
+          "shape_index": 0,
+          "shape_canon": "((()()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ]
+          ],
+          "nodes": 21,
+          "solutions": 6,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 1,
+          "shape_canon": "(((())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              3
+            ]
+          ],
+          "nodes": 10,
+          "solutions": 2,
+          "hit_limit": false
+        }
+      ]
+    },
+    "5": {
+      "N": 10,
+      "tree_shapes": 3,
+      "tree_shapes_expected_oeis_A000055": 3,
+      "tree_shape_count_matches_known": true,
+      "leech_trees_up_to_iso": 0,
+      "raw_labeled_solutions": 0,
+      "dfs_nodes": 200,
+      "seconds": 0.0,
+      "node_limit": 50000000,
+      "time_limit_s": 120.0,
+      "exhaustive": true,
+      "hit_limit": false,
+      "per_shape": [
+        {
+          "shape_index": 0,
+          "shape_canon": "((()()()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ]
+          ],
+          "nodes": 108,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 1,
+          "shape_canon": "(((()())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ]
+          ],
+          "nodes": 60,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 2,
+          "shape_canon": "((((()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              4
+            ]
+          ],
+          "nodes": 32,
+          "solutions": 0,
+          "hit_limit": false
+        }
+      ]
+    },
+    "6": {
+      "N": 15,
+      "tree_shapes": 6,
+      "tree_shapes_expected_oeis_A000055": 6,
+      "tree_shape_count_matches_known": true,
+      "leech_trees_up_to_iso": 1,
+      "raw_labeled_solutions": 8,
+      "dfs_nodes": 3048,
+      "seconds": 0.118,
+      "node_limit": 50000000,
+      "time_limit_s": 120.0,
+      "exhaustive": true,
+      "hit_limit": false,
+      "per_shape": [
+        {
+          "shape_index": 0,
+          "shape_canon": "((()()()()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ]
+          ],
+          "nodes": 1097,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 1,
+          "shape_canon": "(((()()())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ]
+          ],
+          "nodes": 642,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 2,
+          "shape_canon": "(((()())()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ]
+          ],
+          "nodes": 557,
+          "solutions": 8,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 3,
+          "shape_canon": "((((())())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              5
+            ]
+          ],
+          "nodes": 321,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 4,
+          "shape_canon": "((((()()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "nodes": 284,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 5,
+          "shape_canon": "(((((())))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              3,
+              5
+            ]
+          ],
+          "nodes": 147,
+          "solutions": 0,
+          "hit_limit": false
+        }
+      ]
+    },
+    "7": {
+      "N": 21,
+      "tree_shapes": 11,
+      "tree_shapes_expected_oeis_A000055": 11,
+      "tree_shape_count_matches_known": true,
+      "leech_trees_up_to_iso": 0,
+      "raw_labeled_solutions": 0,
+      "dfs_nodes": 37008,
+      "seconds": 1.404,
+      "node_limit": 50000000,
+      "time_limit_s": 120.0,
+      "exhaustive": true,
+      "hit_limit": false,
+      "per_shape": [
+        {
+          "shape_index": 0,
+          "shape_canon": "((()()()()()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ]
+          ],
+          "nodes": 8256,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 1,
+          "shape_canon": "(((()()()())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              6
+            ]
+          ],
+          "nodes": 6117,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 2,
+          "shape_canon": "(((()()())()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              6
+            ]
+          ],
+          "nodes": 5032,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 3,
+          "shape_canon": "((((())()())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ]
+          ],
+          "nodes": 3692,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 4,
+          "shape_canon": "((((()()()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              5,
+              6
+            ]
+          ],
+          "nodes": 3084,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 5,
+          "shape_canon": "((((()())())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ]
+          ],
+          "nodes": 2866,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 6,
+          "shape_canon": "((((())(()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              3,
+              6
+            ]
+          ],
+          "nodes": 1941,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 7,
+          "shape_canon": "(((((())()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              4,
+              6
+            ]
+          ],
+          "nodes": 1525,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 8,
+          "shape_canon": "((((()()))()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              4,
+              6
+            ]
+          ],
+          "nodes": 2513,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 9,
+          "shape_canon": "(((((()())))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              5,
+              6
+            ]
+          ],
+          "nodes": 1307,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 10,
+          "shape_canon": "((((((()))))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              4,
+              6
+            ]
+          ],
+          "nodes": 675,
+          "solutions": 0,
+          "hit_limit": false
+        }
+      ]
+    },
+    "8": {
+      "N": 28,
+      "tree_shapes": 23,
+      "tree_shapes_expected_oeis_A000055": 23,
+      "tree_shape_count_matches_known": true,
+      "leech_trees_up_to_iso": 0,
+      "raw_labeled_solutions": 0,
+      "dfs_nodes": 586699,
+      "seconds": 29.352,
+      "node_limit": 20000000,
+      "time_limit_s": 3600.0,
+      "exhaustive": true,
+      "hit_limit": false,
+      "per_shape": [
+        {
+          "shape_index": 0,
+          "shape_canon": "((()()()()()()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ]
+          ],
+          "nodes": 71433,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 1,
+          "shape_canon": "(((()()()()())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              7
+            ]
+          ],
+          "nodes": 61647,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 2,
+          "shape_canon": "(((()()()())()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              1,
+              7
+            ]
+          ],
+          "nodes": 48817,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 3,
+          "shape_canon": "((((())()()())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              2,
+              7
+            ]
+          ],
+          "nodes": 42406,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 4,
+          "shape_canon": "((((()()()()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              6,
+              7
+            ]
+          ],
+          "nodes": 32792,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 5,
+          "shape_canon": "(((()()())()()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              1,
+              7
+            ]
+          ],
+          "nodes": 43729,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 6,
+          "shape_canon": "((((()())()())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              2,
+              7
+            ]
+          ],
+          "nodes": 31880,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 7,
+          "shape_canon": "((((()()())())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              5,
+              7
+            ]
+          ],
+          "nodes": 31103,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 8,
+          "shape_canon": "((((())(())())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              3,
+              7
+            ]
+          ],
+          "nodes": 23745,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 9,
+          "shape_canon": "(((((())()()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              5,
+              7
+            ]
+          ],
+          "nodes": 19011,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 10,
+          "shape_canon": "((((()()()))()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              5,
+              7
+            ]
+          ],
+          "nodes": 25124,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 11,
+          "shape_canon": "(((((()()())))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              6,
+              7
+            ]
+          ],
+          "nodes": 15262,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 12,
+          "shape_canon": "((((()())())()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ]
+          ],
+          "nodes": 24053,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 13,
+          "shape_canon": "((((()())(()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              3,
+              7
+            ]
+          ],
+          "nodes": 19710,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 14,
+          "shape_canon": "(((((())())())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              4,
+              7
+            ]
+          ],
+          "nodes": 17255,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 15,
+          "shape_canon": "(((((()())()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              6,
+              7
+            ]
+          ],
+          "nodes": 15237,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 16,
+          "shape_canon": "(((((())(())))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              4,
+              7
+            ]
+          ],
+          "nodes": 10326,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 17,
+          "shape_canon": "(((((()()))())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              4,
+              7
+            ]
+          ],
+          "nodes": 14454,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 18,
+          "shape_canon": "((((((()))()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              5,
+              7
+            ]
+          ],
+          "nodes": 8717,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 19,
+          "shape_canon": "((((((())())))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              6,
+              7
+            ]
+          ],
+          "nodes": 7818,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 20,
+          "shape_canon": "(((((()())))()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              5,
+              7
+            ]
+          ],
+          "nodes": 12096,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 21,
+          "shape_canon": "((((((()()))))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              6,
+              7
+            ]
+          ],
+          "nodes": 6319,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 22,
+          "shape_canon": "(((((((())))))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              5,
+              7
+            ]
+          ],
+          "nodes": 3765,
+          "solutions": 0,
+          "hit_limit": false
+        }
+      ]
+    },
+    "9": {
+      "N": 36,
+      "tree_shapes": 47,
+      "tree_shapes_expected_oeis_A000055": 47,
+      "tree_shape_count_matches_known": true,
+      "leech_trees_up_to_iso": 0,
+      "raw_labeled_solutions": 0,
+      "dfs_nodes": 8631331,
+      "seconds": 265.713,
+      "node_limit": 40000000,
+      "time_limit_s": 3600.0,
+      "exhaustive": true,
+      "hit_limit": false,
+      "per_shape": [
+        {
+          "shape_index": 0,
+          "shape_canon": "((()()()()()()()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              0,
+              8
+            ]
+          ],
+          "nodes": 543241,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 1,
+          "shape_canon": "(((()()()()()())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              1,
+              8
+            ]
+          ],
+          "nodes": 511192,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 2,
+          "shape_canon": "(((()()()()())()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              1,
+              8
+            ]
+          ],
+          "nodes": 423546,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 3,
+          "shape_canon": "((((())()()()())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              2,
+              8
+            ]
+          ],
+          "nodes": 411034,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 4,
+          "shape_canon": "((((()()()()()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              7,
+              8
+            ]
+          ],
+          "nodes": 306059,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 5,
+          "shape_canon": "(((()()()())()()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              1,
+              8
+            ]
+          ],
+          "nodes": 400416,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 6,
+          "shape_canon": "((((()())()()())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              2,
+              8
+            ]
+          ],
+          "nodes": 332202,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 7,
+          "shape_canon": "((((()()()())())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "nodes": 281242,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 8,
+          "shape_canon": "((((())(())()())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              3,
+              8
+            ]
+          ],
+          "nodes": 287885,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 9,
+          "shape_canon": "(((((())()()()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "nodes": 219733,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 10,
+          "shape_canon": "((((()()()()))()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "nodes": 237198,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 11,
+          "shape_canon": "(((((()()()())))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              8
+            ]
+          ],
+          "nodes": 161307,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 12,
+          "shape_canon": "((((()()())()())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              2,
+              8
+            ]
+          ],
+          "nodes": 295440,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 13,
+          "shape_canon": "((((()())()())()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              2,
+              8
+            ]
+          ],
+          "nodes": 247843,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 14,
+          "shape_canon": "((((()())(())())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              3,
+              8
+            ]
+          ],
+          "nodes": 218956,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 15,
+          "shape_canon": "(((((())()())())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              5,
+              8
+            ]
+          ],
+          "nodes": 206527,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 16,
+          "shape_canon": "(((((()())()()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              7,
+              8
+            ]
+          ],
+          "nodes": 167102,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 17,
+          "shape_canon": "((((()()())())()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              5,
+              8
+            ]
+          ],
+          "nodes": 256050,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 18,
+          "shape_canon": "((((()()())(()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "nodes": 207283,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 19,
+          "shape_canon": "(((((()()())()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              7,
+              8
+            ]
+          ],
+          "nodes": 161607,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 20,
+          "shape_canon": "((((())(())(()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              4,
+              8
+            ]
+          ],
+          "nodes": 160714,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 21,
+          "shape_canon": "(((((())(())()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              5,
+              8
+            ]
+          ],
+          "nodes": 131417,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 22,
+          "shape_canon": "(((((()()))()())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              5,
+              8
+            ]
+          ],
+          "nodes": 156199,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 23,
+          "shape_canon": "((((((()))()()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "nodes": 115293,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 24,
+          "shape_canon": "((((((())()())))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              7,
+              8
+            ]
+          ],
+          "nodes": 102114,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 25,
+          "shape_canon": "((((()()()))()()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              5,
+              8
+            ]
+          ],
+          "nodes": 228274,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 26,
+          "shape_canon": "(((((()()()))())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "nodes": 145508,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 27,
+          "shape_canon": "(((((()()())))()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "nodes": 122521,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 28,
+          "shape_canon": "((((((()()()))))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              8
+            ]
+          ],
+          "nodes": 71076,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 29,
+          "shape_canon": "((((()())(()()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              3,
+              8
+            ]
+          ],
+          "nodes": 176920,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 30,
+          "shape_canon": "(((((()())())())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              4,
+              8
+            ]
+          ],
+          "nodes": 151415,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 31,
+          "shape_canon": "(((((())(()))())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              4,
+              8
+            ]
+          ],
+          "nodes": 120254,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 32,
+          "shape_canon": "(((((()())(())))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "nodes": 106982,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 33,
+          "shape_canon": "((((((())())()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "nodes": 102743,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 34,
+          "shape_canon": "(((((()())()))()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "nodes": 126301,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 35,
+          "shape_canon": "((((((()())())))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              8
+            ]
+          ],
+          "nodes": 75677,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 36,
+          "shape_canon": "(((((()()))(()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              4,
+              8
+            ]
+          ],
+          "nodes": 90219,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 37,
+          "shape_canon": "((((((()))(())))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              8
+            ]
+          ],
+          "nodes": 60763,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 38,
+          "shape_canon": "((((((())(()))))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              7,
+              8
+            ]
+          ],
+          "nodes": 57261,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 39,
+          "shape_canon": "((((((()()))()))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              8
+            ]
+          ],
+          "nodes": 75030,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 40,
+          "shape_canon": "((((((())()))())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "nodes": 96874,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 41,
+          "shape_canon": "(((((((()))())))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "nodes": 54531,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 42,
+          "shape_canon": "((((((()())))())))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "nodes": 71277,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 43,
+          "shape_canon": "(((((((())()))))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              8
+            ]
+          ],
+          "nodes": 44760,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 44,
+          "shape_canon": "((((((()()))))()))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "nodes": 56427,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 45,
+          "shape_canon": "(((((((()())))))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              8
+            ]
+          ],
+          "nodes": 32064,
+          "solutions": 0,
+          "hit_limit": false
+        },
+        {
+          "shape_index": 46,
+          "shape_canon": "((((((((()))))))))",
+          "edges": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "nodes": 22854,
+          "solutions": 0,
+          "hit_limit": false
+        }
+      ]
+    }
+  },
+  "counts_by_n": {
+    "2": 1,
+    "3": 1,
+    "4": 2,
+    "5": 0,
+    "6": 1,
+    "7": 0,
+    "8": 0,
+    "9": 0
+  },
+  "exhaustive_by_n": {
+    "2": true,
+    "3": true,
+    "4": true,
+    "5": true,
+    "6": true,
+    "7": true,
+    "8": true,
+    "9": true
+  },
+  "regression_expected_counts": {
+    "description": "Complete counts of Leech trees of order n up to isomorphism of the edge-weighted tree, for every n whose search finished exhaustively. Safe to use as a regression fixture for another search engine.",
+    "counts": {
+      "2": 1,
+      "3": 1,
+      "4": 2,
+      "5": 0,
+      "6": 1,
+      "7": 0,
+      "8": 0,
+      "9": 0
+    },
+    "n_not_exhaustive": []
+  },
+  "leech_trees": [
+    {
+      "n": 2,
+      "N": 1,
+      "weighted_canonical_form": "(1:())",
+      "edges": [
+        [
+          0,
+          1,
+          1
+        ]
+      ],
+      "distances_sorted": [
+        1
+      ],
+      "distances_equal_1_to_N": true,
+      "double_end": {
+        "N": 1,
+        "anchor_pair_count": 1,
+        "anchors": [
+          0,
+          1
+        ],
+        "table": [],
+        "E": [],
+        "F": [],
+        "checks": {
+          "i": {
+            "E_size_ok": true,
+            "F_size_ok": true,
+            "disjoint": true,
+            "range_ok": true,
+            "pass": true,
+            "vacuous": true
+          },
+          "ii": {
+            "parity_pass": true,
+            "sum_pass": true,
+            "distinct_pass": true,
+            "parity_failures": [],
+            "sum_failures": [],
+            "distinct_failures": [],
+            "pass": true,
+            "vacuous": true,
+            "vertices_checked": 0,
+            "N_parity": "odd",
+            "parity_claim_predicted_by_N_parity": false
+          },
+          "iii": {
+            "pairs": [],
+            "hc_integer_pass": true,
+            "hc_nonneg_pass": true,
+            "hc_zero_when_slopes_differ_pass": true,
+            "hc_le_min_h_pass": true,
+            "pass": true,
+            "vacuous": true,
+            "pairs_checked": 0,
+            "pairs_with_slopes_differ": 0,
+            "pairs_with_slopes_equal": 0,
+            "max_h_c": null,
+            "all_h_c_zero": null,
+            "pairs_where_bound_could_bind": 0
+          },
+          "iv": {
+            "multiset_sorted": [
+              0
+            ],
+            "expected": [
+              0
+            ],
+            "pass": true,
+            "vacuous": false
+          }
+        },
+        "all_pass": true
+      }
+    },
+    {
+      "n": 3,
+      "N": 3,
+      "weighted_canonical_form": "(1:()2:())",
+      "edges": [
+        [
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          2,
+          2
+        ]
+      ],
+      "distances_sorted": [
+        1,
+        2,
+        3
+      ],
+      "distances_equal_1_to_N": true,
+      "double_end": {
+        "N": 3,
+        "anchor_pair_count": 1,
+        "anchors": [
+          1,
+          2
+        ],
+        "table": [
+          {
+            "u": 0,
+            "d_a": 1,
+            "d_b": 2,
+            "e": 2,
+            "f": 1,
+            "h_is_integer": true,
+            "h": 0,
+            "f_minus_e": -1
+          }
+        ],
+        "E": [
+          2
+        ],
+        "F": [
+          1
+        ],
+        "checks": {
+          "i": {
+            "E_size_ok": true,
+            "F_size_ok": true,
+            "disjoint": true,
+            "range_ok": true,
+            "pass": true,
+            "vacuous": false,
+            "intersection": []
+          },
+          "ii": {
+            "parity_pass": false,
+            "sum_pass": true,
+            "distinct_pass": true,
+            "parity_failures": [
+              {
+                "u": 0,
+                "e": 2,
+                "f": 1
+              }
+            ],
+            "sum_failures": [],
+            "distinct_failures": [],
+            "pass": false,
+            "vacuous": false,
+            "vertices_checked": 1,
+            "N_parity": "odd",
+            "parity_claim_predicted_by_N_parity": false
+          },
+          "iii": {
+            "pairs": [],
+            "hc_integer_pass": true,
+            "hc_nonneg_pass": true,
+            "hc_zero_when_slopes_differ_pass": true,
+            "hc_le_min_h_pass": true,
+            "pass": true,
+            "vacuous": true,
+            "pairs_checked": 0,
+            "pairs_with_slopes_differ": 0,
+            "pairs_with_slopes_equal": 0,
+            "max_h_c": null,
+            "all_h_c_zero": null,
+            "pairs_where_bound_could_bind": 0
+          },
+          "iv": {
+            "multiset_sorted": [
+              0,
+              1,
+              2
+            ],
+            "expected": [
+              0,
+              1,
+              2
+            ],
+            "pass": true,
+            "vacuous": false
+          }
+        },
+        "all_pass": false
+      }
+    },
+    {
+      "n": 4,
+      "N": 6,
+      "weighted_canonical_form": "(1:()2:()4:())",
+      "edges": [
+        [
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          2,
+          2
+        ],
+        [
+          0,
+          3,
+          4
+        ]
+      ],
+      "distances_sorted": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "distances_equal_1_to_N": true,
+      "double_end": {
+        "N": 6,
+        "anchor_pair_count": 1,
+        "anchors": [
+          2,
+          3
+        ],
+        "table": [
+          {
+            "u": 0,
+            "d_a": 2,
+            "d_b": 4,
+            "e": 4,
+            "f": 2,
+            "h_is_integer": true,
+            "h": 0,
+            "f_minus_e": -2
+          },
+          {
+            "u": 1,
+            "d_a": 3,
+            "d_b": 5,
+            "e": 3,
+            "f": 1,
+            "h_is_integer": true,
+            "h": 1,
+            "f_minus_e": -2
+          }
+        ],
+        "E": [
+          3,
+          4
+        ],
+        "F": [
+          1,
+          2
+        ],
+        "checks": {
+          "i": {
+            "E_size_ok": true,
+            "F_size_ok": true,
+            "disjoint": true,
+            "range_ok": true,
+            "pass": true,
+            "vacuous": false,
+            "intersection": []
+          },
+          "ii": {
+            "parity_pass": true,
+            "sum_pass": true,
+            "distinct_pass": true,
+            "parity_failures": [],
+            "sum_failures": [],
+            "distinct_failures": [],
+            "pass": true,
+            "vacuous": false,
+            "vertices_checked": 2,
+            "N_parity": "even",
+            "parity_claim_predicted_by_N_parity": true
+          },
+          "iii": {
+            "pairs": [
+              {
+                "u": 0,
+                "v": 1,
+                "d_uv": 1,
+                "N_minus_d": 5,
+                "min_cross": 5,
+                "h_c": 0,
+                "slopes_differ": false,
+                "h_u": 0,
+                "h_v": 1
+              }
+            ],
+            "hc_integer_pass": true,
+            "hc_nonneg_pass": true,
+            "hc_zero_when_slopes_differ_pass": true,
+            "hc_le_min_h_pass": true,
+            "pass": true,
+            "vacuous": false,
+            "pairs_checked": 1,
+            "pairs_with_slopes_differ": 0,
+            "pairs_with_slopes_equal": 1,
+            "max_h_c": 0,
+            "all_h_c_zero": true,
+            "pairs_where_bound_could_bind": 0
+          },
+          "iv": {
+            "multiset_sorted": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "expected": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "pass": true,
+            "vacuous": false
+          }
+        },
+        "all_pass": true
+      }
+    },
+    {
+      "n": 4,
+      "N": 6,
+      "weighted_canonical_form": "(1:()3:(2:()))",
+      "edges": [
+        [
+          0,
+          1,
+          3
+        ],
+        [
+          0,
+          2,
+          1
+        ],
+        [
+          1,
+          3,
+          2
+        ]
+      ],
+      "distances_sorted": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "distances_equal_1_to_N": true,
+      "double_end": {
+        "N": 6,
+        "anchor_pair_count": 1,
+        "anchors": [
+          2,
+          3
+        ],
+        "table": [
+          {
+            "u": 0,
+            "d_a": 1,
+            "d_b": 5,
+            "e": 5,
+            "f": 1,
+            "h_is_integer": true,
+            "h": 0,
+            "f_minus_e": -4
+          },
+          {
+            "u": 1,
+            "d_a": 4,
+            "d_b": 2,
+            "e": 2,
+            "f": 4,
+            "h_is_integer": true,
+            "h": 0,
+            "f_minus_e": 2
+          }
+        ],
+        "E": [
+          2,
+          5
+        ],
+        "F": [
+          1,
+          4
+        ],
+        "checks": {
+          "i": {
+            "E_size_ok": true,
+            "F_size_ok": true,
+            "disjoint": true,
+            "range_ok": true,
+            "pass": true,
+            "vacuous": false,
+            "intersection": []
+          },
+          "ii": {
+            "parity_pass": true,
+            "sum_pass": true,
+            "distinct_pass": true,
+            "parity_failures": [],
+            "sum_failures": [],
+            "distinct_failures": [],
+            "pass": true,
+            "vacuous": false,
+            "vertices_checked": 2,
+            "N_parity": "even",
+            "parity_claim_predicted_by_N_parity": true
+          },
+          "iii": {
+            "pairs": [
+              {
+                "u": 0,
+                "v": 1,
+                "d_uv": 3,
+                "N_minus_d": 3,
+                "min_cross": 3,
+                "h_c": 0,
+                "slopes_differ": true,
+                "h_u": 0,
+                "h_v": 0
+              }
+            ],
+            "hc_integer_pass": true,
+            "hc_nonneg_pass": true,
+            "hc_zero_when_slopes_differ_pass": true,
+            "hc_le_min_h_pass": true,
+            "pass": true,
+            "vacuous": false,
+            "pairs_checked": 1,
+            "pairs_with_slopes_differ": 1,
+            "pairs_with_slopes_equal": 0,
+            "max_h_c": 0,
+            "all_h_c_zero": true,
+            "pairs_where_bound_could_bind": 0
+          },
+          "iv": {
+            "multiset_sorted": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "expected": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "pass": true,
+            "vacuous": false
+          }
+        },
+        "all_pass": true
+      }
+    },
+    {
+      "n": 6,
+      "N": 15,
+      "weighted_canonical_form": "(1:()2:()5:(4:()8:()))",
+      "edges": [
+        [
+          0,
+          1,
+          5
+        ],
+        [
+          0,
+          2,
+          1
+        ],
+        [
+          0,
+          3,
+          2
+        ],
+        [
+          1,
+          4,
+          4
+        ],
+        [
+          1,
+          5,
+          8
+        ]
+      ],
+      "distances_sorted": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "distances_equal_1_to_N": true,
+      "double_end": {
+        "N": 15,
+        "anchor_pair_count": 1,
+        "anchors": [
+          3,
+          5
+        ],
+        "table": [
+          {
+            "u": 0,
+            "d_a": 2,
+            "d_b": 13,
+            "e": 13,
+            "f": 2,
+            "h_is_integer": true,
+            "h": 0,
+            "f_minus_e": -11
+          },
+          {
+            "u": 1,
+            "d_a": 7,
+            "d_b": 8,
+            "e": 8,
+            "f": 7,
+            "h_is_integer": true,
+            "h": 0,
+            "f_minus_e": -1
+          },
+          {
+            "u": 2,
+            "d_a": 3,
+            "d_b": 14,
+            "e": 12,
+            "f": 1,
+            "h_is_integer": true,
+            "h": 1,
+            "f_minus_e": -11
+          },
+          {
+            "u": 4,
+            "d_a": 11,
+            "d_b": 12,
+            "e": 4,
+            "f": 3,
+            "h_is_integer": true,
+            "h": 4,
+            "f_minus_e": -1
+          }
+        ],
+        "E": [
+          4,
+          8,
+          12,
+          13
+        ],
+        "F": [
+          1,
+          2,
+          3,
+          7
+        ],
+        "checks": {
+          "i": {
+            "E_size_ok": true,
+            "F_size_ok": true,
+            "disjoint": true,
+            "range_ok": true,
+            "pass": true,
+            "vacuous": false,
+            "intersection": []
+          },
+          "ii": {
+            "parity_pass": false,
+            "sum_pass": true,
+            "distinct_pass": true,
+            "parity_failures": [
+              {
+                "u": 0,
+                "e": 13,
+                "f": 2
+              },
+              {
+                "u": 1,
+                "e": 8,
+                "f": 7
+              },
+              {
+                "u": 2,
+                "e": 12,
+                "f": 1
+              },
+              {
+                "u": 4,
+                "e": 4,
+                "f": 3
+              }
+            ],
+            "sum_failures": [],
+            "distinct_failures": [],
+            "pass": false,
+            "vacuous": false,
+            "vertices_checked": 4,
+            "N_parity": "odd",
+            "parity_claim_predicted_by_N_parity": false
+          },
+          "iii": {
+            "pairs": [
+              {
+                "u": 0,
+                "v": 1,
+                "d_uv": 5,
+                "N_minus_d": 10,
+                "min_cross": 10,
+                "h_c": 0,
+                "slopes_differ": true,
+                "h_u": 0,
+                "h_v": 0
+              },
+              {
+                "u": 0,
+                "v": 2,
+                "d_uv": 1,
+                "N_minus_d": 14,
+                "min_cross": 14,
+                "h_c": 0,
+                "slopes_differ": false,
+                "h_u": 0,
+                "h_v": 1
+              },
+              {
+                "u": 0,
+                "v": 4,
+                "d_uv": 9,
+                "N_minus_d": 6,
+                "min_cross": 6,
+                "h_c": 0,
+                "slopes_differ": true,
+                "h_u": 0,
+                "h_v": 4
+              },
+              {
+                "u": 1,
+                "v": 2,
+                "d_uv": 6,
+                "N_minus_d": 9,
+                "min_cross": 9,
+                "h_c": 0,
+                "slopes_differ": true,
+                "h_u": 0,
+                "h_v": 1
+              },
+              {
+                "u": 1,
+                "v": 4,
+                "d_uv": 4,
+                "N_minus_d": 11,
+                "min_cross": 11,
+                "h_c": 0,
+                "slopes_differ": false,
+                "h_u": 0,
+                "h_v": 4
+              },
+              {
+                "u": 2,
+                "v": 4,
+                "d_uv": 10,
+                "N_minus_d": 5,
+                "min_cross": 5,
+                "h_c": 0,
+                "slopes_differ": true,
+                "h_u": 1,
+                "h_v": 4
+              }
+            ],
+            "hc_integer_pass": true,
+            "hc_nonneg_pass": true,
+            "hc_zero_when_slopes_differ_pass": true,
+            "hc_le_min_h_pass": true,
+            "pass": true,
+            "vacuous": false,
+            "pairs_checked": 6,
+            "pairs_with_slopes_differ": 4,
+            "pairs_with_slopes_equal": 2,
+            "max_h_c": 0,
+            "all_h_c_zero": true,
+            "pairs_where_bound_could_bind": 0
+          },
+          "iv": {
+            "multiset_sorted": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14
+            ],
+            "expected": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14
+            ],
+            "pass": true,
+            "vacuous": false
+          }
+        },
+        "all_pass": false
+      }
+    }
+  ],
+  "claim_summary": {
+    "i": {
+      "trees_checked": 5,
+      "passed": 5,
+      "failed": 0,
+      "all_pass": true,
+      "trees_non_vacuous": 4,
+      "non_vacuous_passed": 4,
+      "non_vacuous_failed": 0
+    },
+    "ii": {
+      "trees_checked": 5,
+      "passed": 3,
+      "failed": 2,
+      "all_pass": false,
+      "trees_non_vacuous": 4,
+      "non_vacuous_passed": 2,
+      "non_vacuous_failed": 2
+    },
+    "iii": {
+      "trees_checked": 5,
+      "passed": 5,
+      "failed": 0,
+      "all_pass": true,
+      "trees_non_vacuous": 3,
+      "non_vacuous_passed": 3,
+      "non_vacuous_failed": 0
+    },
+    "iv": {
+      "trees_checked": 5,
+      "passed": 5,
+      "failed": 0,
+      "all_pass": true,
+      "trees_non_vacuous": 5,
+      "non_vacuous_passed": 5,
+      "non_vacuous_failed": 0
+    },
+    "ii_parity_only": {
+      "trees_checked": 5,
+      "passed": 3,
+      "failed": 2,
+      "all_pass": false
+    },
+    "ii_sum_only": {
+      "trees_checked": 5,
+      "passed": 5,
+      "failed": 0,
+      "all_pass": true
+    },
+    "ii_distinct_only": {
+      "trees_checked": 5,
+      "passed": 5,
+      "failed": 0,
+      "all_pass": true
+    },
+    "ii_parity_detail": {
+      "per_tree": [
+        {
+          "n": 3,
+          "N": 3,
+          "N_parity": "odd",
+          "parity_pass": false,
+          "predicted": false,
+          "prediction_correct": true
+        },
+        {
+          "n": 4,
+          "N": 6,
+          "N_parity": "even",
+          "parity_pass": true,
+          "predicted": true,
+          "prediction_correct": true
+        },
+        {
+          "n": 4,
+          "N": 6,
+          "N_parity": "even",
+          "parity_pass": true,
+          "predicted": true,
+          "prediction_correct": true
+        },
+        {
+          "n": 6,
+          "N": 15,
+          "N_parity": "odd",
+          "parity_pass": false,
+          "predicted": false,
+          "prediction_correct": true
+        }
+      ],
+      "identity": "e(u)+f(u) = N - 2h(u) with h(u)=dist(u, a-b path) >= 0, so e(u) = f(u) (mod 2) if and only if N is even.",
+      "prediction_holds_on_all_trees": true
+    },
+    "iii_coverage": {
+      "total_non_anchor_pairs_checked": 8,
+      "pairs_with_slopes_differ": 5,
+      "pairs_with_slopes_equal": 3,
+      "pairs_where_h_c_bound_could_bind": 0,
+      "observed_h_c_values": [
+        0
+      ],
+      "all_observed_h_c_are_zero": true,
+      "caveat": "h_c = 0 on every pair in this data set, so the sub-claims 'h_c = 0 when the slopes differ' and 'h_c <= min(h_u,h_v)' are satisfied but never discriminated: no observed pair would have violated them for any nonnegative h_c choice other than by being nonzero."
+    }
+  },
+  "independent_cross_check": {
+    "script": "crosscheck_independent.py (log: crosscheck_independent.log)",
+    "shares_code_with_this_file": false,
+    "methods": {
+      "shape_counts": {
+        "how": "trees from Prufer-sequence decoding, deduplicated by the multiset of vertex distance-vectors, with bucket members spot-confirmed isomorphic by explicit n! bijection search",
+        "counts": {
+          "2": 1,
+          "3": 1,
+          "4": 2,
+          "5": 3,
+          "6": 6,
+          "7": 11,
+          "8": 23,
+          "9": 47
+        },
+        "agrees_with_this_file": true
+      },
+      "A_full_cube_scan": {
+        "how": "numpy scan of the ENTIRE cube [1..N]^(n-1); the only test applied is the definition (all C(n,2) distances distinct and <= N). No sum identity, no bounds, no ordering prune.",
+        "n_range": [
+          2,
+          6
+        ],
+        "counts": {
+          "2": 1,
+          "3": 1,
+          "4": 2,
+          "5": 0,
+          "6": 1
+        },
+        "tuples_scanned": {
+          "2": 1,
+          "3": 9,
+          "4": 432,
+          "5": 30000,
+          "6": 4556250
+        },
+        "agrees_with_this_file": true,
+        "same_trees_found": true
+      },
+      "B_distinctness_only_dfs": {
+        "how": "DFS with the distinctness prune only -- no sum identity, no rearrangement bound, no monotone cutoff.",
+        "n_exhaustive": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "counts": {
+          "2": 1,
+          "3": 1,
+          "4": 2,
+          "5": 0,
+          "6": 1,
+          "7": 0,
+          "8": 0
+        },
+        "agrees_with_this_file": true,
+        "n9": "INCONCLUSIVE -- the run spent its whole budget generating the 9-vertex shapes via Prufer sequences and timed out before the weight search did any real work."
+      }
+    },
+    "summary": "n = 2..8 are corroborated by at least one search that uses nothing beyond the definition. n = 9 rests on this file's search alone."
+  },
+  "total_seconds": 296.599
+}

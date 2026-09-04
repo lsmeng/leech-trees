@@ -1,0 +1,25 @@
+{
+  "abstract_lines": 7,
+  "errors": [],
+  "scope": {
+    "m": 16,
+    "nsplit": 64,
+    "r": 8,
+    "shapes": [
+      "0,0,1,3,4,5,6",
+      "0,1,1,2,4,5,6",
+      "0,1,2,2,3,5,6",
+      "0,1,2,3,3,4,6",
+      "0,1,2,3,4,4,5",
+      "0,1,2,3,4,5,5",
+      "0,1,2,3,4,5,6"
+    ],
+    "split": 12
+  },
+  "shapes_sha256": "928f5f178e0f0848c8d1d45bbb0141f50cd46832932fc69344e2268fc816fb41",
+  "shard_sha256": "61e8dcf05a50595bfd03a016f5fa40c6f5f543d005255dcfbd12a3c6c00fb0ad",
+  "source_scope": "one completed shard only; not corpus coverage or a global proof",
+  "status": "VERIFIED_PARTIAL_SHARD_EMPTY",
+  "total_depth_survivors": 0,
+  "total_structure_survivors": 0
+}

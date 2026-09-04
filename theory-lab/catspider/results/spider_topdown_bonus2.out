@@ -1,0 +1,3 @@
+{'n': 38, 'N': 703, 'raw_solutions': 0, 'unique_by_edge_multiset': 0, 'nodes': 37528, 'options_generated': 105891550, 'secs': 77.37}
+{'n': 49, 'N': 1176, 'raw_solutions': 0, 'unique_by_edge_multiset': 0, 'nodes': 63676, 'options_generated': 300699989, 'secs': 204.75}
+{'n': 51, 'N': 1275, 'raw_solutions': 0, 'unique_by_edge_multiset': 0, 'nodes': 69302, 'options_generated': 353983359, 'secs': 275.58}

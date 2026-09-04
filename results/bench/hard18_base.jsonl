@@ -1,0 +1,5 @@
+{"id": 84692, "n": 18, "status": "UNSAT", "nsol": 0, "nodes": 11497734, "time": 57.5536, "mode": "value", "witness": null}
+{"id": 15758, "n": 18, "status": "UNSAT", "nsol": 0, "nodes": 4893116, "time": 22.2109, "mode": "value", "witness": null}
+{"id": 86493, "n": 18, "status": "UNSAT", "nsol": 0, "nodes": 23702203, "time": 111.2045, "mode": "value", "witness": null}
+{"id": 27764, "n": 18, "status": "UNSAT", "nsol": 0, "nodes": 23026881, "time": 108.0891, "mode": "value", "witness": null}
+{"id": 28295, "n": 18, "status": "UNSAT", "nsol": 0, "nodes": 61850387, "time": 294.8672, "mode": "value", "witness": null}

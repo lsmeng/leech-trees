@@ -1,0 +1,1 @@
+{"P": [5, 3, 1], "W": 1, "delta": 10, "demand": 10, "low_depths": [0, 1, 2], "m": 5, "max_flow": 8, "necessary_pass": false, "occupied": [], "s": 8, "slot_count": 10, "status": "GLOBAL_DISTANCE_SLOT_FLOW"}

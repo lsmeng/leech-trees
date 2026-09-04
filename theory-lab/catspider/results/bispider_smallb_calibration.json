@@ -1,0 +1,63 @@
+{
+  "date": "2026-08-21",
+  "engine": "bispider.c with paranoid full-distance recheck",
+  "note": "Exact numeric corroboration only; these fixed-order runs are not used in the uniform proof.",
+  "per_anchor_comparison": {
+    "matches": 380,
+    "orders": [12, 25],
+    "quantities": [
+      "nodes",
+      "deepest_missing_offset",
+      "max_noncentre_marks",
+      "nsol"
+    ],
+    "status": "VERIFIED"
+  },
+  "runs": [
+    {
+      "A_range": [1, 19],
+      "B_upper_bound": 20,
+      "N": 66,
+      "branches": 190,
+      "deepest_missing_offset": 16,
+      "max_noncentre_marks": 7,
+      "n": 12,
+      "nodes": 9755,
+      "nsol": 0
+    },
+    {
+      "A_range": [1, 19],
+      "B_upper_bound": 20,
+      "N": 78,
+      "branches": 190,
+      "deepest_missing_offset": 16,
+      "max_noncentre_marks": 7,
+      "n": 13,
+      "nodes": 10866,
+      "nsol": 0
+    },
+    {
+      "A_range": [1, 19],
+      "B_upper_bound": 20,
+      "N": 300,
+      "branches": 190,
+      "deepest_missing_offset": 16,
+      "max_noncentre_marks": 7,
+      "n": 25,
+      "nodes": 10866,
+      "nsol": 0
+    },
+    {
+      "A_range": [1, 19],
+      "B_upper_bound": 20,
+      "N": 351,
+      "branches": 190,
+      "deepest_missing_offset": 16,
+      "max_noncentre_marks": 7,
+      "n": 27,
+      "nodes": 10866,
+      "nsol": 0
+    }
+  ],
+  "status": "OBSERVED"
+}

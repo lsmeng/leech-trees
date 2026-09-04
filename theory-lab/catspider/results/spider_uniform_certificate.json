@@ -1,0 +1,85 @@
+{
+  "affine_cleanroom": {
+    "fieldwise_matches": 20,
+    "frontier_states": 0,
+    "nodes": 1123,
+    "regimes": 20
+  },
+  "affine_primary": {
+    "frontier_states": 0,
+    "max_depth": 25,
+    "max_marks": 9,
+    "nodes": 1123,
+    "regimes": 20,
+    "invariant_fields": [
+      "nodes",
+      "accepted_children",
+      "dead_states",
+      "deepest_missing_offset",
+      "max_marks",
+      "frontier_states"
+    ],
+    "regime_invariants": {
+      "small-U": [
+        [3, 2, 1, 5, 4, 0],
+        [4, 3, 2, 5, 4, 0],
+        [4, 3, 3, 2, 3, 0],
+        [10, 9, 6, 6, 4, 0],
+        [13, 12, 8, 8, 5, 0],
+        [17, 16, 9, 7, 5, 0],
+        [30, 29, 18, 6, 5, 0],
+        [37, 36, 17, 9, 6, 0],
+        [42, 41, 21, 8, 6, 0],
+        [49, 48, 26, 8, 6, 0]
+      ],
+      "small-delta": [
+        [129, 128, 63, 25, 9, 0],
+        [122, 121, 63, 25, 9, 0],
+        [105, 104, 68, 18, 8, 0],
+        [62, 61, 32, 17, 8, 0],
+        [90, 89, 49, 18, 8, 0],
+        [72, 71, 39, 19, 9, 0],
+        [97, 96, 53, 18, 8, 0],
+        [66, 65, 31, 15, 8, 0],
+        [79, 78, 38, 11, 7, 0],
+        [92, 91, 47, 10, 7, 0]
+      ]
+    }
+  },
+  "base": {
+    "nodes": 16153,
+    "orders": [5, 15],
+    "reference_node_counts": {
+      "5": 13,
+      "6": 50,
+      "7": 132,
+      "8": 254,
+      "9": 507,
+      "10": 971,
+      "11": 1511,
+      "12": 2050,
+      "13": 2736,
+      "14": 3562,
+      "15": 4367
+    },
+    "solutions": 0
+  },
+  "certificate": "no Leech spider of order n >= 5",
+  "numeric_affine_spot_checks": 60,
+  "parameters": {
+    "boundary_window": 25,
+    "pmin": 51,
+    "regular_window": 10
+  },
+  "regular_relaxation": {
+    "W": 10,
+    "accepted_children": 110,
+    "dead_states": 57,
+    "deepest_missing_offset": 10,
+    "frontier_states": 0,
+    "max_marks": 7,
+    "nodes": 111,
+    "r": null
+  },
+  "status": "VERIFIED"
+}

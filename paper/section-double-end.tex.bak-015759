@@ -1,0 +1,954 @@
+% ===========================================================================
+%  section-double-end.tex
+%  "A two-anchor normal form" -- drop-in section for main.tex.
+%
+%  ASSUMPTIONS ON THE PREAMBLE.  This file introduces no packages and no
+%  macros of its own.  It assumes exactly the following, all of which are
+%  already provided by the preamble of main.tex:
+%
+%    packages   amsmath, amssymb, amsthm  (align, \binom, \sqcup, \operatorname)
+%               booktabs                  (\toprule \midrule \bottomrule)
+%               xcolor                    (used only through \todo)
+%               natbib                    (\cite)
+%    theorem environments (plain style, shared counter, numbered within
+%               section):  theorem, lemma, proposition, corollary
+%               (remark style): remark, remark*
+%    macros     \bin{a}{b}   = \binom{a}{b}
+%               \diam        = \operatorname{diam}
+%               \Z           = \mathbb{Z}
+%               \file{...}, \tok{...}   (typewriter)
+%               \todo{...}   (visible red marker; \todofalse hides them)
+%               \bk          (discretionary break; used inside \tok only)
+%
+%    labels referenced from elsewhere in main.tex (all exist there):
+%               sec:prelim, sec:algorithm, sec:verification, sec:crowding,
+%               sec:endpoint, sec:data, sec:ai,
+%               lem:taylor, lem:golomb, thm:endpoint, thm:crowd280,
+%               thm:crowd283, cor:reduction, tab:known, tab:crowdhash
+%    bib keys:  Leech1975, Taylor1977, SzekelyWangZhang2005, Calhoun2007,
+%               OEIS, Shearer1990, Dollas1998, DistributedNetOGR
+%
+%  Notation follows main.tex: n is the order, N = \bin n2, and e, f, p, h are
+%  the quantities already introduced inside the proof of Theorem~\ref{thm:endpoint}.
+% ===========================================================================
+
+\section{A two-anchor normal form}\label{sec:doubleend}
+
+The engine of Section~\ref{sec:algorithm} is organised by edges, and the
+order-$25$ argument of Section~\ref{sec:crowding} is organised by a deleted
+leaf and carries a parameter $\delta=\diam(T-\ell)$.  This section develops a
+third normal form, organised instead by the two endpoints of the unique
+diametral pair.  It has two features that the other two lack.  First, it has no
+parameter: the whole order-$n$ problem becomes one finite additive covering
+problem, stated once.  Second, the objects it enumerates are not trees but
+pairs of integer sets, so the search order can be driven by the target values
+$1,2,\dots,N$ rather than by the shape of the tree.
+
+We state the normal form (Section~\ref{sec:de:setup}), derive from it the exact
+parity split, an attachment lemma, a Golomb bound on the spine and a ball bound
+(Section~\ref{sec:de:cons}), record a generating-function identity together
+with an honest account of how little its most quotable corollary is worth
+(Section~\ref{sec:de:lemmad}), describe the search built on it
+(Section~\ref{sec:de:search}) and its validation
+(Section~\ref{sec:de:valid}), and close with a statement of exactly what has
+and has not been computed (Section~\ref{sec:de:status}).  The engine is
+independent of every other program in this paper: it shares no code with the
+forest search, with the per-topology search or with the order-$25$ material of
+Section~\ref{sec:crowding}.
+
+\subsection{Coordinates at the two diametral endpoints}\label{sec:de:setup}
+
+Throughout this section $T$ is a Leech tree of order $n\ge3$, $N=\bin n2$ and
+$V=n-2$.  As recorded at the start of Section~\ref{sec:endpoint}, the value $N$
+is attained by exactly one pair $\{a,b\}$ and both $a$ and $b$ are leaves; we
+call $\{a,b\}$ the \emph{anchors} and write $P$ for the $a$--$b$ path, of weight
+$N$.  For a vertex $u\notin\{a,b\}$ let $q(u)$ be the vertex of $P$ nearest to
+$u$ and put
+\[
+  p(u)=d\bigl(a,q(u)\bigr),\qquad h(u)=d\bigl(u,q(u)\bigr)\ge0,
+\]
+so that $d(a,u)=p(u)+h(u)$ and $d(b,u)=\bigl(N-p(u)\bigr)+h(u)$.  These are the
+quantities used in the proof of Theorem~\ref{thm:endpoint}; here they become
+standing notation.
+
+For any two vertices $x\ne y$ of $T$ we call
+$\operatorname{gap}(x,y)=N-d(x,y)$ the \emph{gap} of the pair $\{x,y\}$, and for
+$u\notin\{a,b\}$ we write
+\[
+  e(u)=\operatorname{gap}(a,u)=N-d(a,u),\qquad
+  f(u)=\operatorname{gap}(b,u)=N-d(b,u),
+\]
+the \emph{gap coordinates} of $u$, and set $E=\{e(u):u\notin\{a,b\}\}$ and
+$F=\{f(u):u\notin\{a,b\}\}$.
+
+The two coordinates determine the position of $u$:
+\begin{equation}\label{eq:deph}
+  p(u)=\frac{N+f(u)-e(u)}2,\qquad h(u)=\frac{N-e(u)-f(u)}2 .
+\end{equation}
+The Leech condition says that the $N$ pairs of $T$ have distinct distances
+filling $[1,N]$, i.e.\ that their $N$ gaps are exactly $0,1,\dots,N-1$; the
+pair $\{a,b\}$ contributes the gap $0$, the pairs $\{a,u\}$ and $\{b,u\}$
+contribute $E$ and $F$, and the remaining $\bin V2$ pairs contribute the values
+computed in Lemma~\ref{lem:degap} below.
+
+\begin{lemma}[coordinate constraints]\label{lem:decoord}
+For every $u\notin\{a,b\}$,
+\begin{enumerate}
+\item[(i)] $1\le e(u)\le N-1$ and $1\le f(u)\le N-1$;
+\item[(ii)] $e(u)+f(u)=N-2h(u)\le N$, with equality if and only if $u$ lies on $P$;
+\item[(iii)] $e(u)+f(u)\equiv N\pmod 2$;
+\item[(iv)] $E$ and $F$ each have exactly $V$ elements and $E\cap F=\varnothing$;
+in particular $e(u)\ne f(u)$, so no vertex sits at $p=N/2$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+$d(a,u)<N$ because $\{a,b\}$ is the only pair at distance $N$ and $u\ne b$, and
+$d(a,u)\ge1$, which gives (i) for $e$; symmetrically for $f$.  Adding
+$d(a,u)=p+h$ and $d(b,u)=(N-p)+h$ gives $d(a,u)+d(b,u)=N+2h(u)$, whence (ii)
+and (iii).  For (iv), the pairs $\{a,u\}$ are pairwise distinct, so the
+distances $d(a,u)$ are pairwise distinct and $|E|=V$; likewise $|F|=V$; and
+$\{a,u\}\ne\{b,v\}$ for all $u,v\notin\{a,b\}$, so $d(a,u)\ne d(b,v)$ and
+$E\cap F=\varnothing$.  Taking $u=v$ gives $e(u)\ne f(u)$, which by
+\eqref{eq:deph} says $p(u)\ne N/2$.
+\end{proof}
+
+\begin{remark*}
+The parity statement is $e+f\equiv N$, not $e\equiv f$.  The two agree only
+when $N$ is even, that is for $n\equiv0,1\pmod4$; for the Leech tree of order
+$3$ ($N=3$) one has $E=\{2\}$, $F=\{1\}$.  Both cases occur among the known
+Leech trees and both are used below, so we keep them apart.
+\end{remark*}
+
+\begin{lemma}[crossing formula]\label{lem:degap}
+Let $u\ne v$ be vertices outside $\{a,b\}$ and let $h_c(u,v)\ge0$ be the height
+above $P$ of the last common vertex of the $u$--$P$ and $v$--$P$ paths.  Then
+\begin{equation}\label{eq:degap}
+  \operatorname{gap}(u,v)\;=\;\min\bigl(f(u)+e(v),\;f(v)+e(u)\bigr)\;+\;2\,h_c(u,v),
+\end{equation}
+where $h_c(u,v)=0$ unless $f(u)-e(u)=f(v)-e(v)$, equivalently $p(u)=p(v)$, in
+which case $0\le h_c(u,v)\le\min\bigl(h(u),h(v)\bigr)$.  Moreover the two
+\emph{crossings} $f(u)+e(v)$ and $f(v)+e(u)$ differ by $2\bigl(p(v)-p(u)\bigr)$
+and in particular always have the same parity.
+\end{lemma}
+
+\begin{proof}
+By \eqref{eq:deph}, $f(u)-e(u)=2p(u)-N$, so
+$\bigl(f(v)+e(u)\bigr)-\bigl(f(u)+e(v)\bigr)=2\bigl(p(v)-p(u)\bigr)$; hence
+$p(u)\le p(v)$ if and only if $f(u)+e(v)\le f(v)+e(u)$, and the two crossings
+are equal exactly when $p(u)=p(v)$.  Assume $p(u)\le p(v)$.  If
+$q(u)\ne q(v)$, the $u$--$v$ path leaves $u$, meets $P$ at $q(u)$, runs along
+$P$ to $q(v)$ and leaves $P$ to $v$, so
+$d(u,v)=h(u)+\bigl(p(v)-p(u)\bigr)+h(v)=N-f(u)-e(v)$, and $h_c=0$; the same
+computation applies when $q(u)=q(v)$ but the two paths leave that vertex by
+different edges.  Otherwise $q(u)=q(v)$ and the two paths share an initial
+segment ending at height $h_c\ge0$, and
+$d(u,v)=h(u)+h(v)-2h_c=N-f(u)-e(v)-2h_c$.  Taking gaps gives \eqref{eq:degap};
+$h_c\le\min(h(u),h(v))$ because the common vertex lies on both paths.
+\end{proof}
+
+\begin{theorem}[two-anchor normal form]\label{thm:denormal}
+Let $T$ be a weighted tree of order $n\ge3$ and let $a,b$ be two of its vertices
+with $d(a,b)=N=\bin n2$; define $p,h,e,f$ relative to the $a$--$b$ path as
+above.  Then $T$ is a Leech tree if and only if
+\begin{equation}\label{eq:detiling}
+  \{0\}\ \sqcup\ E\ \sqcup\ F\ \sqcup\
+  \bigl\{\operatorname{gap}(u,v):\{u,v\}\subseteq V(T)\setminus\{a,b\}\bigr\}
+  \;=\;[0,N-1],
+\end{equation}
+the union being disjoint and the
+$1+V+V+\bin V2=N$ values pairwise distinct.  In that case $\{a,b\}$ is the
+unique diametral pair, $a$ and $b$ are leaves, and Lemma~\ref{lem:decoord}
+holds.
+\end{theorem}
+
+\begin{proof}
+The $N$ pairs of $T$ split into $\{a,b\}$, the $V$ pairs $\{a,u\}$, the $V$
+pairs $\{b,u\}$ and the $\bin V2$ pairs $\{u,v\}$ with $u,v\notin\{a,b\}$, and
+their gaps are respectively $0$, the elements of $E$, the elements of $F$ and
+the values \eqref{eq:degap}, Lemma~\ref{lem:degap} being valid in any weighted
+tree.  The Leech condition is that the $N$ distances are distinct and fill
+$[1,N]$, i.e.\ that the $N$ gaps are distinct and fill $[0,N-1]$, which is
+\eqref{eq:detiling}.  Finally
+$1+2V+\bin V2=1+2(n-2)+\bin{n-2}2=\bin n2=N$, and the last sentence is the
+first paragraph of Section~\ref{sec:endpoint} together with
+Lemma~\ref{lem:decoord}.
+\end{proof}
+
+Theorem~\ref{thm:denormal} is a reformulation, not a new obstruction; its value
+is that the right-hand side is a fixed interval, the left-hand side is built
+from sums of the unknowns, and no parameter such as $\delta$ appears.  A single
+search over the pairs $(e_i,f_i)$ and the tie heights $h_c$ therefore covers
+the whole order-$n$ problem.
+
+\begin{remark}[what the relaxation is, and is not]\label{rem:derelax}
+The system consisting of Lemma~\ref{lem:decoord}, formula~\eqref{eq:degap} with
+$0\le h_c\le\min(h_u,h_v)$ and $h_c=0$ for untied pairs, and the
+partition~\eqref{eq:detiling} is a set of \emph{necessary} conditions on an
+abstract pair of coordinate systems.  It is strictly weaker than being a tree:
+solutions of the relaxation need not be realisable, because nothing in it
+forces the branch carrying a vertex with $h>0$ to hang on a vertex of $T$.  At
+$n=9$ the search with every condition enforced \emph{except} the attachment
+condition of Lemma~\ref{lem:deattach} returns exactly $18$ solutions, and none
+of them is a tree (Section~\ref{sec:de:valid}).  Consequently a search over
+this system proves non-existence when it is exhausted and empty, while every
+solution it does report must be converted into an explicit weighted tree and
+re-checked before it is believed.  Both directions are implemented and used.
+\end{remark}
+
+\subsection{Immediate consequences}\label{sec:de:cons}
+
+\subsubsection*{The parity split}
+
+\begin{proposition}[exact parity split]\label{prop:desplit}
+Let $T$ be a Leech tree of order $n\ge3$.  Colour a non-anchor vertex $u$
+\emph{black} if $e(u)$ is even and \emph{white} if $e(u)$ is odd, and let
+$\alpha$ and $\beta$ be the numbers of black and of white non-anchor vertices,
+so that $\alpha+\beta=V$.  Extend the colouring to the anchors as follows:
+if $N$ is even, colour both $a$ and $b$ black; if $N$ is odd, colour $b$ black
+and $a$ white.  Call a pair of vertices \emph{bichromatic} if its two endpoints
+have different colours.  Then
+\begin{enumerate}
+\item[(a)] if $N$ is even, $e(u)\equiv f(u)\pmod2$ for every $u$, a pair has an
+odd gap if and only if it is bichromatic, and counting bichromatic pairs gives
+\[
+  (\alpha+2)\,\beta=\tfrac N2=\tfrac{n(n-1)}4,
+  \qquad\text{hence}\qquad
+  \beta=\frac{n\pm\sqrt n}2,\quad \alpha=n-2-\beta ;
+\]
+\item[(b)] if $N$ is odd, $e(u)\not\equiv f(u)\pmod2$ for every $u$, a pair has
+an \emph{even} gap if and only if it is bichromatic, and counting bichromatic
+pairs gives
+\[
+  (1+\alpha)(1+\beta)=\Bigl\lceil\tfrac N2\Bigr\rceil=\tfrac{N+1}2,
+  \qquad\text{hence}\qquad
+  \{\alpha,\beta\}=\Bigl\{\tfrac{(n-2)-\sqrt{n-2}}2,\ \tfrac{(n-2)+\sqrt{n-2}}2\Bigr\}.
+\]
+\end{enumerate}
+In both cases $0\le\alpha,\beta\le V$, which can exclude one of the two roots.
+\end{proposition}
+
+\begin{proof}
+By Lemma~\ref{lem:degap} the two crossings of a pair have the same parity, so
+the parity of $\operatorname{gap}(u,v)$ is that of $f(u)+e(v)$, the correction
+$2h_c$ being even.  Write $\varepsilon(u)\in\{0,1\}$ for the parity of $e(u)$,
+so that black means $\varepsilon=0$; by Lemma~\ref{lem:decoord}(iii) the parity
+of $f(u)$ is $\varepsilon(u)+N$.
+
+Suppose $N$ is even, so $f(u)\equiv e(u)$ and both anchors are black.  The pair
+$\{a,b\}$ has gap $0$ and is monochromatic.  The pair $\{a,u\}$ has gap $e(u)$
+and is bichromatic exactly when $u$ is white, i.e.\ exactly when $e(u)$ is odd;
+the pair $\{b,u\}$ has gap $f(u)\equiv e(u)$ and the same holds.  Finally
+$\operatorname{gap}(u,v)\equiv f(u)+e(v)\equiv\varepsilon(u)+\varepsilon(v)$, so
+it is odd exactly when $u$ and $v$ have different colours.  Hence the odd gaps
+are precisely the bichromatic pairs, of which there are $(\alpha+2)\beta$, and
+$[0,N-1]$ contains $N/2$ odd values.  Substituting $\alpha+2=n-\beta$ gives
+$\beta(n-\beta)=n(n-1)/4$, a quadratic with roots $\bigl(n\pm\sqrt n\bigr)/2$.
+
+Suppose $N$ is odd, so $f(u)\not\equiv e(u)$, $a$ is white and $b$ is black.
+The pair $\{a,b\}$ has gap $0$ and is bichromatic.  The pair $\{a,u\}$ has gap
+$e(u)$ and is bichromatic exactly when $u$ is black, i.e.\ when $e(u)$ is even;
+the pair $\{b,u\}$ has gap $f(u)$ and is bichromatic exactly when $u$ is white,
+i.e.\ when $e(u)$ is odd and hence $f(u)$ even.  Finally
+$\operatorname{gap}(u,v)\equiv\varepsilon(u)+\varepsilon(v)+1$, which is even
+exactly when $u$ and $v$ have different colours.  Hence the even gaps are
+precisely the bichromatic pairs, of which there are $(1+\alpha)(1+\beta)$, and
+$[0,N-1]$ contains $(N+1)/2$ even values.  With $\alpha+\beta=n-2$ this makes
+$\alpha$ and $\beta$ the two roots of $t^2-(n-2)t+\tfrac{(n-2)(n-3)}4$, whose
+discriminant is $n-2$.
+\end{proof}
+
+\begin{corollary}[Taylor's condition, recovered]\label{cor:detaylor}
+If a Leech tree of order $n\ge3$ exists then $n$ is a perfect square (when
+$n\equiv0,1\bmod4$) or $n-2$ is a perfect square (when $n\equiv2,3\bmod4$).
+\end{corollary}
+
+\begin{proof}
+$N=\bin n2$ is even exactly for $n\equiv0,1\pmod4$.  In that case
+Proposition~\ref{prop:desplit}(a) forces $\sqrt n\in\Z$, and in the other case
+Proposition~\ref{prop:desplit}(b) forces $\sqrt{n-2}\in\Z$.
+\end{proof}
+
+Corollary~\ref{cor:detaylor} is Taylor's parity obstruction
+(Lemma~\ref{lem:taylor}, \cite{Taylor1977}) in the two-anchor language.  The
+point of Proposition~\ref{prop:desplit} is not the corollary, which is known,
+but that it pins the split \emph{exactly}: at $n=25$ we have $N=300$, $V=23$,
+$\beta(25-\beta)=150$, and therefore
+\begin{equation}\label{eq:desplit25}
+  (\alpha,\beta)\in\bigl\{(13,10),\,(8,15)\bigr\},
+\end{equation}
+so that a search may branch on two cases and enforce the counts as it goes.  At
+$n=4$ the larger root $\beta=3$ exceeds $V=2$ and only $(\alpha,\beta)=(1,1)$
+survives; for $n\ge9$ both roots are admissible.
+
+\subsubsection*{Attachment, spine and balls}
+
+\begin{lemma}[attachment]\label{lem:deattach}
+Let $u\notin\{a,b\}$ with $h(u)>0$ and put $d=f(u)-e(u)$.  Then $T$ has a
+vertex $w\notin\{a,b\}$ on $P$ with $p(w)=p(u)$, and its coordinates are
+determined:
+\[
+  e(w)=\frac{N-d}2,\qquad f(w)=\frac{N+d}2,\qquad e(w)+f(w)=N .
+\]
+\end{lemma}
+
+\begin{proof}
+The vertex $q(u)$ lies on $P$ and satisfies $h(q(u))=0$ and $p(q(u))=p(u)$.  It
+is not $a$: $a$ is a leaf, so its only neighbour lies on $P$, and $h(u)>0$
+forces $q(u)$ to have a neighbour off $P$.  The same argument excludes $b$.  So
+$w=q(u)$ is a non-anchor vertex with $h(w)=0$, and \eqref{eq:deph} with
+$h(w)=0$ and $f(w)-e(w)=2p(w)-N=d$ gives the two values.
+\end{proof}
+
+Lemma~\ref{lem:deattach} turns every off-path vertex into a completely
+determined pair of values that must be present, which is what makes it usable
+as a prune.  It is a realisability condition rather than a search-order filter,
+and it is the only condition of the search whose removal enlarges the solution
+set in the ablation of Table~\ref{tab:deablate} --- see
+Remark~\ref{rem:derelax} and the discussion in Section~\ref{sec:de:valid}.
+
+\begin{lemma}[the spine is a Golomb ruler]\label{lem:despine}
+The vertices of $T$ lying on $P$, together with $a$ and $b$, have pairwise
+distinct distances, so their positions $p$ form a Golomb ruler of length $N$
+with $k+2$ marks, where $k=\#\{u\notin\{a,b\}:h(u)=0\}$.  Hence
+$G(k+2)\le N$, with $G$ as in Lemma~\ref{lem:golomb}.  At $n=25$, where
+$N=300$, the published values $G(20)=283$ and $G(21)=333$ give $k\le18$, so at
+least $5$ of the $23$ non-anchor vertices satisfy $h(u)>0$.
+\end{lemma}
+
+\begin{proof}
+Distances between vertices of $P$ are differences of their positions, and all
+distances in $T$ are distinct, so the positions form a Golomb ruler; its length
+is $p(b)-p(a)=N$.  A Golomb ruler with $m$ marks has length at least $G(m)$, and
+$G$ is strictly increasing, so $G(21)=333>300$ forces $k+2\le20$.
+\end{proof}
+
+We state plainly what Lemma~\ref{lem:despine} rests on.  The values $G(m)$ for
+$m\le13$ were re-verified by exhaustive search for this project
+(Section~\ref{sec:prelim}), but $G(20)=283$ and $G(21)=333$ are not; they are
+taken from the published tables (OEIS A003022 \cite{OEIS}; see also
+\cite{Shearer1990,Dollas1998}) and are the output of the distributed.net OGR
+project~\cite{DistributedNetOGR}, a very large distributed computation which we
+do not re-verify here and which is not part of the audit trail of
+Section~\ref{sec:verification}.  Nothing else in this section depends on
+Lemma~\ref{lem:despine}; it is used only as an orientation on how many vertices
+must leave the spine, and it is not implemented as a prune.
+
+\begin{lemma}[ball bound]\label{lem:deball}
+Let $B$ be the set of vertices at distance at most $D$ from a fixed vertex of a
+Leech tree.  Then all $\bin{|B|}2$ distances inside $B$ are distinct and at most
+$2D$, so $\bin{|B|}2\le2D$.  Applied at $a$: for every $D\ge1$,
+\[
+  \#\{u\notin\{a,b\}: e(u)\ge N-D\}\ \le\ \frac{1+\sqrt{1+16D}}2-1 .
+\]
+\end{lemma}
+
+\begin{proof}
+For $x,y\in B$ the triangle inequality gives $d(x,y)\le2D$, and the distances
+are distinct positive integers, so there are at most $2D$ of them.  Solving
+$|B|(|B|-1)\le4D$ gives $|B|\le\bigl(1+\sqrt{1+16D}\bigr)/2$; at the centre $a$
+the set $B$ consists of $a$ itself together with the vertices $u$ with
+$d(a,u)\le D$, i.e.\ $e(u)\ge N-D$.
+\end{proof}
+
+\begin{remark}[cross-Sidon condition]\label{rem:decross}
+The $\bin V2$ values \eqref{eq:degap} are pairwise distinct.  For untied pairs
+this says that no four vertices satisfy $f(u)-f(u')=e(v')-e(v)\ne0$ with the
+corresponding orderings, i.e.\ that the positive difference sets of $E$ and of
+$F$ are almost disjoint.  This is a Sidon-type condition \emph{across} the two
+sets rather than inside either of them, which is why the classical
+Golomb-ruler bounds apply to the spine (Lemma~\ref{lem:despine}) but not to $E$
+or $F$ separately.
+\end{remark}
+
+\subsection{A generating-function identity}\label{sec:de:lemmad}
+
+Write $A(x)=\sum_i x^{e_i}$, $B(x)=\sum_i x^{f_i}$ and
+$H(x)=\sum_i x^{e_i+f_i}$, the sums being over the $V$ non-anchor vertices.  For
+an unordered pair $\{i,j\}$ let $m_{ij}\le M_{ij}$ be the two crossings
+$f_i+e_j$ and $f_j+e_i$, so that
+$m_{ij}+M_{ij}=(e_i+f_i)+(e_j+f_j)$ and, by Lemma~\ref{lem:degap},
+$\operatorname{gap}(u_i,u_j)=m_{ij}+2h_c(i,j)$.
+
+\begin{lemma}\label{lem:deD}
+For a Leech tree of order $n$, as polynomials in $x$,
+\begin{equation}\label{eq:deD}
+  \bigl(A(x)+1\bigr)\bigl(B(x)+1\bigr)
+  =\sum_{w=0}^{N-1}x^{w}\;+\;H(x)\;+\;\sum_{\{i,j\}}x^{M_{ij}}
+   \;+\!\!\sum_{\substack{\{i,j\}\ \mathrm{tied}\\ h_c(i,j)>0}}\!\!
+     \bigl(x^{m_{ij}}-x^{m_{ij}+2h_c(i,j)}\bigr).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+$AB=\sum_{i,j}x^{e_i+f_j}$; the diagonal terms give $H$ and each unordered pair
+$\{i,j\}$ contributes $x^{m_{ij}}+x^{M_{ij}}$.  Writing
+$x^{m_{ij}}=x^{m_{ij}+2h_c}+\bigl(x^{m_{ij}}-x^{m_{ij}+2h_c}\bigr)$ and using
+$m_{ij}+2h_c=\operatorname{gap}(u_i,u_j)$ turns $AB$ into
+$H+\sum_{\{i,j\}}\bigl(x^{\operatorname{gap}(u_i,u_j)}+x^{M_{ij}}\bigr)$ plus
+the tie corrections, which vanish unless $h_c>0$.  Now
+$(A+1)(B+1)=1+A+B+AB$, and by Theorem~\ref{thm:denormal}
+$1+A+B+\sum_{\{i,j\}}x^{\operatorname{gap}(u_i,u_j)}=\sum_{w=0}^{N-1}x^w$.
+\end{proof}
+
+Counting terms on both sides of \eqref{eq:deD} gives
+$(V+1)^2=N+V+\bin V2$, which is an identity; so the excess of the sumset
+$\bigl(E\cup\{0\}\bigr)+\bigl(F\cup\{0\}\bigr)$ over the interval $[0,N-1]$ is
+exactly $V+\bin V2$ terms, accounted for by $H$ and by the maximal crossings.
+
+\begin{corollary}[covering]\label{cor:decover}
+Put $E'=E\cup\{0\}$ and $F'=F\cup\{0\}$.  Every $w\in[0,N-1]$ is representable
+as $e+f$ with $e\in E'$, $f\in F'$, except possibly those $w$ that are the gap
+of a tied pair with $h_c>0$.
+\end{corollary}
+
+\begin{proof}
+Every term of \eqref{eq:deD} other than the last sum is non-negative, and the
+last sum subtracts $1$ from the coefficient of $x^{\operatorname{gap}(u_i,u_j)}$
+for each tied pair with $h_c>0$; those exponents are pairwise distinct because
+the gaps are, so at most $1$ is subtracted at any single $w$.
+\end{proof}
+
+\begin{remark}[the corollary is a tautology; the multiplicities are not]\label{rem:decaveat}
+Corollary~\ref{cor:decover} is not a constraint.  If $w$ is the gap of an untied
+pair then $w=f_u+e_v$ by definition, so it is representable by construction; if
+$w\in E$ then $w=w+0$, and likewise for $F$ and for $w=0$.  The same remains
+true in a partial state of the search, because both coordinates involved are
+smaller than $w$ and hence already assigned.  We implemented the corollary as a
+prune anyway, in order to measure it: at $n=9$ it changed the node count by
+exactly zero ($24{,}335$ nodes with and without it; row \tok{--no-cover} of
+Table~\ref{tab:deablate}).  That is the expected outcome and we record it so
+that the corollary is not mistaken for a live constraint.
+
+What Lemma~\ref{lem:deD} does say, and what is not a tautology, is a statement
+about \emph{multiplicities}: for $w\in[0,N-1]$ the number of representations of
+$w$ as $e+f$ with $e\in E'$, $f\in F'$, counted with multiplicity, equals
+\[
+  1+\#\{i:e_i+f_i=w\}+\#\{\{i,j\}:M_{ij}=w\}
+\]
+up to the tie correction.  Since $e_i+f_i=N-2h_i$ and
+$M_{ij}=N+|p_i-p_j|-h_i-h_j$, the sumset multiplicities read off the heights and
+the maximal crossings.  Counting the representations that reach $N$ gives, with
+$k$ the number of on-path vertices as in Lemma~\ref{lem:despine},
+\[
+  \#\{(e,f)\in E\times F: e+f\ge N\}
+  \;=\;k+\#\bigl\{\{i,j\}:|p_i-p_j|\ge h_i+h_j\bigr\}.
+\]
+\end{remark}
+
+\subsection{The gap-order search}\label{sec:de:search}
+
+The normal form suggests a search order that the tree structure does not: since
+every element of $E$ and of $F$ is itself a gap, one may process the target
+values $g=1,2,\dots,N-1$ in increasing order, maintaining the invariant that
+every gap smaller than $g$ has been realised and every coordinate not yet
+assigned is at least $g$.  Vertices are created with only one of their two
+coordinates known; the partner is supplied later, at its own value of $g$.
+
+\begin{lemma}[determination]\label{lem:dedet}
+Suppose that at step $g\ge1$ every value in $[0,g-1]$ is realised by a pair
+whose gap is already determined, and that every coordinate not yet assigned is
+$\ge g$.  Let $u,v$ be non-anchor vertices, let $X=f(u)+e(v)$ and $Y=f(v)+e(u)$
+be their crossings, and let $X^-,Y^-$ be the values obtained from $X,Y$ by
+replacing every unassigned coordinate by $g$.  Then
+\begin{enumerate}
+\item[(a)] if both crossings are known, $\operatorname{gap}(u,v)=\min(X,Y)$ when
+$X\ne Y$, and $\operatorname{gap}(u,v)=X+2h_c$ with
+$0\le h_c\le\min(h_u,h_v)$ when $X=Y$;
+\item[(b)] if exactly one crossing, say $X$, is known and $X<Y^-$, then
+$\operatorname{gap}(u,v)=X$;
+\item[(c)] in every other case $\operatorname{gap}(u,v)\ge g+1>g$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Part (a) is Lemma~\ref{lem:degap}.  A crossing with an unassigned coordinate is
+at least $1+g$, the other summand being at least $1$ by
+Lemma~\ref{lem:decoord}(i), so $X^-,Y^-\ge g+1$ whenever the corresponding
+crossing is unknown.  In case (b), $X<Y^-\le Y$, so the crossings are unequal,
+hence $h_c=0$ and the gap is $\min(X,Y)=X$.  In case (c) either both crossings
+are unknown, and then $\operatorname{gap}(u,v)\ge\min(X^-,Y^-)\ge g+1$, or
+exactly one is known with $X\ge Y^-\ge g+1$, and then
+$\operatorname{gap}(u,v)\ge\min(X,Y)\ge\min(X,Y^-)\ge g+1$.
+\end{proof}
+
+\begin{corollary}[two options at each step]\label{cor:debranch}
+Assume the hypotheses of Lemma~\ref{lem:dedet}, and suppose that cases (a) and
+(b) have been applied to every pair at the current value of $g$.  If $g$ is
+still unrealised then either $g\in E\cup F$, i.e.\ $g$ is assigned as a
+coordinate of an existing half-known vertex or of a new vertex, or $g$ resolves
+a previously deferred tied pair, i.e.\ $g=X+2h_c$ for a pair with $X=Y$ known
+and $h_c>0$.
+\end{corollary}
+
+\begin{proof}
+The value $g$ is realised by some pair.  That pair is not $\{a,b\}$, whose gap
+is $0$.  If it is $\{a,u\}$ or $\{b,u\}$ then $g\in E\cup F$.  Otherwise it is a
+pair $\{u,v\}$ of non-anchor vertices.  Case (c) of Lemma~\ref{lem:dedet} would
+give $\operatorname{gap}(u,v)>g$, and cases (b) and the untied part of (a) have
+by assumption already been applied, so the only remaining possibility is a tied
+pair, whose gap is $X+2h_c$ with $h_c>0$ still to be chosen.
+\end{proof}
+
+Corollary~\ref{cor:debranch} makes the search tree shallow in a precise sense:
+every other gap is forced, so the only decisions are the $2V$ coordinate
+assignments together with the resolutions of deferred ties.
+
+\paragraph{The rescan, and why it is not optional.}
+The threshold in case (b) of Lemma~\ref{lem:dedet} is $X<Y^-$, and $Y^-$ grows
+with $g$.  A pair whose known crossing was too large to be conclusive at one
+step therefore becomes determined at a later step \emph{without any new
+assignment}, as soon as $g$ has risen far enough.  The engine must consequently
+rescan all still-undetermined pairs at every value of $g$, mark those that have
+become determined, and only then decide whether $g$ itself is still unrealised;
+this is also what makes the hypothesis of Corollary~\ref{cor:debranch} true when
+the branching is reached.  The comparison must be against the computed bound
+$Y^-$ and never against a constant.  The invariant is that an unassigned
+coordinate is $\ge g$ while the step for $g$ is being decided, and tightens to
+$>g$ only once the value $g$ has been assigned; a fixed threshold derived from
+the tighter form --- testing $X\le g+1$ rather than $X<Y^-$ --- would be unsound
+at the moment of decision, since the pair could then be tied with $X=Y=g+1$ and
+a gap larger than $X$.  Omitting the rescan does not merely slow the search
+down: the gap $X$ is then never registered, its value can be handed out a second
+time, and the search reports \emph{no solution} where solutions exist.  This was
+one of the four bugs discussed in Section~\ref{sec:de:valid}.
+
+\paragraph{The prunes.}
+The engine applies the following conditions, each of which can be switched off
+individually; the flag names are those of the ablation in
+Table~\ref{tab:deablate}.
+\begin{itemize}\itemsep2pt
+\item \emph{partner feasibility} (always on): a half-known vertex must still
+admit an untaken partner value $\ge g$ of the parity required by
+Lemma~\ref{lem:decoord}(iii) and with $e+f\le N$.
+\item \emph{deferred feasibility} (\tok{--no-\bk deferred-\bk check}): a deferred
+tied pair must still admit a resolution, i.e.\ an untaken value of the right
+parity in its window $[X,\,X+2\min(h_u,h_v)]$ that is $\ge g$.
+\item \emph{partner matching} (\tok{--no-hall}): distinct half-known vertices
+need distinct partner values, so a bipartite matching between half-known
+vertices and admissible values must exist (Hall's condition, tested by
+augmenting paths).
+\item \emph{lower-bound Hall} (\tok{--no-lb}): every untaken value in $[g,N)$
+must be supplied either by one of the remaining coordinate assignments or by a
+pair whose gap lower bound is small enough; a counting test over sorted lower
+bounds.
+\item \emph{upper-bound Hall} (\tok{--no-ub}): the dual test, in which every
+untaken value must be supplied by something whose upper bound is large enough.
+\item \emph{attachment} (\tok{--no-attach}): Lemma~\ref{lem:deattach}, i.e.\
+every vertex with $h>0$ forces a determined on-path vertex at the same $p$,
+whose two values must be present or still free.
+\item \emph{meeting vertex} (\tok{--no-hc}): when a tie is resolved with
+$h_c>0$, the meeting point is itself a vertex of $T$ at height $h_c$ in the same
+$p$-class, so its two forced coordinates must be present or still free.
+\item \emph{ultrametric class test} (\tok{--no-ultra}): within one $p$-class the
+meeting heights form a max-ultrametric --- among any three, the smallest occurs
+at least twice --- and, since two vertices of a class cannot share a height, a
+meeting at height $h_c>0$ identifies a \emph{unique} class vertex, which must
+then be an ancestor of both endpoints.
+\item \emph{covering} (\tok{--no-cover}): Corollary~\ref{cor:decover}; see
+Remark~\ref{rem:decaveat}, where it is shown to be worth nothing.
+\item \emph{parity} (\tok{--no-parity}): the running counts
+$(\alpha,\beta)$ must stay inside an admissible split of
+Proposition~\ref{prop:desplit}.
+\end{itemize}
+
+\paragraph{Symmetry breaking.}
+By Theorem~\ref{thm:endpoint} the value $N-1$ is attained by a pair containing
+an anchor, i.e.\ $\operatorname{gap}=1$ is a coordinate, and exchanging $a$ with
+$b$ exchanges $E$ with $F$.  One may therefore assume $1\in E$.  This is the
+only symmetry of the normal form, and it halves the search exactly: at $n=9$,
+$24{,}335$ nodes with it against $48{,}669=2\cdot24{,}335-1$ without
+(Table~\ref{tab:desmall}).
+
+\subsection{Validation}\label{sec:de:valid}
+
+The engine exists in two implementations.  The Python reference is
+\file{double\_\bk end\_\bk search.py}, and
+\file{double\_\bk end\_\bk search.cpp} is a single-file C++17 port of it; both
+are in the archive directory \file{theory-lab/\bk double\_\bk end/}
+(Section~\ref{sec:data}).  The code was written with AI assistance
+(Section~\ref{sec:ai}) and was treated as untrusted; what follows is what was
+actually done to it.
+
+\paragraph{Differential test against an independent enumerator.}
+\file{brute\_\bk double\_\bk end.py} enumerates the pure relaxation of
+Remark~\ref{rem:derelax} in a completely different order --- over vertices, in
+increasing order of $e$ --- and checks the defining conditions directly, with no
+attachment, meeting-vertex or ultrametric conditions and no gap-order
+reasoning.  With every optional prune of the gap-order engine switched off, the
+two agree exactly, as sets of coordinate systems $\{(e_i,f_i)\}$, for
+$n=3,4,6$: $2$, $4$ and $12$ of them respectively.  (The comparison is made on
+coordinate systems because the engine reports each admissible choice of tie
+heights separately, so its raw solution count can be larger: at $n=6$ the
+twelve coordinate systems appear as sixteen reports.)  The twelve at $n=6$ are
+solutions of the relaxation only; with the prunes on the engine returns $2$
+(the single Leech tree of order $6$ in its two anchor orientations, or $1$ after
+symmetry breaking), and every one of the twelve that rebuilds as a genuine tree
+is among them.
+
+\paragraph{Genuine trees, rebuilt and checked.}
+Every reported solution is converted back into an explicit weighted tree --- the
+on-path chain ordered by $p$, the off-path branches grouped by $p$ and attached
+at the recorded meeting heights --- and all its pairwise distances are then
+recomputed by breadth-first search and compared with $[1,N]$.  With all prunes
+on and symmetry breaking off, the engine returns exactly the known Leech trees
+of orders $3$, $4$ and $6$, each once per anchor orientation, and all of them
+pass the rebuild check.
+
+\paragraph{Independent brute force.}
+\file{brute\_\bk leech\_\bk small.py} is a from-scratch enumerator of Leech trees
+themselves, sharing no code with any engine in this project: it generates all
+tree shapes, searches weights, and canonicalises the weighted trees.  It gives
+the complete counts
+\[
+  1,\;1,\;2,\;0,\;1,\;0,\;0,\;0\qquad(n=2,\dots,9)
+\]
+up to isomorphism, in agreement with the literature: the five known Leech trees
+are those of Table~\ref{tab:known}~\cite{Leech1975}, the orders $n=5,7,8$ are
+excluded by Taylor's condition~\cite{Taylor1977} and $n=9$ by the searches
+of~\cite{SzekelyWangZhang2005,Calhoun2007}.  The
+gap-order engine reproduces exactly these counts
+(Table~\ref{tab:desmall}); the three orders with count $0$ and no search tree at
+all, $n=5,7,8$, are the orders excluded outright by
+Proposition~\ref{prop:desplit}.  The oracle is archived under the same
+discipline as the engines: both the enumerator and the counts it produced are
+frozen and hash-tagged (rows~6 and~7 of Table~\ref{tab:dehash}), so the
+regression fixture the engine is tested against is itself fixed.
+
+\paragraph{Trace-identical port.}
+The C++ port was accepted on a stronger criterion than agreeing node counts.  It
+emits, under \tok{--trace}, one line per recursive call carrying the full state
+$(g,\ \text{number of vertices},\ e[\,],\ f[\,],\ |\text{deferred}|)$, and the
+same trace is produced from the Python by instrumenting its recursion.  For all
+eight configurations $n\in\{3,4,6,9\}$ with symmetry breaking on and off, the
+two traces are byte-identical: the C++ visits the same nodes, in the same order,
+in the same state.  The solution sets, compared as sorted sets of $(e_i,f_i)$
+pairs, are identical as well.  That comparison was made against the first frozen
+Python reference (row~1 of Table~\ref{tab:dehash}); the port was then re-checked
+against the second freeze (row~2), which is the archived reference and differs
+from the first only by the stable-deferred restore described below, and
+reproduces its numbers.
+
+\paragraph{Sharding.}
+For cluster runs the search is split by \tok{--split LEVEL K M}, which numbers,
+in depth-first order, the branches taken from nodes at recursion depth
+\tok{LEVEL} and explores those congruent to $K$ modulo $M$.  That the shards
+partition the run was verified by exhaustion rather than asserted: with $A$ the
+number of nodes at depth $\le\tok{LEVEL}$ and $B$ the number of deeper nodes,
+the shards must together visit $M\!\cdot\!A+B$ nodes, and the multiset of visited
+states must be $M$ copies of the shallow part plus one copy of each deep node.
+Both were checked by dumping the complete trace of every shard and of the
+unsharded run and comparing multisets, for six configurations at $n=6$ and
+$n=9$; the solutions of the shards likewise union to the unsharded solutions
+with no solution appearing twice.
+
+\paragraph{Prune ablation.}
+Table~\ref{tab:deablate} gives the cost of each condition at $n=9$.  Eight of
+the nine leave the solution set literally unchanged.  The attachment condition
+does not, and this is the expected direction: it is a realisability condition,
+not a search-order filter, so switching it off enlarges the relaxation.  The
+soundness test that matters holds in both directions --- no baseline solution
+is ever lost, and each of the $18$ extra solutions at $n=9$ (and $5$ at $n=6$)
+is rejected by the rebuild check, every one of them with the message
+\tok{no on-path attachment vertex at p=\dots}, which is exactly the condition of
+Lemma~\ref{lem:deattach}.  So no prune drops a genuine tree, and the attachment
+condition removes only non-trees.
+
+\begin{table}[ht]
+\centering
+\caption{Prune ablation at $n=9$ (symmetry breaking on; every run exhausted).
+``Solutions'' counts solutions of the relaxation, not trees: the baseline is
+empty, and the $18$ solutions of the \tok{--no-attach} row are all rejected by
+the rebuild-and-BFS check.  Every row except \tok{--no-hc} was re-run for this
+paper; that row is quoted from the port record.}
+\label{tab:deablate}
+\begin{tabular}{@{}llrr@{}}
+\toprule
+condition disabled & flag & nodes & solutions\\
+\midrule
+(none)                 & ---                    & $24{,}335$    & $0$\\
+partner matching       & \tok{--no-hall}        & $24{,}335$    & $0$\\
+lower-bound Hall       & \tok{--no-lb}          & $24{,}335$    & $0$\\
+covering               & \tok{--no-cover}       & $24{,}335$    & $0$\\
+parity split           & \tok{--no-parity}      & $24{,}450$    & $0$\\
+deferred feasibility   & \tok{--no-\bk deferred-\bk check} & $25{,}997$ & $0$\\
+upper-bound Hall       & \tok{--no-ub}          & $28{,}338$    & $0$\\
+attachment             & \tok{--no-attach}      & $105{,}230$   & $18$\\
+ultrametric class test & \tok{--no-ultra}       & $1{,}462{,}492$ & $0$\\
+meeting vertex         & \tok{--no-hc}          & $11{,}942{,}021$ & $0$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The single largest structural gain came from the last condition added to the
+ultrametric test: within one $p$-class two vertices cannot share a height, since
+equal $p$ and equal $h$ force equal $(e,f)$, so a meeting at height $h_c>0$
+identifies a unique class vertex, which must be an ancestor of both endpoints.
+In the development record that condition alone took $n=9$ from $62{,}612$ to
+$24{,}335$ nodes; the intermediate build is not part of the archive, so unlike
+every row of Table~\ref{tab:deablate} this figure was not re-measured.
+
+\paragraph{Four bugs, and what was discarded.}
+Four genuine errors were found in the course of this validation, and we record
+them because each of them produced a wrong answer of the dangerous kind --- a
+spurious ``no solution'' --- and because every number measured before the
+corresponding fix was discarded rather than reconciled.
+\begin{enumerate}\itemsep2pt
+\item An unsound meeting-vertex test.  The first version of the meeting-vertex
+condition (\tok{--no-hc}) required the meeting vertex of a tied pair to \emph{already exist} in
+the partial state, rather than allowing it to be created later, and so rejected
+valid states.
+\item An unstable index in the deferred-pair loop.  The loop over deferred tied
+pairs deleted entries from the list it was iterating over, so live indices
+shifted and some deferred pairs were skipped.
+\item The missing rescan.  As explained in Section~\ref{sec:de:search}, an
+undetermined pair becomes determined as $g$ grows even when nothing is assigned.
+The original engine tested for determination only at the moment of assignment,
+and therefore lost gaps.
+\item A non-state-neutral undo.  The undo of a resolved deferred pair restored
+the entry at the \emph{end} of the deferred list instead of at the index it was
+removed from.  Node counts and solution sets are invariant under that
+permutation, so unsharded runs were unaffected --- but depth-first order is not,
+and \tok{--split} numbers branches in depth-first order, so shards silently
+drifted.  At $n=9$ with $\tok{LEVEL}=10$ and $M=4$ the shards visited $69{,}733$
+nodes where the partition identity requires $70{,}201$: $468$ nodes were lost.
+The restore now happens at the recorded index, which makes the recursion
+state-neutral; this changes neither node counts nor solution sets at
+$n=3,4,6,9$.
+\end{enumerate}
+A fifth error, in the C++ port only, was a scratch candidate list held as a
+member and clobbered by recursion; it was located by diffing the C++ trace
+against the Python trace and identifying the first divergent state.  It is
+mentioned here because it is the concrete reason the trace-level comparison was
+adopted in place of comparing node counts.
+
+\paragraph{What was re-run for this paper.}
+On the author's machine, both implementations were re-run and agree:
+$3/5$, $8/15$, $44/87$ and $24{,}335/48{,}669$ nodes at $n=3,4,6,9$ with and
+without symmetry breaking, with $1/2$, $2/4$, $1/2$ and $0/0$ solutions; the
+differential test against the independent enumerator was re-run at $n=3,4,6$;
+the ablation of Table~\ref{tab:deablate} was re-run except for the
+\tok{--no-hc} row; the rebuild check was re-run on the $18$ extra solutions
+of the \tok{--no-attach} row, all $18$ of which are rejected; the digests of
+Table~\ref{tab:dehash} were recomputed from the archived files; and the
+closed forms of Proposition~\ref{prop:desplit} were checked against the
+admissible splits computed by the engine for every $n\le38$ and against the
+coordinates of all five known Leech trees.
+Table~\ref{tab:dehash} gives the SHA-256 digests of the archived sources.  The
+Python reference was frozen twice on the same day; the two freezes differ only
+in the stable-deferred restore of item~4 below, and produce the same eight node
+counts and the same solution sets at $n=3,4,6,9$.  Both digests are recorded
+because the trace comparison of the port was made against the first and
+re-checked against the second.  Each archived file is named by the first
+sixteen hexadecimal digits of its own digest, so that no name can come to refer
+to two different files.
+
+\begin{table}[ht]
+\centering
+\caption{SHA-256 digests of the archived sources of this section.  Row~1 is the
+first frozen Python reference, against which the trace-identical comparison of
+the C++ port was made; row~2 is the current reference, which adds the
+stable-deferred restore and against which the port was re-checked.  Row~3 is
+the C++ port, rows~4 and~5 the independent enumerator and the differential
+harness, rows~6 and~7 the independent brute-force oracle and the counts it
+produced, and row~8 the derivation these results follow.}
+\label{tab:dehash}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}rl@{}}
+\toprule
+\# & object and digest\\
+\midrule
+1 & first frozen Python reference (digest only; superseded)\\
+  & \texttt{\scriptsize 934b24162db8c0c2b2d88e10d4b0b7d0adc78eb70da42556bb563ceea1884eb3}\\
+2 & \file{frozen/double\_\bk end\_\bk search\_\bk 4916cae4bfc30da7.py}\\
+  & \texttt{\scriptsize 4916cae4bfc30da753ce74532a64c74f0b24366f8ad4222122488890db2b5b1d}\\
+3 & \file{frozen/double\_\bk end\_\bk search\_\bk 4eaddc2f3c1e28ce.cpp}\\
+  & \texttt{\scriptsize 4eaddc2f3c1e28ce8b9f07a1879109e72b4a4b2c1f3d7c792ef848a73f97cf2b}\\
+4 & \file{frozen/brute\_\bk double\_\bk end\_\bk 8be4ae51d96b0469.py}\\
+  & \texttt{\scriptsize 8be4ae51d96b046936a0820d70103d7cbf5f5642cc427a85bad4e0616c319a2c}\\
+5 & \file{frozen/differential\_\bk test\_\bk d82097986ad0afc7.py}\\
+  & \texttt{\scriptsize d82097986ad0afc75f290d774adfca6991ba22602b66a5948188ef2e968d294b}\\
+6 & \file{frozen/brute\_\bk leech\_\bk small\_\bk 93cafc42f9c27c0a.py}\\
+  & \texttt{\scriptsize 93cafc42f9c27c0a6e3328f41e4aa09a3ed1f47f4738eeff18c6061c268028c4}\\
+7 & \file{frozen/ground\_\bk truth\_\bk small\_\bk 34ae25138560c313.json}\\
+  & \texttt{\scriptsize 34ae25138560c313d0e6f66214a05a462dc2a424abc46e55ffd26b21c1911ea0}\\
+8 & \file{THEORY.md}, the derivation these results follow\\
+  & \texttt{\scriptsize 58ffe0ea6c8b4aec57fd10dda02fa297942a7e1c65fb306418871971d1e43b7b}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\caption{The gap-order engine on the orders it has exhausted.  $(\alpha,\beta)$
+are the admissible parity splits of Proposition~\ref{prop:desplit}; when there
+are none the search tree is empty and no node is expanded.  ``Solutions'' are
+solutions of the normal form, each of which was rebuilt as an explicit tree and
+verified by breadth-first search; without symmetry breaking each tree appears
+once per anchor orientation.  The last column is the independent brute-force
+count of Leech trees up to isomorphism; that oracle covers $n\le9$, and the
+non-existence at $n=11$ is known from the literature instead.  The $n=11$ run
+was made with symmetry breaking only, so the two cells for the free search are
+not measured.}
+\label{tab:desmall}
+\begin{tabular}{@{}rrrlrrrrr@{}}
+\toprule
+$n$ & $N$ & $V$ & $(\alpha,\beta)$ & \multicolumn{2}{c}{nodes} &
+\multicolumn{2}{c}{solutions} & brute force\\
+ & & & & sym.\ & free & sym.\ & free & \\
+\midrule
+$3$ & $3$  & $1$ & $(0,1),(1,0)$ & $3$        & $5$        & $1$ & $2$ & $1$\\
+$4$ & $6$  & $2$ & $(1,1)$       & $8$        & $15$       & $2$ & $4$ & $2$\\
+$5$ & $10$ & $3$ & none          & $0$        & $0$        & $0$ & $0$ & $0$\\
+$6$ & $15$ & $4$ & $(1,3),(3,1)$ & $44$       & $87$       & $1$ & $2$ & $1$\\
+$7$ & $21$ & $5$ & none          & $0$        & $0$        & $0$ & $0$ & $0$\\
+$8$ & $28$ & $6$ & none          & $0$        & $0$        & $0$ & $0$ & $0$\\
+$9$ & $36$ & $7$ & $(1,6),(4,3)$ & $24{,}335$ & $48{,}669$ & $0$ & $0$ & $0$\\
+$10$ & $45$ & $8$ & none          & $0$        & $0$        & $0$ & $0$ & ---\\
+$11$ & $55$ & $9$ & $(3,6),(6,3)$ & $3{,}338{,}887{,}905$ & --- & $0$ & --- & ---\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Status, and what is not claimed}\label{sec:de:status}
+
+\paragraph{Exhausted orders.}
+The gap-order engine has been run to exhaustion for $n\le11$, with the results
+of Table~\ref{tab:desmall}.  At $n=9$ it expands $24{,}335$ nodes with symmetry
+breaking and $48{,}669$ without; at $n=11$, $3{,}338{,}887{,}905$ nodes with
+symmetry breaking.  Neither returns a solution, and the orders $n=5,7,8,10$ are
+disposed of by Proposition~\ref{prop:desplit} without expanding a node.  In the
+terminology we use for finite computations, this is a
+\tok{CERTIFIED FINITE IMPOSSIBLE} for the range $3\le n\le11$: within that
+range, and only within it, the computation establishes that there is no Leech
+tree beyond the four the search itself returns (one of order $3$, two of order
+$4$, one of order $6$).  It agrees with the independent brute force for
+$n\le9$, which is as far as that oracle goes, and with the literature at
+$n=11$.  It is not, and must not be read as, evidence about any larger order.
+
+\paragraph{Order 11.}
+The $n=11$ search was run as a single process on a $128$-core workstation and is
+\tok{EXHAUSTED} with no solution after $3{,}338{,}887{,}905$ nodes, with
+symmetry breaking on.  It took about nine hours of wall clock on a machine whose
+load average stayed between $200$ and $400$ throughout, so the CPU time was far
+below the elapsed time and the wall figure measures the machine, not the
+program.  This is an independent re-derivation of the non-existence of a Leech
+tree of order $11$, by an algorithm and a normal form entirely different from
+those used elsewhere in this paper.
+
+\paragraph{Orders $n\ge16$ are out of reach for this engine.}
+With $n=11$ measured, the node counts at the admissible orders are
+\[
+  3,\quad 8,\quad 44,\quad 24{,}335,\quad 3{,}338{,}887{,}905
+  \qquad\text{at } n=3,4,6,9,11,
+\]
+that is at $V=1,2,4,7,9$.  The growth per unit of $V$ between consecutive
+measured orders is about $2.7$, $2.3$, $8.2$, and then $370$.  The rate is not
+constant; it is accelerating.  Continuing at the last measured rate would put
+$n=16$ near $10^{22}$ nodes, of order $10^{12}$ CPU-hours, and $n=18$ far beyond
+that.  We state plainly that $n=16$ and $n=18$ are out of reach for this engine,
+and equally plainly that the extrapolation which says so is unreliable, because
+a rate that has moved from $2.3$ to $370$ over the measured range carries no
+guarantee of staying at $370$.  Both readings point the same way, so we make no
+reachability claim beyond what has been measured.  This corrects an earlier
+estimate twice over: a fit to $n\le9$ predicted some $2\times10^6$ nodes at
+$n=11$ and was first refuted by the C++ measurements, which had not terminated
+after $2.5\times10^7$ nodes; the measured sequence above now settles it.  A
+sampled measurement at $n=16$ was planned and has been cancelled as pointless.
+
+What the engine is for, then, is the independent re-derivation of the known
+non-existence results up to $n=11$ and the restricted order-$25$ search below,
+not an attack on $n=16$ or $n=18$.
+
+\paragraph{An independent route to the order-25 certificates.}
+The two-anchor language connects to Section~\ref{sec:crowding} in one clean way.
+
+\begin{proposition}\label{prop:des}
+Let $T$ be a Leech tree of order $n$ with anchors named as in
+Theorem~\ref{thm:endpoint}, and put
+$s=\min\bigl(F\cup\{\operatorname{gap}(u,v):u,v\notin\{a,b\}\}\bigr)$.  Then
+$\diam(T-a)=N-s$, and $1,2,\dots,s-1$ all lie in $E$.  Consequently, at $n=25$,
+\[
+  \diam(T-a)\le284
+  \iff s\ge16
+  \iff \{1,2,\dots,15\}\subseteq E .
+\]
+\end{proposition}
+
+\begin{proof}
+The pairs of $T-a$ are the pairs $\{b,u\}$ and the pairs $\{u,v\}$ with
+$u,v\notin\{a,b\}$, whose gaps are the elements of $F$ and the values
+\eqref{eq:degap}; the largest distance is $N$ minus the smallest gap, so
+$\diam(T-a)=N-s$.  Every value in $[1,s-1]$ is realised, by
+Theorem~\ref{thm:denormal}, and not by a pair avoiding $a$, and not by
+$\{a,b\}$, so it lies in $E$.  Conversely if $\{1,\dots,15\}\subseteq E$ then,
+the $N$ gaps being distinct, no element of $F$ and no pair gap is $\le15$, so
+$s\ge16$.  With $N=300$, $\diam(T-a)=300-s\le284$ is $s\ge16$.
+\end{proof}
+
+So the hypothesis $\diam(T-a)\le284$, which is what
+Theorem~\ref{thm:crowd280} and the four finite certificates of
+Theorem~\ref{thm:crowd283} together exclude, is in the two-anchor language the
+completely explicit restriction ``the first fifteen gaps are all $e$-values''.
+The engine implements it directly (\tok{--force-e-upto 15}).  That search is
+running, as $128$ shards split at recursion level $44$ --- above the
+forced-chain level $15$, for the reason given below --- of which four are on a
+workstation and the rest are queued on the cluster; nothing has come back from
+it, and we claim nothing from it here.  If it is exhausted and returns nothing,
+it
+re-derives the conclusion $\diam(T-a)\ge285$ --- that is, the content of
+Theorems~\ref{thm:crowd280} and~\ref{thm:crowd283} for the endpoint $a$, which
+is the only leaf Corollary~\ref{cor:reduction} uses, covering the four finite
+certificates $\delta=281,\dots,284$ and every smaller $\delta$ at once --- by a
+different algorithm, in a different normal form, with no shared code.  That is
+the two-implementation standard this project applies to every load-bearing
+computation, and it is the most valuable run the engine could make.  We stress
+two things.  First,
+\tok{--force-e-upto} is a \emph{case restriction}, not a prune: it deliberately
+loses solutions (at $n=4$ the solution count drops from $2$ to $0$ at $K=3$, and
+at $n=6$ from $1$ to $0$ at $K=5$), so a zero result under it certifies only the
+restricted statement and says nothing about $\delta\ge285$.  Second, the
+restricted search is locked by its first fifteen steps but is otherwise a full
+order-$25$ search, and its size has not been measured.
+\paragraph{How far the forcing goes, and how we know.}
+Under \tok{--force-e-upto S} each of the first $S$ steps has exactly one legal
+option: every vertex created so far already carries its $e$-coordinate, and
+$f$-options are forbidden while $g\le S$, so the only candidate is a new vertex
+with $e=g$.  The search is therefore a forced chain down to level $S$, and a
+\tok{--split} taken at any level below $S$ numbers a single branch, putting the
+whole search into shard $0$ and leaving every other shard with the prefix alone.
+Anyone sharding a restricted run should split deeper than $S$, or not at all.
+
+The forcing stops there.  For $n=25$ with $S=15$, shard $1$ of $1000$ is
+\tok{EXHAUSTED} after $14$ nodes when split at level $13$ and after $15$ nodes
+when split at level $14$ --- the prefix only, so those levels hold a single node
+--- while at level $15$ and beyond the same shard is still running after
+millions of nodes.  The first free decision is at gap $S+1$, and there is no
+forcing past it.
+
+We record how this was established, because our first attempt to establish it
+was wrong.  The per-depth histogram printed by \tok{--debug} after a run that
+stopped at a node limit does \emph{not} show that a level is forced: depth-first
+search descends before it backtracks, so a shallow level shows a count of $1$
+merely because its remaining siblings have not been reached yet.  An early
+reading of such a histogram suggested a $24$-step forced chain, with $E$
+continuing $18,36,54,\dots$ and $F$ continuing $16,32,48,\dots$; that is the
+first depth-first path and nothing more, and both the shard test above and an
+exhaustive small-order run refute it.  The exhaustive check is $n=9$ with
+\tok{--force-e-upto 5}, where depths $0$ to $5$ hold one node each and the first
+branching is at depth $6$.  Only an exhaustive run, or a shard test of the kind
+above, decides forcedness.
+
+\todo{report the $n=25$, \tok{--force-e-upto 15} run: the node count and status
+of each of the $128$ shards and the merged total.  Only if every shard is
+\tok{EXHAUSTED} and the merged solution set is empty may it be described as an
+independent re-derivation of Theorem~\ref{thm:crowd283}; shards stopped by the
+wall clock certify nothing, and a shard that is missing is not the same as a
+shard that is empty.}
+
+Conversely, the still-open range $285\le\delta\le298$ of
+Corollary~\ref{cor:reduction} corresponds to $s\le15$, which is a \emph{weak}
+restriction on the two-anchor search: the existing order-$25$ certificates
+therefore do very little to help a full order-$25$ run in this normal form.  The
+two approaches are complementary only in the direction described above.

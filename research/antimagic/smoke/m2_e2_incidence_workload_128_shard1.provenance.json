@@ -1,0 +1,63 @@
+{
+  "actual_workloads_match": true,
+  "actual_workloads_sha256": "495d6aabf60f7078a83985e77c6c4eb3bba986c22784a5bb40e3e6677ea239a5",
+  "artifact_sha256": "1b6edc7deba66ad2b92d673aa011f88e834effb8dab0c4411c01870bc46f85be",
+  "base_records_match": true,
+  "base_records_sha256": "b43ab25ddeff2d61e61d1bc59eeceb29a061dbc37b1b4a8cf80a4813cbedbc91",
+  "canonical_stream_sha256": "58ee0bebf37f3df19511dd7b7c6fc37649e83c4dd256a1045fbc01f09e7af9cb",
+  "certificate_version": "m2-e2-workload-shard-provenance-v1",
+  "counts": {
+    "accepted_raw": 7864320,
+    "canonical_count": 7864320,
+    "global_raw_count": 7864320,
+    "processed_raw": 7864320,
+    "sentinel_raw": 0
+  },
+  "execution_mode": "workload_plan_rank_list",
+  "index_version": "m2-e2-base-index-v1",
+  "indexer_sha256": "2faef70afd38e037ef88a170bfd748e2bcb0a1afdba5c4292abc86a24d4aad72",
+  "planned_estimated_incidence_raw_rows": 7864320,
+  "planned_estimated_incidence_raw_rows_max_base": 1572864,
+  "provenance_payload_sha256": "fef27190349f9b3b171b204575d838f08471dc2e765c97b3434cd2e576dc179c",
+  "raw_stream_sha256": "1f63525bf2e0911efb5e991a8e65564e4092281bf636093987c54a10fae08628",
+  "replay_indexer_binding": "omitted; artifact-bound via index_version_and_base_records",
+  "replay_indexer_sha256": null,
+  "replay_result_sha256": "e37e0e96daf0ba64abb358505f7404535d5508c370606e64d7ea1115b7cd18e4",
+  "replay_script_sha256": "42a5603f7f67011a01d7648f56efc08002b2e8fe6f81972a6190446471405aaa",
+  "runner_sha256": "4737556e80f8ab2706a8f4de9584ee1c1e24fbcfb49ffcbc583aa6374b3a7ebe",
+  "runner_version": "m2-e2-incidence-runner-v1",
+  "schema_version": "literal-low-v3-owner-status",
+  "scope": {
+    "all_outward_masks_for_valid_bases": true,
+    "all_ports_for_valid_bases": true,
+    "e_values": [
+      2
+    ],
+    "m_values": [
+      2
+    ],
+    "valid_ranks": [
+      46830,
+      46831,
+      46848,
+      46850,
+      46852
+    ],
+    "workload_shard_count": 128,
+    "workload_shard_index": 1
+  },
+  "sentinel_reason_counts": {},
+  "source_merge_payload_sha256": "8ee646dcf15db200fbd460be7448c13f388d07032f08913eef1c1b115a753e2f",
+  "source_validity_merge_sha256": "3d4a620b16ae6fc80288c88106e6d7023e74bc52bdf7eb04c6e7590136da498c",
+  "status": "VERIFIED_M2_E2_WORKLOAD_SHARD_PROVENANCE_CERTIFICATE",
+  "trust_boundary": "Metadata/provenance certificate for exactly one workload-plan shard and its committed valid-rank list. It relies on the separately completed independent full-stream replay and does not certify any other workload shard, the global workload merge, universal m=2,e=2 S2 orbit completeness, L-surjectivity, high completion, or Leech-tree nonexistence.",
+  "valid_ranks": [
+    46830,
+    46831,
+    46848,
+    46850,
+    46852
+  ],
+  "workload_plan_payload_sha256": "7fe9f364739105c804748ba77aadb157bd53740c012ba9d26f3f6a6d4f82acb6",
+  "workload_plan_sha256": "582e15d04aae4339bbfb7cdb87e1a5da066f0ea09e10239ae5eb46996f4475c4"
+}

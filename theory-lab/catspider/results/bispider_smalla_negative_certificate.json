@@ -1,0 +1,29 @@
+{
+  "cleanroom": {
+    "exact_per_regime_match": true,
+    "regimes": 570,
+    "sha256": "eed4b9ab8075fa09499a472c281d563629b4eb6c76fdf8c6f7dc48ca498f0308"
+  },
+  "date": "2026-08-21",
+  "finite_partition": {
+    "dominance": "B=C+16 represents every B-C>15",
+    "exact_C": "A+1 <= C=A+Q <= 45",
+    "stable_tail": "C=46 represents every C>45"
+  },
+  "primary": {
+    "accepted_children": 78280,
+    "dead_states": 43776,
+    "frontier_states": 0,
+    "invalid_initial": 15,
+    "max_deepest_missing_offset": 15,
+    "max_selected_vertices": 11,
+    "nodes": 78835,
+    "regimes": 570,
+    "sha256": "eed4b9ab8075fa09499a472c281d563629b4eb6c76fdf8c6f7dc48ca498f0308"
+  },
+  "reproduce": "nice -n 10 python3 theory-lab/catspider/verify_bispider_smalla_negative.py",
+  "status": "OBSERVED",
+  "theorem": "For an LR anchor N=A+Q+B with A<B, 1<=A<=15 and Q-(B-A)<-15, no Leech bi-spider extends the anchor.",
+  "trust_boundary": "Finite relaxed top-window exhaustion. The search retains unique long-tip offsets and internal distances as separate necessary collision classes, while omitting parameter-dependent cross-class collisions, all other vertices and the vertex budget. B=C+16 represents all dominance gaps; C=46 represents the proved C>45 stable tail.",
+  "window": 15
+}

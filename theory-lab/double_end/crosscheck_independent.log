@@ -1,0 +1,37 @@
+== shape counts via Prufer + distance-vector buckets + n! iso confirm ==
+  n=2 shapes=1 (0.0s)
+      (1 distance-vector buckets; 2 members spot-confirmed isomorphic to their bucket rep by n! search; 0 counterexamples)
+  n=3 shapes=1 (0.0s)
+      (2 distance-vector buckets; 14 members spot-confirmed isomorphic to their bucket rep by n! search; 0 counterexamples)
+  n=4 shapes=2 (0.0s)
+      (3 distance-vector buckets; 52 members spot-confirmed isomorphic to their bucket rep by n! search; 0 counterexamples)
+  n=5 shapes=3 (0.0s)
+      (6 distance-vector buckets; 125 members spot-confirmed isomorphic to their bucket rep by n! search; 0 counterexamples)
+  n=6 shapes=6 (0.3s)
+      (11 distance-vector buckets; 246 members spot-confirmed isomorphic to their bucket rep by n! search; 0 counterexamples)
+  n=7 shapes=11 (1.7s)
+      (23 distance-vector buckets; 535 members spot-confirmed isomorphic to their bucket rep by n! search; 0 counterexamples)
+  n=8 shapes=23 (27.1s)
+
+== Method A: full cube scan [1..N]^(n-1), definition only ==
+  n=2  leech=1  tuples_scanned=1  (0.0s)
+       [(0, 1, 1)]
+  n=3  leech=1  tuples_scanned=9  (0.0s)
+       [(1, 0, 1), (0, 2, 2)]
+  n=4  leech=2  tuples_scanned=432  (0.0s)
+       [(1, 0, 1), (2, 0, 2), (0, 3, 4)]
+       [(2, 0, 1), (0, 1, 3), (1, 3, 2)]
+  n=5  leech=0  tuples_scanned=30000  (0.0s)
+  n=6  leech=1  tuples_scanned=4556250  (2.2s)
+       [(2, 0, 1), (3, 0, 2), (0, 1, 5), (4, 1, 4), (1, 5, 8)]
+
+== Method B: distinctness-only DFS ==
+  n=2  leech=1  nodes=2  0.0s  exhaustive
+  n=3  leech=1  nodes=6  0.0s  exhaustive
+  n=4  leech=2  nodes=46  0.0s  exhaustive
+  n=5  leech=0  nodes=383  0.0s  exhaustive
+  n=6  leech=1  nodes=5578  0.0s  exhaustive
+  n=7  leech=0  nodes=70558  1.6s  exhaustive
+  n=8  leech=0  nodes=1132127  32.3s  exhaustive
+      (47 distance-vector buckets; 1112 members spot-confirmed isomorphic to their bucket rep by n! search; 0 counterexamples)
+  n=9  leech=0  nodes=65536  617.3s  TIMEOUT (INCOMPLETE)

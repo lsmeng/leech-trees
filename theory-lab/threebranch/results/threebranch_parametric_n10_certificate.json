@@ -1,0 +1,16 @@
+{
+  "claim_status": "OBSERVED calibration; parametric and all-order conclusions remain UNVERIFIED",
+  "exact_source_sha256": "2e796bf278634c302ffb9fe3510004379a2887b3d5af0e52f7edcfb5764172ac",
+  "probe_sha256": "8f820e80910342a4e66f03e894f2426e3dca69aaf9b30e17317afd14fa984f7c",
+  "remote_runtime": {
+    "host": "geo-ws",
+    "python": "3.8.10",
+    "z3": "4.16.0"
+  },
+  "modes": {
+    "AA": {"candidates": 14178, "capped": false, "claim_boundary": "UNVERIFIED relaxed parametric top-window probe; a frontier is not a Leech witness and CLOSED needs an independent checker", "completed_offset": 17, "example_model": null, "feasible_children": 476, "fixed_n": 10, "frontier_states": 0, "maximum_marks": 6, "maximum_states": 229, "mode": "AA", "nmin": 1, "requested_window": 17, "scale_shards": [], "solver_calls": 10311, "solver_unknown": 0, "status": "CLOSED", "taylor_residue_modulus": 0, "taylor_tail": false, "triangular_tail": false},
+    "BB": {"candidates": 5284, "capped": false, "claim_boundary": "UNVERIFIED relaxed parametric top-window probe; a frontier is not a Leech witness and CLOSED needs an independent checker", "completed_offset": 17, "example_model": null, "feasible_children": 148, "fixed_n": 10, "frontier_states": 0, "maximum_marks": 5, "maximum_states": 93, "mode": "BB", "nmin": 1, "requested_window": 17, "scale_shards": [], "solver_calls": 2935, "solver_unknown": 0, "status": "CLOSED", "taylor_residue_modulus": 0, "taylor_tail": false, "triangular_tail": false},
+    "AB": {"candidates": 56974, "capped": false, "claim_boundary": "UNVERIFIED relaxed parametric top-window probe; a frontier is not a Leech witness and CLOSED needs an independent checker", "completed_offset": 20, "example_model": null, "feasible_children": 1558, "fixed_n": 10, "frontier_states": 0, "maximum_marks": 6, "maximum_states": 936, "mode": "AB", "nmin": 1, "requested_window": 20, "scale_shards": [], "solver_calls": 42289, "solver_unknown": 0, "status": "CLOSED", "taylor_residue_modulus": 0, "taylor_tail": false, "triangular_tail": false},
+    "AC": {"candidates": 37398, "capped": false, "claim_boundary": "UNVERIFIED relaxed parametric top-window probe; a frontier is not a Leech witness and CLOSED needs an independent checker", "completed_offset": 20, "example_model": null, "feasible_children": 1058, "fixed_n": 10, "frontier_states": 0, "maximum_marks": 6, "maximum_states": 602, "mode": "AC", "nmin": 1, "requested_window": 20, "scale_shards": [], "solver_calls": 36063, "solver_unknown": 0, "status": "CLOSED", "taylor_residue_modulus": 0, "taylor_tail": false, "triangular_tail": false}
+  }
+}

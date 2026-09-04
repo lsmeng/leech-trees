@@ -1,0 +1,12 @@
+STRUCT -1 -1 -1 0
+STRUCT -1 -1 0 0
+STRUCT -1 -1 0 2
+STRUCT -1 -1 1 -1
+STRUCT -1 -1 1 0
+DEPTH_SURVIVOR s=8 L=0 lowpar= hpar=-1,-1,1,1
+STRUCT -1 -1 1 1
+STRUCT -1 0 -1 0
+STRUCT -1 0 -1 1
+STRUCT -1 0 0 -1
+ABSTRACT m=4 r=1 lowpar= xcap=1000 split=-1:0/1 leaves=9 nodes=18 EXHAUSTED depth_survivors=1 structures_with_survivor=1 csp_nodes=1
+ABSTRACT_SUMMARY m=4 r=1 shapes_run=1 iso_classes=1 skipped_iso=0 skipped_other_shards=0 shard=0/1 xcap=1000 total_leaves=9 STRUCTURES_EXIST

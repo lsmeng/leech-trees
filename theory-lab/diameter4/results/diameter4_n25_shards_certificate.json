@@ -1,0 +1,20 @@
+{
+  "all_done": true,
+  "campaign_engine_sha256": "da6ddf0977447822ac28614a87264cde339dff894db6494072393a54d8e67b5e",
+  "checker_a_sha256": "daac598f6aa524ed68824d693e4467a006ca0ab750cc21d55ffa68aec45419e5",
+  "checker_b_sha256": "8f85017cb52f5898b6472048c0a9713bc835a5bf9a8e18cb7a6728101e4a25d7",
+  "engine_source_sha256": "1e67b61e3ae0d6ab11b2c623b6ae7a0183fa07510c734659e1cc73375ba9b61d",
+  "family": "hop-diameter<=4",
+  "max_shard_nodes": 2103240365,
+  "min_shard_nodes": 15105,
+  "n": 25,
+  "nsol": 0,
+  "per_shard_sha256": "1bda647a11abddaf1a9b4c7203f068465be69b0df159ea837c95d1ad437b30b7",
+  "per_shard_stdout_sha256": "d920e086f9a5759c42493d8a7b83a0b0dc1fb6b1820a2e6eac58dfeeb84ce476",
+  "shard_level": 8,
+  "shards": 512,
+  "status": "VERIFIED",
+  "sum_reported_cpu_seconds": 3403240.387,
+  "sum_reported_nodes_including_repeated_prefixes": 322189234739,
+  "witnesses_checked_by_a_and_b": 0
+}

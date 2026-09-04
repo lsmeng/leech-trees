@@ -1,0 +1,15 @@
+{
+  "claim": "The Kruskal merge profile obeys the covering schedule, exact waste identity, weighted covering-surplus decomposition, and TW >= (sum Delta_k^2-N)/2.",
+  "status": "OBSERVED theorem",
+  "proof": "docs/kruskal-covering-waste.md",
+  "verifier": "theory-lab/smallend/verify_kruskal_waste.py",
+  "random_distinct_distance_trees": 900,
+  "random_pair_maximum_checks": 28200,
+  "known_leech_witnesses": 5,
+  "known_schedule_steps": 14,
+  "known_total_waste": 52,
+  "checker_a_passes": 5,
+  "checker_b_passes": 5,
+  "sha256": "94c619aa2b33abd483a7f00ee792708385190c00f2c9335db7686bc0083f0757",
+  "scope_note": "This is a lower-bound mechanism for path slack, not yet a contradiction for arbitrary topology."
+}

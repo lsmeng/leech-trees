@@ -1,0 +1,27 @@
+n=25 nodes=491378497 nsol=0 time=6597.83
+depth: 0:1 1:1 2:2 3:8 4:41 5:184 6:732 7:2765 8:11371 9:40 10:300 11:2335 12:16502 13:116842 14:829401 15:5902095 16:38863958 17:163063951 18:233030908 19:49522637 20:14423 21:0 22:0 23:0 24:0
+depth  0 by ncomp: 0:1
+depth  1 by ncomp: 1:1
+depth  2 by ncomp: 1:1 2:1
+depth  3 by ncomp: 1:4 2:3 3:1
+depth  4 by ncomp: 1:16 2:18 3:6 4:1
+depth  5 by ncomp: 1:30 2:96 3:47 4:10 5:1
+depth  6 by ncomp: 1:38 2:277 3:303 4:98 5:15 6:1
+depth  7 by ncomp: 1:34 2:503 3:1226 4:792 5:188 6:21 7:1
+depth  8 by ncomp: 1:11 2:751 3:3767 4:4589 5:1895 6:329 7:29
+depth  9 by ncomp: 3:2 4:1 5:3 6:25 7:9
+depth 10 by ncomp: 4:2 5:1 6:181 7:116
+depth 11 by ncomp: 5:29 6:1050 7:1256
+depth 12 by ncomp: 5:81 6:5238 7:11183
+depth 13 by ncomp: 5:209 6:23581 7:93052
+depth 14 by ncomp: 5:314 6:98515 7:730572
+depth 15 by ncomp: 5:763 6:392621 7:5508711
+depth 16 by ncomp: 5:1785 6:1458023 7:37404150
+depth 17 by ncomp: 5:3411 6:5058363 7:158002177
+depth 18 by ncomp: 5:5876 6:16373671 7:216651361
+depth 19 by ncomp: 5:9750 6:49512887
+depth 20 by ncomp: 5:14423
+depth 21 by ncomp:
+depth 22 by ncomp:
+depth 23 by ncomp:
+depth 24 by ncomp:

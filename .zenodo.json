@@ -1,0 +1,24 @@
+{
+  "title": "There is no Leech tree on 18 vertices, and no Leech spider of order at least five, with a leaf-deletion bound at order 25 — code, data and verification artefacts",
+  "description": "<p>Complete source, input manifests, raw outputs, certificates and verification artefacts for the paper &ldquo;There is no Leech tree on 18 vertices, and no Leech spider of order at least five, with a leaf-deletion bound at order 25&rdquo;.</p><p>Contents: the forced-forest search engine and the independent per-topology engine; a clean-room re-implementation written from the algorithm description alone; independent Python enumerators and differential harnesses; the SAT encoder with per-instance records of the DRAT-checked runs for n &le; 11; the frozen list of the 123,867 trees of order 18 with a two-generator cross-check; per-shard outputs and depth histograms for the n = 18 and n &le; 17 runs; the spider searches and the no-spider verifier; the variant engines behind the minimal distinct distance, modular Leech and leaf-Leech results; and the order-25 material, comprising the arithmetic verifier for the top-block crowding inequality, the direct normal-form search, the depth-free class search and depth phase, an independent brute-force cross-check, the two-anchor (double-end) engine with its independent enumerator and oracle, and the split certificates for delta = 281..284 including the frozen-source re-run of delta = 284.</p><p>The working artefacts of the superseded top-window programme (about 2.3 GB of intermediate JSON, cited nowhere in the paper) are deliberately not included.</p>",
+  "creators": [
+    {
+      "name": "Meng, Lingsen",
+      "affiliation": "Department of Earth, Planetary, and Space Sciences, University of California, Los Angeles"
+    }
+  ],
+  "upload_type": "software",
+  "license": "MIT",
+  "keywords": [
+    "Leech tree",
+    "graph labelling",
+    "distance-distinct tree",
+    "exhaustive search",
+    "computer-assisted proof",
+    "isomorph rejection",
+    "Golomb ruler",
+    "combinatorics"
+  ],
+  "access_right": "open",
+  "notes": "Dual-licensed: the code, data and results are under the MIT License; the paper directory (LaTeX source, bibliography and PDF) is under CC BY 4.0. Third-party material archived for reference in docs/sources/ is not covered by either and remains the property of its copyright holders."
+}

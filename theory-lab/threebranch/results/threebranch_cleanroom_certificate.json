@@ -1,0 +1,43 @@
+{
+  "claim_status": "OBSERVED calibration; no order-25 or all-order conclusion",
+  "anchor_partition": {
+    "n8": {"AA": 146, "BB": 0, "AB": 792, "AC": 535},
+    "n9": {"AA": 420, "BB": 413, "AB": 2387, "AC": 1584}
+  },
+  "independent_metric_samples": 48,
+  "brute_child_option_samples": 12,
+  "exact_differential": {
+    "n8": {
+      "valid_anchors": 1473,
+      "geometric_nodes": 2663,
+      "geometric_solutions": 0,
+      "fixed_topology_solutions": 0,
+      "status": "DONE"
+    },
+    "n9": {
+      "valid_anchors": 4804,
+      "geometric_nodes": 21350,
+      "geometric_solutions": 0,
+      "fixed_topology_solutions": 0,
+      "status": "DONE"
+    },
+    "n10": {
+      "topologies": 22,
+      "fixed_topology_solutions": 0,
+      "valid_anchors": 12289,
+      "geometric_nodes": 107677,
+      "geometric_solutions": 0,
+      "deepest_missing_offset": 20,
+      "max_noncentre_marks": 6,
+      "status": "DONE",
+      "modes": {
+        "AA": {"anchors": 1056, "nodes": 10076, "solutions": 0},
+        "BB": {"anchors": 1042, "nodes": 6708, "solutions": 0},
+        "AB": {"anchors": 6123, "nodes": 54140, "solutions": 0},
+        "AC": {"anchors": 4068, "nodes": 36753, "solutions": 0}
+      }
+    }
+  },
+  "witness_policy": "every reported solution must pass checker_a.py and checker_b.py",
+  "verdict": "PASS"
+}

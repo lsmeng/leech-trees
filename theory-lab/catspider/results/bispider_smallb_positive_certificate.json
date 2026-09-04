@@ -1,0 +1,28 @@
+{
+  "cleanroom": {
+    "exact_per_regime_match": true,
+    "regimes": 10260,
+    "sha256": "621e3766337525fb13ecd4f2f20f490c501d1aa7b6fa18ac0d11e516cbdd16b7"
+  },
+  "date": "2026-08-21",
+  "finite_partition": {
+    "exact_Q": "21+B-A <= Q <= 80",
+    "stable_tail": "Q=81 represents every Q>80"
+  },
+  "primary": {
+    "accepted_children": 554218,
+    "dead_states": 323655,
+    "frontier_states": 0,
+    "invalid_initial": 0,
+    "max_deepest_missing_offset": 16,
+    "max_selected_vertices": 9,
+    "nodes": 564478,
+    "regimes": 10260,
+    "sha256": "621e3766337525fb13ecd4f2f20f490c501d1aa7b6fa18ac0d11e516cbdd16b7"
+  },
+  "reproduce": "nice -n 10 python3 theory-lab/catspider/verify_bispider_smallb_positive.py",
+  "status": "OBSERVED",
+  "theorem": "For an LR anchor N=A+Q+B with A<B, B<=20 and Q-(B-A)>20, no Leech bi-spider extends the anchor.",
+  "trust_boundary": "Finite relaxed top-window exhaustion. Every possible endpoint of N-k for k<=20 is retained; all other vertices and the vertex budget are omitted. For Q>80, internal distances are at most 40 and cross-cluster distances have the form Q+c, so Q=81 has exactly the stable tail collision pattern.",
+  "window": 20
+}

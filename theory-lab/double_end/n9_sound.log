@@ -1,0 +1,19 @@
+{
+ "n": 9,
+ "N": 36,
+ "V": 7,
+ "status": "EMPTY_EXHAUSTED",
+ "parity_splits": [
+  [
+   1,
+   6
+  ],
+  [
+   4,
+   3
+  ]
+ ],
+ "nodes": 134863,
+ "seconds": 15.035
+}
+solutions found: 0

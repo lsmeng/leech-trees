@@ -1,0 +1,1 @@
+{"all_checks_ok": true, "cut_first_moment": 120, "cut_identity_ok": true, "delta": 11, "depths": [0], "direct_first_moment": 120, "distinct_distance_count": 15, "moment_target_ok": true, "n": 6, "odd_pairs": 8, "odd_vertices": 2, "pair_count": 15, "parity_ok": true, "s": 8, "status": "PARITY_MOMENT_AUDIT", "target_first_moment": 120, "target_odd_pairs": 8}

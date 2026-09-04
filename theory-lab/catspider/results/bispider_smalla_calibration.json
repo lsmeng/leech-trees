@@ -1,0 +1,38 @@
+{
+  "date": "2026-08-21",
+  "engine": "bispider.c --fast",
+  "note": "Exact numeric corroboration only. --fast disables the diagnostic full recomputation and these runs are not used in the uniform proof.",
+  "runs": [
+    {
+      "A_range": [
+        1,
+        50
+      ],
+      "N": 300,
+      "branches": 12275,
+      "deepest_missing_offset": 34,
+      "hardest_r": -2,
+      "max_noncentre_marks": 11,
+      "n": 25,
+      "nodes": 11790276,
+      "nsol": 0,
+      "seconds": 94.46
+    },
+    {
+      "A_range": [
+        1,
+        50
+      ],
+      "N": 351,
+      "branches": 14875,
+      "deepest_missing_offset": 32,
+      "hardest_r": -1,
+      "max_noncentre_marks": 11,
+      "n": 27,
+      "nodes": 15716380,
+      "nsol": 0,
+      "seconds": 139.61
+    }
+  ],
+  "status": "OBSERVED"
+}

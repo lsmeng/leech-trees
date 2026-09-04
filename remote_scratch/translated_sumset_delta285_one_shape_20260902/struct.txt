@@ -1,0 +1,2 @@
+STRUCT -1 -2 -6 -7 -8 -9 -9 5 5 5 -8 -7 -6 -2 -1
+ABSTRACT m=15 r=9 lowpar=0,0,0,0,1,5,6,7 xcap=1000 split=-1:0/1 leaves=1 nodes=7687 EXISTS

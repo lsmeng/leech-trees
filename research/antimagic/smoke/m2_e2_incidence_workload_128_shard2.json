@@ -1,0 +1,1806 @@
+{
+  "H37": [
+    5,
+    16,
+    18,
+    19,
+    20,
+    21,
+    24,
+    25,
+    26,
+    34,
+    35,
+    36,
+    37
+  ],
+  "accepted_raw": 8388608,
+  "actual_workloads": [
+    [
+      46853,
+      1572864
+    ],
+    [
+      46854,
+      1572864
+    ],
+    [
+      46855,
+      1572864
+    ],
+    [
+      47136,
+      1048576
+    ],
+    [
+      47160,
+      1048576
+    ],
+    [
+      47946,
+      393216
+    ],
+    [
+      48075,
+      1179648
+    ]
+  ],
+  "base_descriptor_count": 7,
+  "base_records": [
+    {
+      "block_size": 1572864,
+      "components": [
+        [
+          "d6",
+          "c",
+          "z",
+          "b1",
+          "b2",
+          "a",
+          "P0",
+          "P1",
+          "v34",
+          "x0"
+        ],
+        [
+          "u",
+          "x1"
+        ],
+        [
+          "v",
+          "y0",
+          "y3"
+        ],
+        [
+          "p",
+          "q"
+        ]
+      ],
+      "descriptor_rank": 46853,
+      "endpoint_rank": 300,
+      "endpoint_set": [
+        [
+          "P0",
+          "x0"
+        ],
+        [
+          "u",
+          "x1"
+        ]
+      ],
+      "endpoint_type": "cross_anon_distinct_named",
+      "extra_edges": [
+        [
+          "P0",
+          "x0",
+          20
+        ],
+        [
+          "u",
+          "x1",
+          24
+        ]
+      ],
+      "low_pair_count": 50,
+      "mask_total": 131072,
+      "ordered_weights": [
+        20,
+        24
+      ],
+      "owner_status": {
+        "16": [
+          "v",
+          "y0"
+        ],
+        "18": "NOT_L",
+        "19": [
+          "v",
+          "y3"
+        ],
+        "20": [
+          "P0",
+          "x0"
+        ],
+        "21": "NOT_L",
+        "24": [
+          "u",
+          "x1"
+        ],
+        "25": "NOT_L",
+        "26": "NOT_L",
+        "32": "NOT_L",
+        "34": [
+          "b2",
+          "v34"
+        ],
+        "35": [
+          "y0",
+          "y3"
+        ],
+        "36": [
+          "z",
+          "v34"
+        ],
+        "37": [
+          "b1",
+          "v34"
+        ],
+        "5": "NOT_L"
+      },
+      "port_radices": [
+        1,
+        2,
+        3,
+        2
+      ],
+      "port_total": 12,
+      "raw_offset": 0,
+      "valid": true,
+      "weight_rank": 53
+    },
+    {
+      "block_size": 1572864,
+      "components": [
+        [
+          "d6",
+          "c",
+          "z",
+          "b1",
+          "b2",
+          "a",
+          "P0",
+          "P1",
+          "v34",
+          "x0"
+        ],
+        [
+          "u",
+          "x1"
+        ],
+        [
+          "v",
+          "y0",
+          "y3"
+        ],
+        [
+          "p",
+          "q"
+        ]
+      ],
+      "descriptor_rank": 46854,
+      "endpoint_rank": 300,
+      "endpoint_set": [
+        [
+          "P0",
+          "x0"
+        ],
+        [
+          "u",
+          "x1"
+        ]
+      ],
+      "endpoint_type": "cross_anon_distinct_named",
+      "extra_edges": [
+        [
+          "P0",
+          "x0",
+          20
+        ],
+        [
+          "u",
+          "x1",
+          25
+        ]
+      ],
+      "low_pair_count": 50,
+      "mask_total": 131072,
+      "ordered_weights": [
+        20,
+        25
+      ],
+      "owner_status": {
+        "16": [
+          "v",
+          "y0"
+        ],
+        "18": "NOT_L",
+        "19": [
+          "v",
+          "y3"
+        ],
+        "20": [
+          "P0",
+          "x0"
+        ],
+        "21": "NOT_L",
+        "24": "NOT_L",
+        "25": [
+          "u",
+          "x1"
+        ],
+        "26": "NOT_L",
+        "32": "NOT_L",
+        "34": [
+          "b2",
+          "v34"
+        ],
+        "35": [
+          "y0",
+          "y3"
+        ],
+        "36": [
+          "z",
+          "v34"
+        ],
+        "37": [
+          "b1",
+          "v34"
+        ],
+        "5": "NOT_L"
+      },
+      "port_radices": [
+        1,
+        2,
+        3,
+        2
+      ],
+      "port_total": 12,
+      "raw_offset": 1572864,
+      "valid": true,
+      "weight_rank": 54
+    },
+    {
+      "block_size": 1572864,
+      "components": [
+        [
+          "d6",
+          "c",
+          "z",
+          "b1",
+          "b2",
+          "a",
+          "P0",
+          "P1",
+          "v34",
+          "x0"
+        ],
+        [
+          "u",
+          "x1"
+        ],
+        [
+          "v",
+          "y0",
+          "y3"
+        ],
+        [
+          "p",
+          "q"
+        ]
+      ],
+      "descriptor_rank": 46855,
+      "endpoint_rank": 300,
+      "endpoint_set": [
+        [
+          "P0",
+          "x0"
+        ],
+        [
+          "u",
+          "x1"
+        ]
+      ],
+      "endpoint_type": "cross_anon_distinct_named",
+      "extra_edges": [
+        [
+          "P0",
+          "x0",
+          20
+        ],
+        [
+          "u",
+          "x1",
+          26
+        ]
+      ],
+      "low_pair_count": 50,
+      "mask_total": 131072,
+      "ordered_weights": [
+        20,
+        26
+      ],
+      "owner_status": {
+        "16": [
+          "v",
+          "y0"
+        ],
+        "18": "NOT_L",
+        "19": [
+          "v",
+          "y3"
+        ],
+        "20": [
+          "P0",
+          "x0"
+        ],
+        "21": "NOT_L",
+        "24": "NOT_L",
+        "25": "NOT_L",
+        "26": [
+          "u",
+          "x1"
+        ],
+        "32": "NOT_L",
+        "34": [
+          "b2",
+          "v34"
+        ],
+        "35": [
+          "y0",
+          "y3"
+        ],
+        "36": [
+          "z",
+          "v34"
+        ],
+        "37": [
+          "b1",
+          "v34"
+        ],
+        "5": "NOT_L"
+      },
+      "port_radices": [
+        1,
+        2,
+        3,
+        2
+      ],
+      "port_total": 12,
+      "raw_offset": 3145728,
+      "valid": true,
+      "weight_rank": 55
+    },
+    {
+      "block_size": 1048576,
+      "components": [
+        [
+          "d6",
+          "c",
+          "z",
+          "b1",
+          "b2",
+          "a",
+          "P0",
+          "P1",
+          "v34",
+          "x0"
+        ],
+        [
+          "u"
+        ],
+        [
+          "v",
+          "y0",
+          "y3",
+          "x1"
+        ],
+        [
+          "p",
+          "q"
+        ]
+      ],
+      "descriptor_rank": 47136,
+      "endpoint_rank": 302,
+      "endpoint_set": [
+        [
+          "P0",
+          "x0"
+        ],
+        [
+          "v",
+          "x1"
+        ]
+      ],
+      "endpoint_type": "cross_anon_distinct_named",
+      "extra_edges": [
+        [
+          "P0",
+          "x0",
+          18
+        ],
+        [
+          "v",
+          "x1",
+          5
+        ]
+      ],
+      "low_pair_count": 52,
+      "mask_total": 131072,
+      "ordered_weights": [
+        18,
+        5
+      ],
+      "owner_status": {
+        "16": [
+          "v",
+          "y0"
+        ],
+        "18": [
+          "P0",
+          "x0"
+        ],
+        "19": [
+          "v",
+          "y3"
+        ],
+        "20": "NOT_L",
+        "21": [
+          "y0",
+          "x1"
+        ],
+        "24": [
+          "y3",
+          "x1"
+        ],
+        "25": "NOT_L",
+        "26": "NOT_L",
+        "32": "NOT_L",
+        "34": [
+          "b2",
+          "v34"
+        ],
+        "35": [
+          "y0",
+          "y3"
+        ],
+        "36": [
+          "z",
+          "v34"
+        ],
+        "37": [
+          "b1",
+          "v34"
+        ],
+        "5": [
+          "v",
+          "x1"
+        ]
+      },
+      "port_radices": [
+        1,
+        1,
+        4,
+        2
+      ],
+      "port_total": 8,
+      "raw_offset": 4718592,
+      "valid": true,
+      "weight_rank": 24
+    },
+    {
+      "block_size": 1048576,
+      "components": [
+        [
+          "d6",
+          "c",
+          "z",
+          "b1",
+          "b2",
+          "a",
+          "P0",
+          "P1",
+          "v34",
+          "x0"
+        ],
+        [
+          "u"
+        ],
+        [
+          "v",
+          "y0",
+          "y3",
+          "x1"
+        ],
+        [
+          "p",
+          "q"
+        ]
+      ],
+      "descriptor_rank": 47160,
+      "endpoint_rank": 302,
+      "endpoint_set": [
+        [
+          "P0",
+          "x0"
+        ],
+        [
+          "v",
+          "x1"
+        ]
+      ],
+      "endpoint_type": "cross_anon_distinct_named",
+      "extra_edges": [
+        [
+          "P0",
+          "x0",
+          20
+        ],
+        [
+          "v",
+          "x1",
+          5
+        ]
+      ],
+      "low_pair_count": 52,
+      "mask_total": 131072,
+      "ordered_weights": [
+        20,
+        5
+      ],
+      "owner_status": {
+        "16": [
+          "v",
+          "y0"
+        ],
+        "18": "NOT_L",
+        "19": [
+          "v",
+          "y3"
+        ],
+        "20": [
+          "P0",
+          "x0"
+        ],
+        "21": [
+          "y0",
+          "x1"
+        ],
+        "24": [
+          "y3",
+          "x1"
+        ],
+        "25": "NOT_L",
+        "26": "NOT_L",
+        "32": "NOT_L",
+        "34": [
+          "b2",
+          "v34"
+        ],
+        "35": [
+          "y0",
+          "y3"
+        ],
+        "36": [
+          "z",
+          "v34"
+        ],
+        "37": [
+          "b1",
+          "v34"
+        ],
+        "5": [
+          "v",
+          "x1"
+        ]
+      },
+      "port_radices": [
+        1,
+        1,
+        4,
+        2
+      ],
+      "port_total": 8,
+      "raw_offset": 5767168,
+      "valid": true,
+      "weight_rank": 48
+    },
+    {
+      "block_size": 393216,
+      "components": [
+        [
+          "d6",
+          "c",
+          "z",
+          "b1",
+          "b2",
+          "a",
+          "P0",
+          "P1",
+          "v34",
+          "p",
+          "q",
+          "x0"
+        ],
+        [
+          "u"
+        ],
+        [
+          "v",
+          "y0",
+          "y3"
+        ],
+        [
+          "x1"
+        ]
+      ],
+      "descriptor_rank": 47946,
+      "endpoint_rank": 307,
+      "endpoint_set": [
+        [
+          "P0",
+          "x0"
+        ],
+        [
+          "p",
+          "x0"
+        ]
+      ],
+      "endpoint_type": "same_anon_two_named",
+      "extra_edges": [
+        [
+          "P0",
+          "x0",
+          20
+        ],
+        [
+          "p",
+          "x0",
+          25
+        ]
+      ],
+      "low_pair_count": 69,
+      "mask_total": 131072,
+      "ordered_weights": [
+        20,
+        25
+      ],
+      "owner_status": {
+        "16": [
+          "v",
+          "y0"
+        ],
+        "18": "NOT_L",
+        "19": [
+          "v",
+          "y3"
+        ],
+        "20": [
+          "P0",
+          "x0"
+        ],
+        "21": "NOT_L",
+        "24": "NOT_L",
+        "25": [
+          "p",
+          "x0"
+        ],
+        "26": "NOT_L",
+        "32": "NOT_L",
+        "34": [
+          "b2",
+          "v34"
+        ],
+        "35": [
+          "y0",
+          "y3"
+        ],
+        "36": [
+          "z",
+          "v34"
+        ],
+        "37": [
+          "b1",
+          "v34"
+        ],
+        "5": "NOT_L"
+      },
+      "port_radices": [
+        1,
+        1,
+        3,
+        1
+      ],
+      "port_total": 3,
+      "raw_offset": 6815744,
+      "valid": true,
+      "weight_rank": 54
+    },
+    {
+      "block_size": 1179648,
+      "components": [
+        [
+          "d6",
+          "c",
+          "z",
+          "b1",
+          "b2",
+          "a",
+          "P0",
+          "P1",
+          "v34",
+          "x0"
+        ],
+        [
+          "u"
+        ],
+        [
+          "v",
+          "y0",
+          "y3"
+        ],
+        [
+          "p",
+          "q",
+          "x1"
+        ]
+      ],
+      "descriptor_rank": 48075,
+      "endpoint_rank": 308,
+      "endpoint_set": [
+        [
+          "P0",
+          "x0"
+        ],
+        [
+          "p",
+          "x1"
+        ]
+      ],
+      "endpoint_type": "cross_anon_distinct_named",
+      "extra_edges": [
+        [
+          "P0",
+          "x0",
+          18
+        ],
+        [
+          "p",
+          "x1",
+          20
+        ]
+      ],
+      "low_pair_count": 51,
+      "mask_total": 131072,
+      "ordered_weights": [
+        18,
+        20
+      ],
+      "owner_status": {
+        "16": [
+          "v",
+          "y0"
+        ],
+        "18": [
+          "P0",
+          "x0"
+        ],
+        "19": [
+          "v",
+          "y3"
+        ],
+        "20": [
+          "p",
+          "x1"
+        ],
+        "21": "NOT_L",
+        "24": "NOT_L",
+        "25": "NOT_L",
+        "26": "NOT_L",
+        "32": "NOT_L",
+        "34": [
+          "b2",
+          "v34"
+        ],
+        "35": [
+          "y0",
+          "y3"
+        ],
+        "36": [
+          "z",
+          "v34"
+        ],
+        "37": [
+          "b1",
+          "v34"
+        ],
+        "5": "NOT_L"
+      },
+      "port_radices": [
+        1,
+        1,
+        3,
+        3
+      ],
+      "port_total": 9,
+      "raw_offset": 7208960,
+      "valid": true,
+      "weight_rank": 27
+    }
+  ],
+  "canonical_count": 8388608,
+  "canonical_stream_sha256": "70a4a9b3fd52f46f9aa1c642a52f859bf933da5c7f11486a5e47c54e8d727ae2",
+  "execution_mode": "workload_plan_rank_list",
+  "fixed_edges": [
+    [
+      "d6",
+      "c",
+      6
+    ],
+    [
+      "c",
+      "z",
+      7
+    ],
+    [
+      "z",
+      "b1",
+      1
+    ],
+    [
+      "z",
+      "b2",
+      2
+    ],
+    [
+      "z",
+      "a",
+      10
+    ],
+    [
+      "d6",
+      "P0",
+      27
+    ],
+    [
+      "c",
+      "P1",
+      22
+    ],
+    [
+      "b2",
+      "v34",
+      34
+    ],
+    [
+      "v",
+      "y0",
+      16
+    ],
+    [
+      "v",
+      "y3",
+      19
+    ],
+    [
+      "p",
+      "q",
+      32
+    ]
+  ],
+  "fixed_vertices": [
+    "d6",
+    "c",
+    "z",
+    "b1",
+    "b2",
+    "a",
+    "P0",
+    "P1",
+    "v34",
+    "u",
+    "v",
+    "y0",
+    "y3",
+    "p",
+    "q"
+  ],
+  "global_base_descriptor_count": 72540,
+  "global_raw_count": 8388608,
+  "index_version": "m2-e2-base-index-v1",
+  "indexer_sha256": "2faef70afd38e037ef88a170bfd748e2bcb0a1afdba5c4292abc86a24d4aad72",
+  "owner_status_values": [
+    5,
+    16,
+    18,
+    19,
+    20,
+    21,
+    24,
+    25,
+    26,
+    34,
+    35,
+    36,
+    37,
+    32
+  ],
+  "planned_estimated_incidence_raw_rows": 8388608,
+  "planned_estimated_incidence_raw_rows_max_base": 1572864,
+  "processed_raw": 8388608,
+  "raw_stream_sha256": "3df7b9cee2b161999b7610d2a61097b2330d5eea7d4631970a60c57609931203",
+  "runner_sha256": "4737556e80f8ab2706a8f4de9584ee1c1e24fbcfb49ffcbc583aa6374b3a7ebe",
+  "runner_version": "m2-e2-incidence-runner-v1",
+  "samples": [
+    {
+      "canonical": {
+        "components": [
+          {
+            "outward_vertices": [],
+            "rootward_port": "d6",
+            "vertices": [
+              "d6",
+              "c",
+              "z",
+              "b1",
+              "b2",
+              "a",
+              "P0",
+              "P1",
+              "v34",
+              "x0"
+            ]
+          },
+          {
+            "outward_vertices": [],
+            "rootward_port": "u",
+            "vertices": [
+              "u",
+              "x1"
+            ]
+          },
+          {
+            "outward_vertices": [],
+            "rootward_port": "v",
+            "vertices": [
+              "v",
+              "y0",
+              "y3"
+            ]
+          },
+          {
+            "outward_vertices": [],
+            "rootward_port": "p",
+            "vertices": [
+              "p",
+              "q"
+            ]
+          }
+        ],
+        "edges": [
+          [
+            "d6",
+            "c",
+            6
+          ],
+          [
+            "d6",
+            "P0",
+            27
+          ],
+          [
+            "c",
+            "z",
+            7
+          ],
+          [
+            "c",
+            "P1",
+            22
+          ],
+          [
+            "z",
+            "b1",
+            1
+          ],
+          [
+            "z",
+            "b2",
+            2
+          ],
+          [
+            "z",
+            "a",
+            10
+          ],
+          [
+            "b2",
+            "v34",
+            34
+          ],
+          [
+            "P0",
+            "x0",
+            20
+          ],
+          [
+            "u",
+            "x1",
+            24
+          ],
+          [
+            "v",
+            "y0",
+            16
+          ],
+          [
+            "v",
+            "y3",
+            19
+          ],
+          [
+            "p",
+            "q",
+            32
+          ]
+        ],
+        "owner_status": {
+          "16": [
+            "v",
+            "y0"
+          ],
+          "18": "NOT_L",
+          "19": [
+            "v",
+            "y3"
+          ],
+          "20": [
+            "P0",
+            "x0"
+          ],
+          "21": "NOT_L",
+          "24": [
+            "u",
+            "x1"
+          ],
+          "25": "NOT_L",
+          "26": "NOT_L",
+          "32": "NOT_L",
+          "34": [
+            "b2",
+            "v34"
+          ],
+          "35": [
+            "y0",
+            "y3"
+          ],
+          "36": [
+            "z",
+            "v34"
+          ],
+          "37": [
+            "b1",
+            "v34"
+          ],
+          "5": "NOT_L"
+        },
+        "owners_h37": {
+          "16": [
+            [
+              "v",
+              "y0"
+            ]
+          ],
+          "19": [
+            [
+              "v",
+              "y3"
+            ]
+          ],
+          "20": [
+            [
+              "P0",
+              "x0"
+            ]
+          ],
+          "24": [
+            [
+              "u",
+              "x1"
+            ]
+          ],
+          "34": [
+            [
+              "b2",
+              "v34"
+            ]
+          ],
+          "35": [
+            [
+              "y0",
+              "y3"
+            ]
+          ],
+          "36": [
+            [
+              "z",
+              "v34"
+            ]
+          ],
+          "37": [
+            [
+              "b1",
+              "v34"
+            ]
+          ]
+        }
+      },
+      "flat": 0,
+      "kind": "accepted"
+    },
+    {
+      "canonical": {
+        "components": [
+          {
+            "outward_vertices": [
+              "d6"
+            ],
+            "rootward_port": "d6",
+            "vertices": [
+              "d6",
+              "c",
+              "z",
+              "b1",
+              "b2",
+              "a",
+              "P0",
+              "P1",
+              "v34",
+              "x0"
+            ]
+          },
+          {
+            "outward_vertices": [],
+            "rootward_port": "u",
+            "vertices": [
+              "u",
+              "x1"
+            ]
+          },
+          {
+            "outward_vertices": [],
+            "rootward_port": "v",
+            "vertices": [
+              "v",
+              "y0",
+              "y3"
+            ]
+          },
+          {
+            "outward_vertices": [],
+            "rootward_port": "p",
+            "vertices": [
+              "p",
+              "q"
+            ]
+          }
+        ],
+        "edges": [
+          [
+            "d6",
+            "c",
+            6
+          ],
+          [
+            "d6",
+            "P0",
+            27
+          ],
+          [
+            "c",
+            "z",
+            7
+          ],
+          [
+            "c",
+            "P1",
+            22
+          ],
+          [
+            "z",
+            "b1",
+            1
+          ],
+          [
+            "z",
+            "b2",
+            2
+          ],
+          [
+            "z",
+            "a",
+            10
+          ],
+          [
+            "b2",
+            "v34",
+            34
+          ],
+          [
+            "P0",
+            "x0",
+            20
+          ],
+          [
+            "u",
+            "x1",
+            24
+          ],
+          [
+            "v",
+            "y0",
+            16
+          ],
+          [
+            "v",
+            "y3",
+            19
+          ],
+          [
+            "p",
+            "q",
+            32
+          ]
+        ],
+        "owner_status": {
+          "16": [
+            "v",
+            "y0"
+          ],
+          "18": "NOT_L",
+          "19": [
+            "v",
+            "y3"
+          ],
+          "20": [
+            "P0",
+            "x0"
+          ],
+          "21": "NOT_L",
+          "24": [
+            "u",
+            "x1"
+          ],
+          "25": "NOT_L",
+          "26": "NOT_L",
+          "32": "NOT_L",
+          "34": [
+            "b2",
+            "v34"
+          ],
+          "35": [
+            "y0",
+            "y3"
+          ],
+          "36": [
+            "z",
+            "v34"
+          ],
+          "37": [
+            "b1",
+            "v34"
+          ],
+          "5": "NOT_L"
+        },
+        "owners_h37": {
+          "16": [
+            [
+              "v",
+              "y0"
+            ]
+          ],
+          "19": [
+            [
+              "v",
+              "y3"
+            ]
+          ],
+          "20": [
+            [
+              "P0",
+              "x0"
+            ]
+          ],
+          "24": [
+            [
+              "u",
+              "x1"
+            ]
+          ],
+          "34": [
+            [
+              "b2",
+              "v34"
+            ]
+          ],
+          "35": [
+            [
+              "y0",
+              "y3"
+            ]
+          ],
+          "36": [
+            [
+              "z",
+              "v34"
+            ]
+          ],
+          "37": [
+            [
+              "b1",
+              "v34"
+            ]
+          ]
+        }
+      },
+      "flat": 1,
+      "kind": "accepted"
+    },
+    {
+      "canonical": {
+        "components": [
+          {
+            "outward_vertices": [
+              "c"
+            ],
+            "rootward_port": "d6",
+            "vertices": [
+              "d6",
+              "c",
+              "z",
+              "b1",
+              "b2",
+              "a",
+              "P0",
+              "P1",
+              "v34",
+              "x0"
+            ]
+          },
+          {
+            "outward_vertices": [],
+            "rootward_port": "u",
+            "vertices": [
+              "u",
+              "x1"
+            ]
+          },
+          {
+            "outward_vertices": [],
+            "rootward_port": "v",
+            "vertices": [
+              "v",
+              "y0",
+              "y3"
+            ]
+          },
+          {
+            "outward_vertices": [],
+            "rootward_port": "p",
+            "vertices": [
+              "p",
+              "q"
+            ]
+          }
+        ],
+        "edges": [
+          [
+            "d6",
+            "c",
+            6
+          ],
+          [
+            "d6",
+            "P0",
+            27
+          ],
+          [
+            "c",
+            "z",
+            7
+          ],
+          [
+            "c",
+            "P1",
+            22
+          ],
+          [
+            "z",
+            "b1",
+            1
+          ],
+          [
+            "z",
+            "b2",
+            2
+          ],
+          [
+            "z",
+            "a",
+            10
+          ],
+          [
+            "b2",
+            "v34",
+            34
+          ],
+          [
+            "P0",
+            "x0",
+            20
+          ],
+          [
+            "u",
+            "x1",
+            24
+          ],
+          [
+            "v",
+            "y0",
+            16
+          ],
+          [
+            "v",
+            "y3",
+            19
+          ],
+          [
+            "p",
+            "q",
+            32
+          ]
+        ],
+        "owner_status": {
+          "16": [
+            "v",
+            "y0"
+          ],
+          "18": "NOT_L",
+          "19": [
+            "v",
+            "y3"
+          ],
+          "20": [
+            "P0",
+            "x0"
+          ],
+          "21": "NOT_L",
+          "24": [
+            "u",
+            "x1"
+          ],
+          "25": "NOT_L",
+          "26": "NOT_L",
+          "32": "NOT_L",
+          "34": [
+            "b2",
+            "v34"
+          ],
+          "35": [
+            "y0",
+            "y3"
+          ],
+          "36": [
+            "z",
+            "v34"
+          ],
+          "37": [
+            "b1",
+            "v34"
+          ],
+          "5": "NOT_L"
+        },
+        "owners_h37": {
+          "16": [
+            [
+              "v",
+              "y0"
+            ]
+          ],
+          "19": [
+            [
+              "v",
+              "y3"
+            ]
+          ],
+          "20": [
+            [
+              "P0",
+              "x0"
+            ]
+          ],
+          "24": [
+            [
+              "u",
+              "x1"
+            ]
+          ],
+          "34": [
+            [
+              "b2",
+              "v34"
+            ]
+          ],
+          "35": [
+            [
+              "y0",
+              "y3"
+            ]
+          ],
+          "36": [
+            [
+              "z",
+              "v34"
+            ]
+          ],
+          "37": [
+            [
+              "b1",
+              "v34"
+            ]
+          ]
+        }
+      },
+      "flat": 2,
+      "kind": "accepted"
+    },
+    {
+      "canonical": {
+        "components": [
+          {
+            "outward_vertices": [
+              "d6",
+              "c"
+            ],
+            "rootward_port": "d6",
+            "vertices": [
+              "d6",
+              "c",
+              "z",
+              "b1",
+              "b2",
+              "a",
+              "P0",
+              "P1",
+              "v34",
+              "x0"
+            ]
+          },
+          {
+            "outward_vertices": [],
+            "rootward_port": "u",
+            "vertices": [
+              "u",
+              "x1"
+            ]
+          },
+          {
+            "outward_vertices": [],
+            "rootward_port": "v",
+            "vertices": [
+              "v",
+              "y0",
+              "y3"
+            ]
+          },
+          {
+            "outward_vertices": [],
+            "rootward_port": "p",
+            "vertices": [
+              "p",
+              "q"
+            ]
+          }
+        ],
+        "edges": [
+          [
+            "d6",
+            "c",
+            6
+          ],
+          [
+            "d6",
+            "P0",
+            27
+          ],
+          [
+            "c",
+            "z",
+            7
+          ],
+          [
+            "c",
+            "P1",
+            22
+          ],
+          [
+            "z",
+            "b1",
+            1
+          ],
+          [
+            "z",
+            "b2",
+            2
+          ],
+          [
+            "z",
+            "a",
+            10
+          ],
+          [
+            "b2",
+            "v34",
+            34
+          ],
+          [
+            "P0",
+            "x0",
+            20
+          ],
+          [
+            "u",
+            "x1",
+            24
+          ],
+          [
+            "v",
+            "y0",
+            16
+          ],
+          [
+            "v",
+            "y3",
+            19
+          ],
+          [
+            "p",
+            "q",
+            32
+          ]
+        ],
+        "owner_status": {
+          "16": [
+            "v",
+            "y0"
+          ],
+          "18": "NOT_L",
+          "19": [
+            "v",
+            "y3"
+          ],
+          "20": [
+            "P0",
+            "x0"
+          ],
+          "21": "NOT_L",
+          "24": [
+            "u",
+            "x1"
+          ],
+          "25": "NOT_L",
+          "26": "NOT_L",
+          "32": "NOT_L",
+          "34": [
+            "b2",
+            "v34"
+          ],
+          "35": [
+            "y0",
+            "y3"
+          ],
+          "36": [
+            "z",
+            "v34"
+          ],
+          "37": [
+            "b1",
+            "v34"
+          ],
+          "5": "NOT_L"
+        },
+        "owners_h37": {
+          "16": [
+            [
+              "v",
+              "y0"
+            ]
+          ],
+          "19": [
+            [
+              "v",
+              "y3"
+            ]
+          ],
+          "20": [
+            [
+              "P0",
+              "x0"
+            ]
+          ],
+          "24": [
+            [
+              "u",
+              "x1"
+            ]
+          ],
+          "34": [
+            [
+              "b2",
+              "v34"
+            ]
+          ],
+          "35": [
+            [
+              "y0",
+              "y3"
+            ]
+          ],
+          "36": [
+            [
+              "z",
+              "v34"
+            ]
+          ],
+          "37": [
+            [
+              "b1",
+              "v34"
+            ]
+          ]
+        }
+      },
+      "flat": 3,
+      "kind": "accepted"
+    }
+  ],
+  "schema_version": "literal-low-v3-owner-status",
+  "scope": {
+    "all_outward_masks_for_valid_bases": true,
+    "all_ports_for_valid_bases": true,
+    "e_values": [
+      2
+    ],
+    "m_values": [
+      2
+    ],
+    "valid_ranks": [
+      46853,
+      46854,
+      46855,
+      47136,
+      47160,
+      47946,
+      48075
+    ],
+    "workload_shard_count": 128,
+    "workload_shard_index": 2
+  },
+  "sentinel_raw": 0,
+  "sentinel_reason_counts": {},
+  "source_merge_payload_sha256": "8ee646dcf15db200fbd460be7448c13f388d07032f08913eef1c1b115a753e2f",
+  "source_validity_merge_sha256": "3d4a620b16ae6fc80288c88106e6d7023e74bc52bdf7eb04c6e7590136da498c",
+  "status": "VERIFIED_M2_E2_INCIDENCE_WORKLOAD_SHARD_GENERATOR",
+  "trust_boundary": "Exactly the valid-rank list in this workload-plan shard is expanded, in committed rank order. No invalid descriptor is permitted in workload mode.  This artifact does not by itself certify other workload shards, the global incidence merge, independent replay, universal S2 orbit completeness, L-surjectivity, high completion, or Leech-tree nonexistence.",
+  "workload_plan_payload_sha256": "7fe9f364739105c804748ba77aadb157bd53740c012ba9d26f3f6a6d4f82acb6",
+  "workload_plan_sha256": "582e15d04aae4339bbfb7cdb87e1a5da066f0ea09e10239ae5eb46996f4475c4"
+}
