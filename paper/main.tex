@@ -1150,7 +1150,14 @@ respectively,
 &\{7,11,13,27,32,43,48,49,50,53,58\},\\
 &\{7,11,13,27,36,43,48,49,50,53,58\}.
 \end{align*}
-Moreover $M(13)\le 105$.
+Moreover $M(13)\le 110$, witnessed by
+\[
+  0\text{--}1{:}1,\ 0\text{--}2{:}2,\ 3\text{--}4{:}4,\ 5\text{--}6{:}5,\
+  0\text{--}3{:}6,\ 5\text{--}7{:}13,\ 8\text{--}9{:}14,\ 4\text{--}8{:}15,
+\]
+\[
+  6\text{--}9{:}16,\ 8\text{--}10{:}17,\ 9\text{--}11{:}37,\ 9\text{--}12{:}69 .
+\]
 \end{theorem}
 
 The computations behind Theorem~\ref{thm:mdd} are as follows (all on the cluster
@@ -1183,9 +1190,17 @@ the aggregate search contained $1{,}020{,}925{,}849{,}186$ nodes, and it found
 exactly the two trees printed in Theorem~\ref{thm:mdd}.  Their distance sets were
 recomputed independently by both breadth-first and rooted-depth/LCA checkers.
 Together with the exhaustive exclusions through $D=76$, this proves
-$M(12)=77$.  Appending one leaf to the $n=12$ witness with $D=79$ gives a
-$13$-vertex distinct distance tree of maximum distance $105$, whence
-$M(13)\le 105$ (Calhoun: $119$).
+$M(12)=77$.  Appending the leaf $9\text{--}12{:}69$ to the $12$-vertex
+witness of maximum distance $78$ displayed above gives the $13$-vertex tree
+printed in Theorem~\ref{thm:mdd}, whose $78$ distances are distinct with
+maximum $110$; we verified it by two independent distance computations, a
+traversal and a lowest-common-ancestor path sum.  An earlier run of this project
+recorded the bound $M(13)\le105$, by appending a leaf of weight $62$ to a
+$12$-vertex witness of maximum distance $79$; that witness was not archived and
+we have not been able to recover it, so we withdraw the bound $105$ and state
+only what we can exhibit.  Either way the bound improves the $M(13)\le119$ of
+\cite{Calhoun2007}; whence
+$M(13)\le 110$ (Calhoun: $119$).
 
 \subsection{Modular Leech trees: none of order 9 or 11, but two of order 5}
 \label{sec:modular}

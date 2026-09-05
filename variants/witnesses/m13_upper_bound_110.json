@@ -1,0 +1,10 @@
+{
+  "claim": "M(13) <= 110",
+  "description": "A 13-vertex tree with positive integer edge weights whose 78 pairwise distances are distinct, with maximum 110. Obtained by appending the leaf 9--12 of weight 69 to the 12-vertex witness of maximum distance 78 recorded in variants/RESULTS.md.",
+  "n": 13,
+  "max_distance": 110,
+  "edges": [[0,1,1],[0,2,2],[3,4,4],[5,6,5],[0,3,6],[5,7,13],[8,9,14],[4,8,15],[6,9,16],[8,10,17],[9,11,37],[9,12,69]],
+  "distances": [1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19,21,25,26,27,29,30,31,32,33,34,35,36,37,39,40,41,42,43,44,45,47,48,49,50,51,52,53,54,55,56,57,58,60,61,62,63,65,66,67,68,69,70,71,73,74,75,76,77,78,83,85,90,98,100,102,103,106,108,109,110],
+  "verification": "Checked by two independent computations: a traversal from every vertex, and a lowest-common-ancestor path sum from a rooted parent array. Both give the same 78 values; all are distinct and positive.",
+  "note": "An earlier run of this project recorded M(13) <= 105 by appending a leaf of weight 62 to a 12-vertex witness of maximum distance 79. That witness was not archived and could not be recovered, so the bound 105 is withdrawn and only the exhibited bound 110 is claimed."
+}
