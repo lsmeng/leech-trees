@@ -44,3 +44,8 @@ theory-lab/topwindow/
 theory-lab/exp-families/
 theory-lab/scratch_*.py
 tmp/
+# working backups and LaTeX build leftovers, never part of a deposit
+*.bak-*
+.DS_Store
+paper/_*
+*.synctex.gz
