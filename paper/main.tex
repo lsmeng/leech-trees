@@ -47,7 +47,7 @@
   \small Department of Earth, Planetary, and Space Sciences,\\[-2pt]
   \small University of California, Los Angeles, CA 90095, USA\\[-2pt]
   \small \texttt{lsmeng@g.ucla.edu}}
-\date{Draft of 4 September 2026}
+\date{Draft of 6 September 2026}
 
 \hypersetup{
   pdftitle={There is no Leech tree on 18 vertices, and no Leech spider of order at least five, with a leaf-deletion bound at order 25},
@@ -60,62 +60,32 @@
 \begin{abstract}
 A \emph{Leech tree} of order $n$ is a tree on $n$ vertices with positive integer
 edge weights whose $\bin n2$ pairwise path-weights are exactly $1,2,\dots,\bin n2$.
-Leech (1975) found five such trees, of orders $2,3,4,4,6$; Taylor (1977) showed
-that the order must be a square or a square plus two; computer searches by
-Sz\'ekely, Wang and Zhang (2005) and by Calhoun, Ferland, Lister and Polhill (2007)
-excluded the admissible orders $9$, $11$ and $16$, so that $n=18$ has been the
-smallest open order.  We show that there is no Leech tree on $18$ vertices.
+Leech (1975) found five, of orders $2,3,4,4,6$; Taylor (1977) showed that the
+order must be a square or a square plus two; earlier searches excluded the
+admissible orders $9$, $11$ and $16$, leaving $18$ as the smallest open order.
 
-The same conclusion has been reached independently and concurrently by
-Ghodsi~\cite{Ghodsi2026}, by a method that shares nothing with ours: a Lean~4
-formalisation reduces any hypothetical example to eight first-edge
-configurations, each of which is then closed by a $\mathrm{C}\texttt{++}$
-exhaustive search, about $8.6\times10^9$ search-node visits in total.  The
-public chronology is that the shard-complete zero result of the present search
-was committed on 18 August 2026 and the repository made public on 20 August, and
-that \cite{Ghodsi2026} appeared on 24 August; we record this for the reader's
-orientation and make no priority claim from it.  Two independent
-computer-assisted proofs of the same non-existence, resting on different
-reductions and different trusted bases, are worth more than either alone, and we
-recommend reading them together.  The
-proof is an exhaustive computer search over ``forced forests'' in the sense of
-Calhoun et al., organised so that every weighted forest that can occur as the set
-of lightest edges of a Leech tree is generated exactly once up to isomorphism.
-The search tree has $59{,}779{,}854{,}336$ nodes and contains no tree on $18$
-vertices; its per-level node counts are a mathematical invariant (the number of
-non-isomorphic forced forests with a given number of edges) which we report and
-whose total was reproduced bit-for-bit by three independent runs on two
-architectures and two compilers, with the per-level counts themselves
-reproduced by two of those runs and by an independent clean-room implementation
-written from the algorithm description alone.  A separate computer-assisted argument proves
-that no spider of order $n\ge5$ is a Leech tree.  Starting from the two largest
-leg tips, it closes a ten-value top-distance relaxation in the regular region,
-uses affine exact search for the two boundary strips, and checks the finite base
-$5\le n\le15$ exactly; the affine computation is recomputed by a second
-implementation that shares no code with the first.  We also record the same
-forest statistics for $n\le 17$, where the search reproduces the known results,
-and discuss what would be needed to turn the computations into formally
-checkable certificates.
+We prove that there is no Leech tree on $18$ vertices, by an exhaustive
+generation of forced forests over all $123{,}867$ trees of that order.  The
+search visits $59{,}779{,}854{,}336$ nodes and returns no survivor; its
+per-level counts were reproduced by independent runs and by a clean-room
+implementation written from the algorithm description alone.  The same
+conclusion was reached independently and concurrently by Ghodsi, through a
+different reduction and a different trusted base.  We also prove that no spider
+of order $n\ge5$ is a Leech tree, by a finite exact analysis of the largest
+distances together with independently implemented checks.
+
 For the next admissible order $n=25$ we prove a structural bound rather than a
-non-existence result.  Deleting a leaf $\ell$ from a Leech tree leaves a
-spectrum identity which forces the rooted depths of $T-\ell$ to contain a long
-block of consecutive values, and the pairs inside that block are so crowded that
-the block cannot be long: at $n=25$ this gives
-$\diam(T-\ell)\ge 281$ for every leaf $\ell$, unconditionally.  Only the two
-endpoints of the unique diametral pair carry information, and we show that they
-can be named so that $\diam(T-b)=299$ and $\diam(T-a)\le 298$.  Four finite
-searches, described with their certificates, raise the lower bound to $285$, so
-that the order-$25$ problem is reduced to fourteen values of one explicit finite
-normal form.
-Variants of the same two engines settle several neighbouring questions: for the
-minimal distinct distance trees of Calhoun et al.\ we obtain $M(11)=60$, with
-exactly two minimal trees, and $M(12)=77$, again with exactly two minimal trees
-(their bounds were
-$59\le M(11)\le 77$, $69\le M(12)\le 94$); there is no modular Leech tree of
-order $9$ or of order $11$, while modular Leech trees of order $5$ do exist,
-contrary to a statement quoted in the literature; and there are exactly six
-leaf-Leech trees with six leaves, five of which contain an irreducible vertex,
-which answers Question 3.1 of Ozen, Wang and Yalman in the affirmative.
+non-existence result: deleting a leaf $\ell$ forces a block of consecutive
+rooted depths whose pairs are too crowded for the block to be long, so that
+$\diam(T-\ell)\ge281$ for every leaf, unconditionally.  Four finite certified
+searches raise this to $285$, reducing order $25$ to fourteen values of one
+explicit finite normal form; we make no claim that order $25$ is settled.
+
+Variants of the same engines settle neighbouring questions: $M(11)=60$ and
+$M(12)=77$ for the minimal distinct-distance trees of Calhoun et al., each with
+exactly two minimal trees; there is no modular Leech tree of order $9$ or $11$,
+while order $5$ does admit them, contrary to a statement in the literature; and
+there are exactly six leaf-Leech trees with six leaves.
 \end{abstract}
 
 \noindent\textbf{Keywords.} Leech tree, Leech spider, perfect distance tree,
@@ -199,7 +169,14 @@ No spider of order $n\ge5$ is a Leech tree.
 Theorem~\ref{thm:spider} is also computer-assisted, but its finite computation
 has only thousands of states.  Its main point is a uniform ``top window'': once
 the two largest leg tips are fixed, every attempted Leech labelling fails while
-realising a bounded number of distances immediately below $N=\bin n2$.
+realising a bounded number of distances immediately below $N=\bin n2$.  A star
+is the spider all of whose legs have length one, so Theorem~\ref{thm:spider}
+contains \cite[Thm.~1.1]{LuoYu2024}, which states that there is no Leech star of
+order $n\ge5$ and which was proved there by an elementary argument; the same
+paper rules out diameter~$3$ for $n\ge7$ and shows that there are at most
+finitely many diameter-$4$ Leech trees.  Spiders are unbounded in diameter, and
+the difficulty the top window addresses is exactly that a long leg cannot be
+handled one distance at a time.
 
 The proof of Theorem~\ref{thm:main} is a computer search.  Its mathematical
 content is small---the forcing
@@ -390,7 +367,13 @@ positive integers with this property (pairwise sums of \emph{distinct} elements
 distinct and different from the elements) \emph{star-Sidon}.  Let $S(d)$ be the
 minimum of $a_{d-1}+a_d$ over star-Sidon sets of size $d$; then
 $S(d)\le a_{d-1}+a_d\le N+1-b_{(1)}b_{(2)}$, where $b_{(1)}\le b_{(2)}$ are the
-two smallest branch sizes at $v$.  Exhaustive computation gives
+two smallest branch sizes at $v$.  Since $a_{d-1}+a_d$ is the largest sum,
+$S(d)$ is the least $T$ admitting a star-Sidon set of size $d$ with all elements
+and sums at most $T$, so each entry of the table below is certified by a witness
+at $T=S(d)$ and by an exhaustive refutation at $T=S(d)-1$.  Exhaustive
+computation (\file{src/star\_\bk sidon\_\bk table.c}, reproduced for $d\le9$ by
+the independent Python implementation \file{src/star\_\bk sidon\_\bk table.py};
+output in \file{results/star\_\bk sidon\_\bk table.csv}) gives
 \begin{center}
 \begin{tabular}{@{}l*{11}{r}@{}}
 \toprule
@@ -420,11 +403,16 @@ also follows from an exhaustive search over star-Sidon sets with all elements
 and sums $\le 153$, which finds a set of size $11$ (e.g.\
 $\{1,2,4,7,12,23,32,41,56,70,83\}$) and none of size $12$.
 Lemma~\ref{lem:sidon} is a finite, explicit version of the idea behind
-\cite[Thm.~3]{SzekelyWangZhang2005} and, we believe, of \cite{LuoYu2024}; we
-could not access the text of \cite{LuoYu2024} beyond its abstract and therefore
-make no claim of priority.  The abstract states that their maximum-degree
-result improves \cite[Thm.~3]{SzekelyWangZhang2005}; a theorem-by-theorem
-comparison with Lemma~\ref{lem:sidon} requires access to the full paper.
+\cite[Thm.~3]{SzekelyWangZhang2005}, and we claim no priority for that idea.
+The sharpest asymptotic form is \cite[Thm.~1.4]{LuoYu2024}: for every fixed
+$k$, the $k$ largest degrees of a Leech tree of order $n$ satisfy
+$d_1^2+\dots+d_k^2\le(\tfrac14+o(1))n^2$, whence
+$\Delta\le(\tfrac12+o(1))n$, improving the bound
+$\Delta\le(\tfrac1{\sqrt2}+o(1))n$ of \cite{SzekelyWangZhang2005} and its
+erratum.  The two statements do different work.  Theirs is asymptotic and says
+nothing at a single order; ours is explicit and finite, and it is the finite
+form that the proof of Theorem~\ref{thm:main} uses, since at $n=18$ it is the
+concrete inequality $S(12)=169>153$ that removes degree $12$.
 \end{remark*}
 
 \begin{lemma}[weight bounds; {\cite[Thms.~2.8, 2.9]{Calhoun2007}}]\label{lem:weights}
@@ -1599,6 +1587,106 @@ $d(u,v)\le N-f(u)-e(v)\le N-3$ for every pair avoiding $a$ and $b$.  A pair of
 $T-a$ realising $N-2$ therefore cannot avoid $b$.
 \end{proof}
 
+The last statement of Theorem~\ref{thm:endpoint} holds for every value of the
+deleted diameter, not only for $N-2$, and the same identity locates the other
+end of the diametral pair of $T-a$ and bounds the pendant weight at $a$.
+
+\begin{corollary}[the second end of $T-a$]\label{cor:secondend}
+Keep the naming of Theorem~\ref{thm:endpoint}, let $\delta=\diam(T-a)$,
+$m=N-\delta$, and let $W$ be the set of the $m$ vertices $u$ with
+$d(a,u)>\delta$, so that $u\mapsto d(a,u)$ is a bijection from $W$ onto
+$\{\delta+1,\dots,N\}$.
+\begin{enumerate}
+\item[(a)] The unique pair of $T-a$ at distance $\delta$ contains $b$.
+Equivalently $\delta=N-\min\{f(u):u\notin\{a,b\}\}$: there is a unique vertex
+$y$ with $f(y)=m$, it is the only vertex with $d(b,y)=\delta$, and
+$d(a,y)=m+2h(y)$.
+\item[(b)] The neighbour $a_1$ of $a$ satisfies $w(aa_1)=f(a_1)\ge m$, with
+equality if and only if $y=a_1$.
+\item[(c)] Let $m\ge2$ and let $x_0$ be the last vertex common to the paths
+from $a$ to the members of $W$.  Every vertex $x\notin W$ on the $a$--$x_0$
+path, at distance $p$ from $a$, has $\{d(x,u):u\in W\}=
+\{\delta-p+1,\dots,\delta-p+m\}$, a run of $m$ consecutive distances; hence
+two such vertices are at distance at least $m$ apart, every edge of the
+$a$--$x_0$ path has weight at least $m$, and
+$d(a,x_0)\le\bigl(2N-1-\bin m2\bigr)/2$, improving to
+$\bigl(2N-1-\bin{m+1}2\bigr)/2$ when $x_0\notin W$.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(a) Let $x,y\notin\{a,b\}$ be labelled so that $p(x)\le p(y)$.  The pair
+$\{b,x\}$ avoids $a$, so $d(b,x)\le\delta$ and $f(x)\ge N-\delta=m$; also
+$e(y)\ge1$.  The identity in the proof of Theorem~\ref{thm:endpoint} gives
+$d(x,y)\le N-f(x)-e(y)\le\delta-1$.  So no pair avoiding both $a$ and $b$
+realises $\delta$; the pair realising it avoids $a$ by definition, hence
+contains $b$.  Writing it as $\{b,y\}$, $f(y)=N-\delta=m$, and no $f$ is
+smaller because $d(b,u)\le\delta$ for all $u\ne a$; $f$ is injective since the
+$d(b,u)$ are distinct.  Finally $d(a,y)=N+2h(y)-d(b,y)$.
+
+(b) The leaf $a$ has a unique neighbour $a_1$, which lies on the $a$--$b$ path
+at position $p(a_1)=w(aa_1)$ and height $0$, so $f(a_1)=w(aa_1)$, and
+$m=\min f\le f(a_1)$, with equality exactly when $a_1$ is the vertex $y$.
+
+(c) A vertex $x$ on the $a$--$x_0$ path lies on the path from $a$ to every
+$u\in W$, so $d(x,u)=d(a,u)-p$, and the values $d(a,u)$ run through
+$\delta+1,\dots,N$.  If $x\ne x'$ are two such vertices outside $W$, the pairs
+$\{x,u\}$ and $\{x',u'\}$ with $u,u'\in W$ are all distinct, so the two runs
+are disjoint sets of distances, which forces $|p-p'|\ge m$.
+
+We claim that no vertex of $W$ other than possibly $x_0$ lies on the path.
+Suppose $v\in W$ lies on it.  Then $v$ lies on the path from $a$ to every
+$u\in W$, so $d(a,v)<d(a,u)$ for $u\ne v$, which forces $d(a,v)=\delta+1$ and
+$\{d(v,u):u\in W\setminus\{v\}\}=\{1,\dots,m-1\}$.  If $m=2$ then
+$W=\{v,b\}$ and the path from $a$ to $b$ passes through $v$, so $x_0=v$.  If
+$m\ge3$, let $u_1$ be the member with $d(v,u_1)=1$; if $v\ne x_0$ then $x_0$
+lies on the $v$--$u_1$ path beyond $v$, so $x_0=u_1$ and $d(v,x_0)=1$, and
+every other member $u'$ has $d(x_0,u')=d(v,u')-1\in\{1,\dots,m-2\}$ with
+$d(x_0,u')\ne1=d(v,x_0)$: that is $m-2$ distinct values in the $m-3$ slots
+$\{2,\dots,m-2\}$, impossible.  Hence $v=x_0$.
+
+The edge bound now follows for every edge of the path whose ends are both
+outside $W$.  If $x_0\in W$, the last edge $x'x_0$ needs one more word: then
+$\{d(x_0,u):u\in W\setminus\{x_0\}\}=\{1,\dots,m-1\}$ as above, so a weight
+$w(x'x_0)<m$ would equal some $d(x_0,u')$ and the distinct pairs $\{x',x_0\}$
+and $\{x_0,u'\}$ would be at the same distance.  For the depth bound, the $\bin m2$ distances inside $W$ (and
+the further $m$ distances from $x_0$ to $W$ when $x_0\notin W$) are distinct
+positive integers, each at most $N+(N-1)-2d(a,x_0)$, since two members of $W$
+have $d(u,v)=d(a,u)+d(a,v)-2d(a,z)$ with $z$ their last common ancestor at
+depth at least $d(a,x_0)$.
+\end{proof}
+
+In the normal form of Section~\ref{sec:crowdcert} part (b) reads
+$s\ge N-\delta$, and part (c) says that the low vertices between the root and
+the last common ancestor of the high block are spaced at least $N-\delta$
+apart; neither was imposed in the searches reported below, which enumerate the
+full range of $s$.
+
+\begin{remark}[moment identities]\label{rem:moments}
+Taylor's parity argument (Lemma~\ref{lem:taylor}) is the value at $z=-1$ of
+the polynomial identity $\sum_{u<v}z^{d(u,v)}=z+z^2+\dots+z^N$, which a Leech
+tree satisfies exactly.  Its first derivatives are linear in the edge weights
+once residues are fixed.  At $z=1$ one gets the cut form of the Wiener index,
+$\sum_e w_e\,|A_e|\,(n-|A_e|)=\bin{N+1}2$, where $A_e$ is one side of the edge
+$e$.  At $z=-1$, with $\sigma_v=(-1)^{d(o,v)}$ for a root $o$, $S=\sum_v\sigma_v$
+and $q_e=\sum_{v\in A_e}\sigma_v$, one gets
+\[
+  \sum_{u<v}(-1)^{d(u,v)}\,d(u,v)=\sum_e w_e\,q_e\,(S-q_e)
+  =\begin{cases} N/2,& N \text{ even},\\ -(N+1)/2,& N \text{ odd},\end{cases}
+\]
+because $(-1)^{d(u,v)}=\sigma_u\sigma_v$ and a path crossing $e$ contributes
+$w_e$ once.  Once the parities of the depths are fixed this is a second integer
+linear equation in the depths, valid for every $\delta$.  We have not found it
+in the literature on Leech trees; it was suggested, in this form, by an OpenAI
+model consulted during the preparation of this paper (2026-09-04), and we
+verified it on the five known Leech trees and on random weighted trees.  Wired
+into the depth phase of the class search together with the Wiener equation,
+however, it changed the node counts of the $\delta=284$ records by less than
+one part in a hundred: with seven or more free depths the two-equation system
+is almost always solvable, and the exact test at complete assignments is
+subsumed by the distance check.  It bites only when few depths are free.
+\end{remark}
+
 Theorem~\ref{thm:endpoint} says that all the information in
 Lemma~\ref{lem:topblock} is concentrated in one leaf.  Deleting any leaf other
 than $a$ or $b$ leaves the diameter at $N$; deleting $b$ leaves it at exactly
@@ -2221,9 +2309,10 @@ counts as the reproducible artefact that a sceptical reader should target.
 
 \paragraph{What remains.}
 The next admissible orders are $n=25$ ($N=300$) and $n=27$ ($N=351$).
-Extrapolating the growth factor of $6.5$--$7$ per unit of $n$ gives of the
-order of $10^{16}$--$10^{17}$ nodes at $n=25$, which is beyond the present
-method by four to five orders of magnitude; new pruning ideas (for instance
+Extrapolating the measured growth factors (Table~\ref{tab:small} and the
+completed $n=19$, $n=20$ runs below: $7.93$ and $8.19$ per unit of $n$, still
+rising) gives $1.4\times10^{17}$--$2.2\times10^{17}$ nodes at $n=25$, which is
+beyond the present method by four to five orders of magnitude; new pruning ideas (for instance
 exploiting the top-value structure and the parity classes inside the forest
 search, or a meet-in-the-middle over the smallest and largest weights) or a
 genuinely different argument would be needed.  Whether Leech's five trees are
@@ -2242,11 +2331,16 @@ constraint \eqref{eq:parity25}.  A separate pilot of a rooted-depth exact
 search for the remaining normal-form cases
 (\file{theory-lab/depth\_search/}, validated against the known results for
 $n\le11$) puts the cost of $\delta\ge286$ under its present pruning at well over
-$10^{12}$ CPU-hours, while the increasing-weight forest engine of this paper
-extrapolates to $10^{6}$--$10^{7}$ CPU-hours at order $25$ (the same
-$10^{16}$--$10^{17}$ nodes as above, at the measured $0.3\,\mu$s per node); we
-therefore do not expect the fourteen cases $\delta\in[285,298]$ to fall to
-direct search, and regard new structural input as the thing that is missing.
+$10^{12}$ CPU-hours, while the increasing-weight forest engine of this paper, run to completion
+at $n=19$ and $n=20$ on the cluster to measure the trend (respectively
+$4.74\times10^{11}$ and $3.88\times10^{12}$ unique nodes, no survivors, $61$ and
+$510$ CPU-hours at $0.46$--$0.47\,\mu$s per node; growth factors $7.93$ and $8.19$ per
+vertex, continuing the rise of Table~\ref{tab:small}), extrapolates to
+$1.4\times10^{17}$--$2.2\times10^{17}$ nodes and $2\times10^{7}$--$3\times10^{7}$
+CPU-hours at order $25$ according to whether the growth factor is held at
+$8.19$ or continues to rise by $0.27$ per vertex; we therefore do not expect
+the fourteen cases $\delta\in[285,298]$ to fall to direct search, and regard
+new structural input as the thing that is missing.
 One candidate is the additive structure of the top of the spectrum: by the proof
 of Theorem~\ref{thm:endpoint} the deficits $e(u)=N-d(a,u)$ and $f(u)=N-d(b,u)$
 of the two diametral endpoints satisfy $d(u,v)=N-f(u)-e(v)-2h_c$ with
@@ -2267,19 +2361,26 @@ Leech trees rather than a generic solver.
 Anthropic's Claude, OpenAI's ChatGPT and Google's Gemini were used as coding
 and analysis assistants throughout this project.  They implemented and executed
 the processing, reasoning, and statistical code, prepared documentation,
-surveyed literature, and assisted in preparing manuscript text.
+surveyed literature, and assisted in preparing manuscript text.  The author
+reviewed and takes responsibility for all mathematical claims, code and text in
+this paper.
 
 \section{Data and code availability}\label{sec:data}
 
 All of the material below is deposited at
-\url{https://github.com/LSMENG/leech-trees}, on the branch
-\file{deposit-\bk 2026-09-04} and tagged
-\file{v1.0-\bk deposit-\bk 2026-09-04}; that tag is the citable identifier, and
-the commit it resolves to is printed on the release page.  The tag names a
-single curated snapshot rather than the project's working history, because the
-working history contains intermediate files above the hosting limit.  A Zenodo
-DOI minted from the same tag is printed
-here.\todo{insert the Zenodo DOI once the release is archived.}  The archive
+\url{https://github.com/LSMENG/leech-trees}, tagged
+\file{v1.1-\bk deposit-\bk 2026-09-06} and released under that tag; the tag is
+the citable identifier, and the commit it resolves to is printed on the release
+page.  It names a single curated snapshot rather than the project's working
+history, because that history contains intermediate files above the hosting
+limit.  The same snapshot is archived on Zenodo as
+\href{https://doi.org/10.5281/zenodo.22334399}{doi:10.5281/zenodo.22334399};
+that record carries, as a separate file, the per-shard records of the $n=19$ and
+$n=20$ runs quoted in Section~\ref{sec:discussion}
+(\file{forest19\_\bk 20\_\bk shards.\bk tar.gz}, MD5
+\texttt{377e3161\bk 06b89aa7\bk 086919bf\bk 9c4ad659}).  The earlier tag
+\file{v1.0-\bk deposit-\bk 2026-09-04} is left in place unchanged; it predates
+the $n=19$ and $n=20$ runs and the final revision of this paper.  The archive
 deliberately omits one thing: the working artefacts of the top-window programme
 that Section~\ref{sec:crowding} supersedes, about $2.3$\,GB of intermediate JSON
 that no statement in this paper cites.
@@ -2293,8 +2394,12 @@ environment and the one command that regenerates the proof files themselves
 (they run to gigabytes and are not deposited); the frozen list of the
 $123{,}867$ trees
 of order $18$ with the two-generator cross-check; the per-shard output records
-and depth histograms of the $n=18$ runs and of the $n\le 17$ runs; the verdict
-scripts; and the referee reports on which Section~\ref{sec:verification} is
+and depth histograms of the $n=18$ runs and of the $n\le 17$ runs, together with
+those of the completed $n=19$ and $n=20$ runs of Section~\ref{sec:discussion} and
+the exact source and binary hashes of the engine that produced them; the
+star-Sidon table generators \file{star\_\bk sidon\_\bk table.c} and
+\file{star\_\bk sidon\_\bk table.py} of Lemma~\ref{lem:sidon} with their output;
+the verdict scripts; and the referee reports on which Section~\ref{sec:verification} is
 based.  The spider directory contains the exact, relaxed and affine searches,
 the no-spider verifier, its archived regression transcript, and the independent
 adversarial report.  It also contains, in a separate directory, the modified engines and the
@@ -2315,7 +2420,10 @@ the project and contains the arithmetic verifier
 \file{hoffman2\_s1\_depth\_v7\_array\_slurm.sh}, together with the merged
 outputs and JSON certificates whose SHA-256 digests are quoted in
 Section~\ref{sec:crowdcert}.  Its subdirectory \file{frozen/} holds the final
-revision of each source under a name carrying that file's own SHA-256 prefix.  The five known Leech trees are checked by
+revision of each source under a name carrying that file's own SHA-256 prefix.
+The variant of the depth phase carrying the two moment equations of
+Remark~\ref{rem:moments}, and the scripts that check those identities against
+the five known Leech trees, are deposited beside them.  The five known Leech trees are checked by
 two independent checkers, and every witness produced by any engine in the project
 was passed through both.
 

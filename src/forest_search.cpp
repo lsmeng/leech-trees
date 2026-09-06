@@ -36,7 +36,7 @@ struct BS { u64 w[NW];
   bool inter(const BS& o) const { for (int i = 0; i < NW; i++) if (w[i] & o.w[i]) return true; return false; }
   int lowestMissingIn(const BS& F, int v, int N) const { for (; v <= N; v++) if (F.test(v) && !test(v)) return v; return N + 1; }
 };
-static const int MAXV = 20;
+static const int MAXV = 21;  // was 20; bumped by 1 (pure array-size cap, n>MAXV-1 guard unchanged in meaning) to allow n=20, which the N<=64*NW-2 bound (NW=3) already permits
 static int n, N, E; static long long nodes = 0, nsol = 0, depthHist[40], nodeLimit = -1; static bool printSol = true, aborted = false;
 static int shardI = 0, shardK = 1, shardLevel = 8; static long long shardCnt = 0;
 static int dist_[MAXV][MAXV], comp[MAXV], V; static u32 cm[MAXV]; static BS D0[MAXV]; static int hiD[MAXV];   // D0[x] = {0} U {d(x,x') : x' in comp(x)}

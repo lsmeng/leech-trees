@@ -4492,3 +4492,161 @@ split_11 certificate sha256 2b26eadf7db5e0684d2213d6d70ea7e22dff7d498a493ed1bb9f
   经两种独立方法（遍历法与 LCA 路径和）互验：78 个点对、78 个互异正值、最大 110。
   论文已改：印出边表、写明 105 的撤回理由；机读见证存入
   `variants/witnesses/m13_upper_bound_110.json`。110 仍改进 Calhoun 的 119，主结果不受影响。
+
+## 2026-09-05 Fable 5.1 路线评审：25 阶有没有比 14 个有限情形更好的路？
+
+回答 `docs/INSPECTION-PROMPT.md`，全文在 `docs/fable-route-review-2026-09-05.md`。结论：**没有更便宜的路**；
+δ 阶梯从 δ=287 起单个台阶就超过整题直接搜索的估价（项目自估 285≈1e4 CPU-h、286≈60×，
+按同一台阶增长率外推 287≈5e7 CPU-h，对比 forest engine 整题 1e6–1e7 CPU-h），且结构原因明确：
+crowding 只在 top block ≥20 时咬合，而开放区间 m≤15 是定义使然；δ=298 的 normal form 包含通用
+24 点问题。三条新的小引理（均 PROVED，五棵已知 Leech 树正控通过，独立反驳员未能反驳）：
+(1) 对任意 δ，取到 diam(T−a) 的那一对必含 b，故 δ=N−min F；推论：δ 阶梯恰是双锚引擎"第一个
+F-gap = m"的分支，闭合区间 δ≤284 ⟺ `--force-e-upto 15`；悬挂权 s ≥ m=N−δ（δ=279 时 s≥21）。
+(2) 近图 N_t={d≤t} 对每个 t 都是弦图（子树相交图），是与权无关的配对次序必要条件，未找到咬合点。
+(3) 单位根恒等式 Σ_y z^{−2h(y)}(σ_y²−Σ_c σ_c²)=n 对所有非平凡 N 次单位根成立，推广 Taylor（z=−1）；
+作为 residue 预过滤无用（60^24 状态），是否单独排除 n=25 记为 OPEN。另：g₂=N−diam(T−{a,b})≤46
+（否则 T−{a,b} 是 23 阶 Leech 树，违反 Taylor）；双星两侧 crowding 已算过，退化为原不等式，死路。
+提示词五项逐条判定见文档 §3；建议：要闭合就先跑 n=19、20 测 forest engine 增长因子再决定是否上
+1e6–1e8 CPU-h 的集群战役，δ=285 只作为增量证据收割 `.tmp`，不要启动 286。控制脚本
+`theory-lab/double_end/check_new_lemmas.py`（SHA-256 `2d9ffdcff61aed66b6d62a7c39aa6894f7f2a3036476c85774a772efd6db2bfd`）。
+
+## 2026-09-05 Astra 6 带符号一阶矩：核对与定位
+
+Astra 6（`~/Documents/Codex/leech-ideas-2026-09-04/`）提出 Σ(−1)^d d = 150 及其割边形式
+Σ_e w_e q_e(S−q_e)。我独立重推并在五棵已知树 + 300 棵随机权树上验证：**PROVED、正确、对本项目预筛
+是新的**（`parity_moment_audit.py`/`colored_moment_hall_presolve.py` 只用奇距离个数与无符号和）。
+定位：它是 P(z)=Σz^d ≡ z+…+z^N 的一阶导数在 z=−1 处的值；一般地对非平凡 N 次单位根
+P'(ζ)=−N/(1−ζ)，且割边分解仍成立（跨边对满足 d(u,v)=d(u,x)+w_e+d(y,v)），ζ=i 时固定 mod 4 残类后再得两条
+实线性方程（已数值验证，记 CANDIDATE，因引擎只固定奇偶）。Astra 的电荷恒等式 5M+Σw_e(2a_e−3b_e)²=44400
+正确，但 M 本身未知，其实际内容是不等式 Σ_e w_e(2a_e−3b_e)² ≤ 34050（两奇偶类须在重割边两侧近似按比例混合），
+咬合未测。判定：对全部 14 个台阶有效的 sound 常数因子剪枝，建议按 Astra 所说先接入 δ=285 深度阶段
+（与 Wiener 联立解出最后两个自由深度；mod 8 在放深度前排除奇偶分支）；不改变 §2 的指数增长结论。
+详见 `docs/fable-route-review-2026-09-05.md` §1.5；控制脚本 `theory-lab/double_end/check_signed_moment_family.py`。
+
+## 2026-09-05 计划启动：WP-A1（Opus）与 WP-B1（Sonnet）已起跑；理论 WP 结果
+
+计划文件 `docs/plan-2026-09-05.md`，brief 在 `docs/briefs/`。A1 把 Wiener + 带符号矩接进
+`abstract_class_search`（新文件 `abstract_class_search_moment.cpp`，不动冻结引擎）；B1 在集群跑 forest engine
+n=19、20 测增长因子。理论侧（Fable）：**引理 5（PROVED，全部 δ）**：设 x₀ 为高块 W 的 lca（以 a 为根），
+a→x₀ 路径上每个顶点到 W 的距离是 m 个连续整数的一段，故该路径上相邻顶点深度差 ≥ m=N−δ，每条边权 ≥ m；
+n=6 正控通过。可作 normal form 的免费深度剪枝，尚未接入。WP-C3：P(i)=0 没有 Taylor 式的形状级推论
+（NEGATIVE，星 1,2,3,4 与路径 1,1,1,1 同残类却 mod 4 计数不同；lca 项本质存在）。WP-C1：电荷不等式
+随机放置期望值 ≈45150/4≈11290，仅为上界 34050 的三分之一，预期咬合弱，不做枚举。WP-C2 暂停：
+Σμ≥21630 恰在 W 内距离取 [165,284] 时取等，与其他计数相容，两会话内难有手证。详见评审文档 §1.6、§C。
+
+## 2026-09-05 03:3x EDT 额度再次用尽（5 小时窗口 105%，重置 2026-09-05 07:40 EDT）
+在途：WP-A1（Opus，abstract_class_search_moment.cpp）与 WP-B1（Sonnet，forest n=19/20）两个 agent
+很可能在同一限额上中断；恢复后先看 `docs/briefs/WP-A1-result.md`、`WP-B1-result.md` 是否存在，不存在就按
+brief 重新起跑（brief 不变）。Zenodo：标签页 1386343037 表单已打开、文件输入框已用 JS 显示（aria-label
+`zenodo-file-input-0`），尚未上传任何文件、未填任何字段、未发布。
+
+## 2026-09-05 04:3x EDT Zenodo 草稿就绪（未发布）
+草稿 https://zenodo.org/uploads/22334399；文件 leech-trees-v1.0-deposit-2026-09-04.tar.gz 上传完成，
+Zenodo MD5 58d00b9b9dfe99f6b74c78dedbc81e47 与本地一致；元数据：Software、标题、作者 Meng, Lingsen (UCLA)、
+MIT、7 个关键词（combinatorics 搜索无结果未加）、版本 v1.0 (deposit 2026-09-04)、描述含双许可说明、Public。
+已预留 DOI 10.5281/zenodo.22334399（发布后生效）；论文 §11 最后一个 \todo 已改为该 DOI + MD5。
+**发布为不可逆操作，等用户确认后再点 Publish。**
+
+## 2026-09-05 WP-B1 收割：n=19 完成，n=20 需重投
+n=19（Hoffman2 array 214065，1680 分片全 DONE）：Σnodes = 474,060,441,097，survivors 0，
+`verify_forest_run.py` prefix_ok=True，engine sha256 966438bffb510690，60.74 CPU-h（Elapsed×AllocCPUS，
+sacct 的 TotalCPU 因后台子进程记为 0），即 0.46 µs/节点。**g(19)=nodes19/nodes18=474060441097/59795196608=7.928**，
+增长因子序列 5.71, 5.93, 6.10, 6.38, 6.74, 7.19, 7.59, 7.93 继续上升（每步约 +0.34）。
+n=20（array 214066）用了 MAXV=20 的旧二进制，1680 个分片全部 "n too large for this build"，无数据；
+远程源码已改 MAXV=21 并重编，未验证。已派 WP-B1b：先用 n=17 做正控（须精确等于 7,875,306,893 节点），
+通过后再投 n=20（1680 分片）。结果文件 `docs/briefs/WP-B1-result.md`，分片副本 `results/hoffman2_forest19_20/`。
+**门 G2 的临时判断**：若 g 按 +0.34/步继续升，n=25 ≈ 2.7e17 节点 ≈ 1.2e8 CPU-h；即便 g 停在 7.93 也是
+1.2e17 节点 ≈ 5e7 CPU-h（按实测 0.46 µs/节点）。两者都远超集群可申请规模，G2 倾向 NEGATIVE，待 n=20 定论。
+
+## 2026-09-05 04:5x EDT 状态：agent 全部撞限额（重置 07:10 EDT）；Zenodo 按用户指示暂不发布
+- 用户指示：**等全部定稿后再发 Zenodo**。草稿 22334399 与预留 DOI 10.5281/zenodo.22334399 保持不动。
+- WP-A1：两个 Opus agent（首次与重投）实际同时在跑，互相覆盖了 `abstract_class_search_moment.cpp`，
+  两者都在限额处中断；现存文件（43 KB，04:32）**未经差分验证，不得使用**；重置后按 brief 重做，且一次只起一个。
+- WP-B1b（n=17 正控 + n=20 重投）在起步处中断，未提交作业；`src/forest_search.cpp` 本地出现修改（MAXV 补丁回拷），
+  见下方 diff 记录。geo-ws SSH 超时（Tailscale 可能需重新登录）。笔记本无残留进程。
+
+## 2026-09-06 00:4x EDT WP-B1b：MAXV=21 二进制 n=17 正控通过；n=20 已重投
+Hoffman2 job 217848（n=17，K=210，L=8）：Σnodes 原始和 7,890,649,165，nsol=0。论文 n=17 参考值 7,875,306,893
+是 K=32 的**唯一节点数**（已减去 31 份 73,408 节点的前缀）；换算 K=210：7,875,306,893 + 209×73,408 = 7,890,649,165，
+**精确相符**，MAXV 补丁未改变搜索。n=20 作为 job 217897（1680 分片，240×7）已在跑。顺带换算：n=19 唯一节点数
+= 474,060,441,097 − 1679×73,408 = 473,937,189,065，g(19) 仍为 7.928。
+
+## 2026-09-06 WP-A1 完成：两条线性矩方程接入深度阶段，实测**中性**，门 G1 未过
+新引擎 `abstract_class_search_moment.cpp`（875 行，源 SHA-256 cbf2bc661f4aaaec…，二进制 6d0027e6c412de90…；
+旧基线二进制 0474e4372021b85f…），`--moment-level 0..3`，记录格式不变。正控：order-6 各级都得到同一存活
+（s=8, L=0,4，已知 L6 树）；`--moment-selftest` 5470 组 (s,L) 0 失败；n=5..10 独立 Python 差分 4040 组完整 (s,L)
+中恰 9 组满足 (W)(M)，各级返回同样 9 组；DEPTH_SURVIVOR 差分 n=5..11 全形状与 level 0 一致。
+冻结 δ=284 r8 记录（geo-ws 两次超时，按授权改在笔记本跑 3/10 条，逐条 `nice -n 15`）：leaves/csp_nodes/survivors
+新旧完全一致；耗时 37.7→37.5、47.6→50.9、61.3→55.2 s，**加速 1.01×**；结构级筛除 8/1811、4/2170、0/2736。
+Level 3（DFS 内固定最后两个深度）反而慢 8.7×：CSP 在到达 R−2 层之前就被距离碰撞剪死（mom_pins=0），
+而 DFS 内剪枝使 hroot rho memo 失效（rho_csp_runs 595→9774）。**结论（FINITE VERIFIED）**：r≥8 时 7–8 个自由深度
+的两方程整数系统几乎总可解，Astra 的带符号矩与 Wiener 在本引擎内是 sound 但无收益的检查；它们只在自由深度
+很少时咬合（order 6：22 个结构中 14 个不经深度 DFS 即被杀）。**门 G1 未过（<3×），按计划 δ 阶梯到此为止**，
+WP-A2/A3 不执行；δ=285 若要跑完只能按原成本 ~1e4 CPU-h 作为增量证据，由用户决定。
+
+## 2026-09-06 WP-A3：δ=285 第二波已投（用户批准在 Hoffman2 跑完）
+provenance 由 `sacct -j 118376 SubmitLine` 确认：上次为 `sbatch --array=0-255 hoffman2_s1_depth_v7_array_slurm.sh 15 shapes_r9_exists.txt 5 256 r9`；
+shapes_r9_exists.txt（95 行，sha256 8c2e6a72…），LVL=5，NSPLIT=256，引擎 abstract_class_search7 sha256 29fe1fd705feaf31…（与 09-02 相同，
+未用 moment 引擎）。收割：done=3196、missing=21124（与记录一致）、survivors=0；residual_wave2/ 256 个文件共 21124 行。
+新脚本 `hoffman2_s1_depth_v7_resid_slurm.sh`（sha256 c33d5436…）仅改 per-split shapes 路径、空文件跳过、tag r9_wave2。
+**job 218157** 于 2026-09-05 22:48 PDT 提交，输出 depthv7_r9_wave2/。下一波命令见 `docs/briefs/WP-A3-result.md`。
+
+## 2026-09-06 WP-B1 收官：n=20 完成，g(20)=8.19，**门 G2 判 NEGATIVE**
+Hoffman2 job 217897（n=20，K=1680，L=8，MAXV=21 二进制，n=17 正控已精确通过）：1680/1680 DONE，survivors 0，
+Σnodes 原始 3,883,156,913,714，唯一节点 3,883,033,661,682（减 1679×73,408），510.3 CPU-h（Elapsed×AllocCPUS，0.47 µs/节点）。
+g(20)=3,883,033,661,682/473,937,189,065=**8.193**。序列 5.71, 5.93, 6.10, 6.38, 6.74, 7.19, 7.59, 7.93, 8.19，仍在上升。
+外推 n=25：g 冻结在 8.19 → 1.4e17 节点 ≈ 1.9e7 CPU-h；按 +0.27/步继续升 → 2.2e17 节点 ≈ 2.9e7 CPU-h。
+两者都在 2000 核一年以上，campus 队列不可行；**直接搜索战役不提**，论文 §9 的 1e6–1e7 CPU-h 估计需上调为 2e7–3e7。
+分片记录已拉回 `results/hoffman2_forest19_20/forest20_shards.tgz`。
+n=20 验收：`verify_forest_run.py 20 <dir> 1680 8` → n=20 K=1680 L=8: 1680 DONE records, Σnsol=0, Σnodes=3883156913714, histograms found=1680/1680, prefix_ok=True；engine sha256 966438bffb510690（补丁后源码，与 n=19 验收相同）。
+分片档案 results/hoffman2_forest19_20/forest20_shards.tgz（1680 个文件，sha256 9274bd989138e612…）。
+
+## 2026-09-06 δ=285 第二波取消（用户决定，选项 2）
+实测第一波账目：campus 队列并发 ~100 任务，各跑 17–19.5 h 后取消，平均每任务 32 个 shape，共 3,196 对、约 1,900 CPU-h；
+按此速率全程 ~14,000 CPU-h、剩余 ~12,000 CPU-h，需 5–6 波、约 5 天墙钟。收益仅为 14→13 个开放值，论文三个定理均不依赖。
+job 218157 已 `scancel`（101 个任务 CANCELLED，队列清空），第二波未写出任何 ABSTRACT 行，无可收割内容；
+论文 §8.4 关于 δ=285 的表述（3,196/24,320 对全空、部分证据）维持原状。**δ 阶梯正式终止。**
+
+## 2026-09-06 论文 §8/§9 增补（WP-D2 完成，tectonic 通过，35 页）
+- §8.1 在 Theorem thm:endpoint 之后新增 **Corollary cor:secondend**（"the second end of T−a"）：(a) 取到 δ 的对必含 b，
+  δ=N−min f，y 唯一且 d(a,y)=m+2h(y)；(b) w(aa₁)=f(a₁)≥m，等号当且仅当 y=a₁；(c) a→x₀ 路径上非 W 顶点到 W 的距离是
+  m 个连续整数，相邻顶点距离 ≥m，d(a,x₀)≤(2N−1−C(m,2))/2（x₀∉W 时用 C(m+1,2)）。附完整证明；并注明 normal form 中即
+  s≥N−δ，搜索时未施加此约束。
+- 新增 **Remark rem:moments**：Taylor = 多项式恒等式在 z=−1 的值；一阶导数给 Wiener 割边式与带符号矩
+  Σ(−1)^d d=Σ_e w_e q_e(S−q_e)=N/2（N 偶）；注明文献未见、由 2026-09-04 咨询的 OpenAI 模型提出、本项目验证；
+  并如实写明接入深度阶段后对 δ=284 记录的节点数改变不到 1%。
+- §9 直接搜索成本句改为实测 n=19、20（4.74e11/3.88e12 唯一节点，61/510 CPU-h，0.47 µs/节点，g=7.93/8.19）与
+  外推 1.4e17–2.2e17 节点、2e7–3e7 CPU-h。
+- §11 DOI 10.5281/zenodo.22334399 + MD5 已填，全文无 \todo。备份 main.tex.bak-secondend-*。
+  唯一警告：2365–2413 段 1.29 pt overfull（排版层面）。
+
+## 2026-09-06 外部复核（docs/audit-report-2026-09-06.md，Kimi）：8 条发现，全部核实并处理
+1. **cor:secondend (c) 证明两处漏洞（major，核实属实）**：(A)"路径上的 W 顶点是公共祖先故等于 x₀"是 non sequitur，
+   已换成完整论证（v∈W 在路径上 ⇒ d(a,v)=δ+1，d(v,·)={1..m−1}；m=2 直接得 v=x₀；m≥3 时若 v≠x₀ 则 x₀=u₁ 且余下 m−2
+   个距离挤进 m−3 个槽，矛盾）；(B) x₀∈W 时最后一条边需单独一句（w(x′x₀)<m 会与某 d(x₀,u′) 重复）。结论不变。
+2. **评审文档引理 5 的无条件深度界为假（major，核实属实）**：n=4 路径 x₀∈W 深度 5 > (11−3)/2=4，C(m,2) 版取等。
+   文档已改为两分支并补 x₀∈W 正控；论文本来就是两分支版本，未受影响；该界从未接入任何搜索。
+3. §9 旧外推句（6.5–7、1e16–1e17）与新句矛盾：已改为实测增长因子与 1.4e17–2.2e17。
+4. §11 DOI 现在时：已改为"prepared and reserved … to be activated on publication"；**发布 Zenodo 后要改回 "is archived"**。
+5. §9 引用的 n=19/20 数据不在 tag 快照里：已在 §11 加一句"同一记录附第二个档案（n=19/20 分片记录，晚于 tag）"，
+   档案 results/hoffman2_forest19_20/forest19_20_shards.tar.gz（170,231 B，sha256 6d986e9de3b3f061…，MD5 377e316106b89aa7086919bf9c4ad659），
+   待上传到 Zenodo 草稿作为第二个文件。
+6. verify_forest_run.py 打印的 engine sha 是验收时的源码哈希，不是运行二进制：补记 provenance——Hoffman2
+   bin/forest_search sha256 e8b108ec8f366624…（2026-09-05T01:14 由 MAXV=21 源码 966438bffb510690… 编译，产生 n=17 正控与 n=20）；
+   n=19（job 214065，00:56–01:00）由补丁前 MAXV=20 二进制产生，该二进制已被覆盖、哈希未记录，其源码即冻结的 n=18 源码。
+7. 0.47 µs → 0.46–0.47 µs：已改。
+8. 评审文档 §2.1 表直接搜索行陈旧、§2.2 括号算术有误：均已改（m_a≥21 且 m_b 分别 ≤1、8、20）。
+复核者另确认：rem:moments、§9 全部数字、WP-A1 引擎的必要性与差分、四个负结论、引理 2–4、provenance 均 CONFIRMED；
+Sidon 反例给出显式 6 点树（脊 3,30，三叶 8,9,10）。论文重编（tectonic）35 页无错误；备份 main.tex.bak-audit2-*。
+
+## 2026-09-06 arXiv 提交完成（submit/8042742，math.CO，处理中）
+源码包为 main.tex + main.bbl（tectonic 生成 bbl），pdflatex 在 arXiv 侧编译 SUCCEEDED。元数据：标题、作者
+Lingsen Meng、摘要 1803 字符、Comments "35 pages. Computer-assisted; ..."、MSC 05C78 (Primary) 05C05, 05C85, 68R10、
+许可 arXiv perpetual non-exclusive、主类 math.CO。状态 processing，预计下一个工作日公告。
+**事故与处置（必须记录）**：访问 `arxiv.org/submit` 时 arXiv 恢复了用户既有的未完成投稿 **8042720**
+（另一篇论文 "Edge-graceful labellings of odd-order trees with few vertices of degree two"），我把
+main.tex/main.bbl 传了进去。核对 `00README.json` 后确认其 toplevel 为 `sparse_edge_graceful.tex`，
+main.tex(139,528 B)/main.bbl(7,727 B) 确系我上传的 Leech 文件，已逐个删除，该投稿恢复为原有 7 个文件。
+但第一步表单我曾在 8042720 上设过 license/archive/subject（现为 arXiv non-exclusive、math、math.CO），
+**其原值不可知，用户提交那篇前需自行确认许可选择**。之后经 `user/create?preflight=1` 新建 8042742 完成提交。
+另有一个空投稿 8042741（无文件无标题，2026-09-20 自动过期），无害。
