@@ -4650,3 +4650,39 @@ main.tex(139,528 B)/main.bbl(7,727 B) 确系我上传的 Leech 文件，已逐�
 但第一步表单我曾在 8042720 上设过 license/archive/subject（现为 arXiv non-exclusive、math、math.CO），
 **其原值不可知，用户提交那篇前需自行确认许可选择**。之后经 `user/create?preflight=1` 新建 8042742 完成提交。
 另有一个空投稿 8042741（无文件无标题，2026-09-20 自动过期），无害。
+
+## 2026-09-06 归档完成：v1.1 标签 + GitHub Release + Zenodo 已发布
+- star-Sidon 表算完：S(2..12) = 3,6,11,19,31,43,63,80,110,138,169，**与论文表格逐项相同**；
+  S(12)=169 见证 {1,2,5,16,30,38,47,59,65,71,78,91}，反驳 T=168 用 17,482,711,576 个节点。
+  C 与 Python 两实现在 d<=9 上一致。`results/star_sidon_table.csv` 以 VERIFIED_STAR_SIDON_TABLE 结尾。
+- 提交 f2aaa37，标签 **v1.1-deposit-2026-09-06**（注解标签，对象 267450cb），已推送；
+  GitHub Release https://github.com/lsmeng/leech-trees/releases/tag/v1.1-deposit-2026-09-06 已建。
+- 压缩包 `leech-trees-v1.1-deposit-2026-09-06.tar.gz` 由 `git archive` 从标签生成：9,839,579 B、3,816 个文件、
+  MD5 099a5709bfb787e1f0d516e6c33fb414、SHA-256 前缀 632bcdd3a1ffbe84；无 .bak / .stale 文件。
+- **Zenodo 已发布**：https://zenodo.org/records/22334399，DOI 10.5281/zenodo.22334399，
+  两个文件（v1.1 源码包 + forest19_20_shards.tar.gz），MIT，版本 v1.1 (deposit 2026-09-06)。
+  过程中曾误删 MIT 许可（点到残留的 license 弹窗），已在发布前恢复并核对。
+- 论文 §11 现引用 v1.1 标签与该 DOI，不再引用源码包 MD5（循环引用），只保留 n=19/20 分片包 MD5。
+
+## 2026-09-06/07 论文另发 Zenodo 预印本记录；eScholarship 卡在 UCLA SSO
+- **Zenodo 预印本已发布**：https://zenodo.org/records/22573641，DOI **10.5281/zenodo.22573641**
+  （concept DOI 10.5281/zenodo.22573640），类型 Publication / Preprint，文件
+  `Meng-Leech-final-2026-09-06.pdf`（MD5 4ba27768a8e3dc5b0a34e61d678e77b9，与 paper/main.pdf 同一文件，
+  SHA-256 57c81c56…），许可 CC BY 4.0（与论文双许可声明中"paper 目录为 CC BY 4.0"一致），
+  related identifier `isSupplementedBy 10.5281/zenodo.22334399` 指向代码/证书记录。DOI 已可解析。
+  关键词只加了 4 个（Leech tree / graph labelling / distance-distinct tree / exhaustive search）：
+  Zenodo 的建议列表会混入 MeSH 医学词，逐个加时容易误选，已核对无误选项进入。
+- **eScholarship 未完成**：UC 的作者存缴走 UC Publication Management（Symplectic Elements，
+  oapolicy.universityofcalifornia.edu），选 UCLA 后跳 UCLA Single Sign-On，需要本人登录 + Duo，
+  我不代填凭据。标签页已停在 SSO 页面，用户登录后可继续。
+- arXiv submit/8042742 仍为 **on hold**（人工审核），同日提交的 8042741 为 submitted，故非同日多投所致；
+  具体原因 arXiv 不披露，不做无根据推测。E-JC 已收稿（submissionId 16405）。
+
+## 2026-09-07 eScholarship 存缴完成（经 UC Publication Management）
+路径：oapolicy.universityofcalifornia.edu（Symplectic Elements，UCLA senate faculty 账号，用户已登录）→ Import
+（RIS 文件 `leech-preprint.ris`，TY=UNPB，含 DOI 10.5281/zenodo.22573641 与完整摘要）→ 记录 id 6374921
+（类型映射为 "Other"）→ Deposit → 上传 `Meng-Leech-final-2026-09-06.pdf`，File version = **Submitted version**，
+Reuse licence = **CC BY**，comment 注明 Zenodo 两个 DOI、仓库标签与 E-JC 在审。完成页 "Thank you"。
+注意：第一次 Import 其实已成功（系统里能搜到该条），但未出现在 "claimed" 列表，第二次上传同一 RIS 时系统提示
+"1 record will be used to add links to existing publications"，已按 Clear 取消，未产生重复记录。
+eScholarship 侧的公开页面由 CDL 处理，通常需数小时到一两天出现。
