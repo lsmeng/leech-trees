@@ -1,12 +1,12 @@
 To:      ajc@maths.uq.edu.au
-Subject: Submission: There is no Leech tree of order 18, and no Leech spider of
-         order at least five
+Subject: Submission: Nonexistence of order-18 Leech trees and of Leech spiders
+         of order at least five
 Attach:  Meng-Leech-final-2026-09-07.pdf
 
 Dear Editors,
 
-I would like to submit the attached paper, "There is no Leech tree of order 18,
-and no Leech spider of order at least five", for consideration in the
+I would like to submit the attached paper, "Nonexistence of order-18 Leech
+trees and of Leech spiders of order at least five", for consideration in the
 Australasian Journal of Combinatorics. It is 35 pages, prepared in LaTeX, and is not under
 consideration elsewhere.
 

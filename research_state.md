@@ -4716,3 +4716,8 @@ eScholarship 侧的公开页面由 CDL 处理，通常需数小时到一两天�
   addfiles 页虽可访问，但在无法确认能重新提交的情况下改动文件，可能使投稿停在不可验证的中间状态。
   因此按标准做法：**等公告后提交 replacement（v2）**，源码包 `leech-arxiv-2026-09-07.tar.gz` 已备好（54,897 B，含 Ghodsi 正文）。
   备选方案是致信 moderation 说明并请求替换；未执行，等用户决定。
+题目最终定为 **"Nonexistence of order-18 Leech trees and of Leech spiders of order at least five"**（14 词）。
+用户初稿写作 "order>5 Leech spider"，两处已纠正：(1) 定理是 n≥5（论文 L165），写 >5 会漏掉 5 阶、与正文矛盾，
+且标题不应含数学符号（邮件主题、arXiv 元数据、DOI 记录均为纯文本）；(2) "order-18 Leech tree" 缺冠词，改用复数；
+第二个 "of" 保留以免并列歧义。`\title` 与 `\hypersetup{pdftitle}` 同步。v1.3 标签与 Release 重新指向该版本
+（Zenodo 当时正好故障、尚未归档 v1.3，故移动标签比再开 v1.4 干净）。
