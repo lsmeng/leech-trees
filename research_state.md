@@ -4721,3 +4721,14 @@ eScholarship 侧的公开页面由 CDL 处理，通常需数小时到一两天�
 且标题不应含数学符号（邮件主题、arXiv 元数据、DOI 记录均为纯文本）；(2) "order-18 Leech tree" 缺冠词，改用复数；
 第二个 "of" 保留以免并列歧义。`\title` 与 `\hypersetup{pdftitle}` 同步。v1.3 标签与 Release 重新指向该版本
 （Zenodo 当时正好故障、尚未归档 v1.3，故移动标签比再开 v1.4 干净）。
+
+## 2026-09-07 AJC 投稿信已入草稿箱；Zenodo 题目同步待完成
+- Gmail 草稿已建（meng.caltech 账号，草稿箱首条）：收件人 ajc@maths.uq.edu.au（单个收件人，已核）；
+  主题 "Submission: Nonexistence of order-18 Leech trees and of Leech spiders of order at least five"；
+  正文为投稿信全文（自动签名中重复的 "Cheers," 已删）；附件 Meng-Leech-final-2026-09-07.pdf（291 KB）。
+  **发件人身份需用户在发送前自选**：该账号配有 lsmeng@g.ucla.edu 别名，投稿用机构地址通常更合适。
+- **Zenodo 尚未同步新题目**：Zenodo 今晚多次 504 / 页面空白。预印本记录的新版本草稿 **22653637** 已建，
+  已上传新 PDF、已改标题与版本字段、已写修订说明，但 **Publish 按钮在文件校验和计算完成前一直 disabled**，
+  随后页面加载失败。**该草稿未发布，下次服务正常时继续发布即可**；已发布的 22652903 / 22652936 仍是旧题目。
+  软件记录（22652936）同样需要一次标题元数据更新（可原地编辑，无需新版本）。
+- eScholarship 记录（Symplectic id 6374921）也仍是旧题目，待改。
