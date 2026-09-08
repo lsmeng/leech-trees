@@ -4756,3 +4756,13 @@ submit.escholarship.org（SubI）只提供新建存缴入口，无"管理已有�
 结论：只能请 help@escholarship.org 代改。已起草 `paper/escholarship-title-fix-email.txt`（237 词），
 说明新旧标题、请求替换文件，并给出 Zenodo 预印本 DOI 10.5281/zenodo.22653637 作为同一文件的来源。
 **注意**：eScholarship 上那份 PDF 文件名仍是 Meng-Leech-final-2026-09-06.pdf（旧题目版本）。
+
+## 2026-09-07 撤下 rem:moments 里的模型署名（**未重新打标签，留待下一版**）
+按作者要求删去该 remark 中"由 2026-09-04 咨询的 OpenAI 模型提出"一句：实验/工作流程细节不属于论文正文。
+现读作 "We have not found it in the literature on Leech trees, and we verified it on the five known Leech
+trees and on random weighted trees."。§12 的 AI 声明（三家模型用于编码与分析、参与推理、协助撰写，作者对全部
+数学论断、代码与文本负责）覆盖了该想法的来源，故删除此句不产生误导；"未见于文献"一句由本项目自己的
+文献核查（2026-09-06 WP-C4）支撑。
+**处理方式**：本地已改并编译（35 页、零 overfull），**故意不出 v1.4、不更新 Zenodo**——AJC 手上的 PDF、
+GitHub v1.3 与 Zenodo 现行版本三者一致，此刻改反而会让归档与编辑手中的稿件不一致。
+该改动随下一版一并生效：arXiv 公告后的 v2、以及 AJC 若返修的修订稿。
