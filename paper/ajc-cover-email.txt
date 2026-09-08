@@ -1,0 +1,47 @@
+To:      ajc@maths.uq.edu.au
+Subject: Submission: There is no Leech tree of order 18, and no Leech spider of
+         order at least five
+Attach:  Meng-Leech-final-2026-09-07.pdf
+
+Dear Editors,
+
+I would like to submit the attached paper, "There is no Leech tree of order 18,
+and no Leech spider of order at least five", for consideration in the
+Australasian Journal of Combinatorics. It is 35 pages, prepared in LaTeX, and is not under
+consideration elsewhere.
+
+A Leech tree of order n is a tree with positive integer edge weights whose
+n(n-1)/2 pairwise path weights are exactly 1 to n(n-1)/2. Only five are known,
+and Taylor's condition restricts the order to a square or a square plus two,
+leaving 18 as the smallest order that was open. The paper proves that no Leech
+tree has order 18, so that the smallest open order becomes 25. It also proves
+that no spider of order at least five is a Leech tree, which excludes an
+infinite family and is not a finite computation, and it proves an unconditional
+structural bound at order 25: deleting any leaf leaves diameter at least 281,
+which four certified finite searches raise to 285, reducing that order to
+fourteen values of one explicit normal form. Three neighbouring questions are
+settled along the way, including M(11) = 60 and M(12) = 77 for the minimal
+distinct distance trees of Calhoun, Ferland, Lister and Polhill, whose paper
+appeared in this journal.
+
+The order-18 result is computer-assisted, and I have tried to make it
+falsifiable rather than merely asserted. The search reports eighteen per-level
+node counts, which are a mathematically defined sequence, so a referee or a
+re-implementer can check the computation level by level instead of taking a
+single "no solution found" on trust. Those counts were reproduced by three
+runs on two architectures and two compilers, and independently by a clean-room
+implementation written from the algorithm description alone. All program
+sources, input manifests, raw outputs, certificates and independent checkers
+are deposited publicly and are cited in the paper (Zenodo,
+doi:10.5281/zenodo.22652936, and the repository tag v1.2-deposit-2026-09-07).
+
+The LaTeX source and any figure files can be supplied on acceptance. I am the
+sole author, and I can be reached at this address.
+
+Thank you for your consideration.
+
+Yours sincerely,
+
+Lingsen Meng
+Department of Earth, Planetary, and Space Sciences
+University of California, Los Angeles
