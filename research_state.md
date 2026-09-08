@@ -4686,3 +4686,19 @@ Reuse licence = **CC BY**，comment 注明 Zenodo 两个 DOI、仓库标签与 E
 注意：第一次 Import 其实已成功（系统里能搜到该条），但未出现在 "claimed" 列表，第二次上传同一 RIS 时系统提示
 "1 record will be used to add links to existing publications"，已按 Clear 取消，未产生重复记录。
 eScholarship 侧的公开页面由 CDL 处理，通常需数小时到一两天出现。
+
+## 2026-09-07 E-JC 台退 + 三处修订 + 一个必须记录的回归
+- **E-JC 编辑台退稿**（Daniel W. Cranston，投出约 20 小时后），理由是选择性（"top 15%"），未送审，未提任何内容问题。
+- **回归（我造成的）**：09-06 为压缩摘要至 arXiv 的 1920 字符上限，整段重写摘要，Ghodsi 并行独立证明的
+  引用与公开时间线**只存在于该段**，被一并删除且未回查正文。结果：投给 arXiv (8042742)、E-JC (16405)
+  以及存入 Zenodo 22334399 / GitHub v1.1 的版本，参考文献有 Ghodsi2026，正文零处提及——正是第二轮审稿
+  标为 MAJOR 的那一条，而我当时报告为"已修复"。**教训：删除跨越章节的内容后必须 grep 全文确认唯一性。**
+  现已恢复到引言（非摘要），含时间线（08-18 提交 / 08-20 公开 / 08-24 对方出现）、方法对比，并新增诚实限制：
+  两个搜索枚举不同对象、无可比中间量，故其一致仅为结论一致而非计数一致。
+- **投稿框架修订**：摘要不再陈述"同一结论已由他人独立得到"（引言中完整保留）；引言删去
+  "Its mathematical content is small"，改为如实列举非计算性内容（蜘蛛定理的无穷族、25 阶无条件界、
+  端点归约与 cor:secondend、star-Sidon 引理）。
+- **语气修订**（meng-writing-voice）：em dash 每万词 11.3 → **0**；补 However/although/Alternatively/In addition
+  （后三者原为 0）；our 5.6 → 10.0；在成本估计与验证局限段落加 may/likely/We note 及 \sim。定理与证明未改动。
+- AJC 投稿方式：邮件至 ajc@maths.uq.edu.au，仅 PDF，附简短说明信；源码录用后再交。**无需注册**。
+  官方时限：收稿确认通常两周内；审稿意见多数六到九个月；十二个月内不要催问。
