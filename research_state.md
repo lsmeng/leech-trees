@@ -4745,3 +4745,14 @@ eScholarship 侧的公开页面由 CDL 处理，通常需数小时到一两天�
 - **eScholarship 题目未改**：Symplectic 会话已过期，回到 UCLA SSO（需本人密码 + Duo），我不能代登。
   记录 id 6374921，待用户登录后更新标题（已存缴的 PDF 内含旧题，属次要瑕疵）。
 - AJC：用户已于 2026-09-07 自行寄出投稿信。
+
+## 2026-09-07 eScholarship 题目：需由 CDL 侧修改（已起草支持信）
+用户代登 Symplectic 后查明：该条已上线 eScholarship，item **qt25h1v6sv**（https://escholarship.org/uc/item/25h1v6sv），
+Symplectic 记录 6374921 的 Data source 现在就是 eScholarship，历史为
+"06 Sept 2026 19:02 File deposited to the eScholarship repository: Meng-Leech-final-2026-09-06.pdf"。
+因此 Symplectic 里的 EDIT 只能改 labels（关键词）等本地字段，**改不了已发布条目的标题**；标题与文件都在 CDL 侧。
+submit.escholarship.org（SubI）只提供新建存缴入口，无"管理已有内容"路径（/subi/manage、/subi/deposits 等均 500）。
+直接访问公开条目页被 "Human Verification" 拦截（**不得绕过验证码**，未尝试）。
+结论：只能请 help@escholarship.org 代改。已起草 `paper/escholarship-title-fix-email.txt`（237 词），
+说明新旧标题、请求替换文件，并给出 Zenodo 预印本 DOI 10.5281/zenodo.22653637 作为同一文件的来源。
+**注意**：eScholarship 上那份 PDF 文件名仍是 Meng-Leech-final-2026-09-06.pdf（旧题目版本）。

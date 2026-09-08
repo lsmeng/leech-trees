@@ -1,0 +1,38 @@
+To:      help@escholarship.org
+Subject: Please update the title and file on eScholarship item qt25h1v6sv
+
+Dear eScholarship team,
+
+I deposited a preprint through the UC Publication Management system on
+6 September 2026, which is now live as item qt25h1v6sv
+(https://escholarship.org/uc/item/25h1v6sv).
+
+Before submitting the paper to a journal I shortened its title, and I would be
+grateful if the record could be updated to match. The current title is
+
+  There is no Leech tree on 18 vertices, and no Leech spider of order at least
+  five, with a leaf-deletion bound at order 25
+
+and it should read
+
+  Nonexistence of order-18 Leech trees and of Leech spiders of order at least
+  five
+
+The deposited file should also be replaced by the current version, which
+carries that title. I can send the PDF by return email, or it can be taken
+from the Zenodo record of the same preprint,
+https://doi.org/10.5281/zenodo.22653637, whose file is identical to the one I
+would attach. Nothing else about the deposit changes: same author, same
+abstract, same licence (CC BY), and the paper's contents are unchanged apart
+from the title and some wording in the introduction.
+
+I could not find a way to edit a deposited record myself from the submission
+dashboard, so I am writing instead. Please let me know if there is a
+self-service route I should be using.
+
+Thank you,
+
+Lingsen Meng
+Department of Earth, Planetary, and Space Sciences
+University of California, Los Angeles
+lsmeng@g.ucla.edu
